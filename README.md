@@ -7,19 +7,39 @@ roulette deal your spells, and build something you would never choose on purpose
 
 **Six choices. Three rerolls. Absolutely no professional advice.**
 
-## Download and install
+## Download
 
-1. Open the [latest release](https://github.com/brunoroq/ARAM-Roulette/releases/latest).
-2. Under **Assets**, download the Windows installer ending in **`-setup.exe`**.
-3. Run the installer, then launch **ARAM Roulette** from the Start menu.
+Open the [latest release](https://github.com/brunoroq/ARAM-Roulette/releases/latest)
+and choose a **Windows 10/11 (64-bit)** download under **Assets**.
 
-Supports **Windows 10/11 (64-bit)**. No development tools are needed. If Microsoft
-WebView2 is missing, the installer will install it automatically; that step needs
-an internet connection. After installation, ARAM Roulette works offline.
+**Portable — Download → Extract → Run**
+
+1. Download **`ARAM-Roulette-vX.Y.Z-Windows-Portable.zip`** (the filename uses the release version).
+2. Extract the ZIP into a writable folder, such as a folder in Documents or on a USB drive.
+3. Double-click **`ARAM Roulette.exe`** inside the extracted folder. No installation needed.
+
+The portable version requires **Microsoft WebView2 Runtime**, which is normally
+already available on supported modern Windows systems. If it is missing, install
+the [Microsoft Evergreen WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2/)
+or use the installer below. The ZIP does not bundle a fixed WebView2 runtime.
+Settings and webview data are stored in **`app-data`** beside the executable;
+keep that folder when moving or updating your portable copy. Extract before
+running—do not launch the executable from inside the ZIP.
+
+**Installer — Download → Install → Run**
+
+1. Download **`ARAM-Roulette-vX.Y.Z-Windows-Setup.exe`**.
+2. Run the installer.
+3. Launch **ARAM Roulette** from the Start menu.
+
+The installer uses normal Windows application directories and automatically
+installs Microsoft WebView2 if missing (internet is required for that step).
+Both distributions work offline once WebView2 is available. Neither requires
+Node.js, npm, Rust, or Tauri CLI to run.
 
 The first release is unsigned, so Windows may show an unknown-publisher warning.
 Download it only from this repository's Releases page. If no release is available
-yet, the first installer has not been published.
+yet, a release has not been published. Older releases may offer only an installer.
 
 ## How to play
 
@@ -45,7 +65,8 @@ to pick someone else. Closing the app clears your current build.
   the build yourself; it does not connect to or control the League client.
 - Builds are randomized, not optimized. AP Garen is very much a possibility.
 - Game data is bundled with the app and may differ from the latest patch.
-- To update the app, download and run a newer installer from Releases.
+- To update a portable copy, close the app and extract the newer ZIP over its
+  existing folder, keeping `app-data`. For an installed copy, run the newer installer.
 
 Found a bug? [Open an issue](https://github.com/brunoroq/ARAM-Roulette/issues)
 with what happened and, if possible, a screenshot.

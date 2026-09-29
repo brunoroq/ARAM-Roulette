@@ -25,6 +25,7 @@ Desktop.ini
 
 # Native build products and installers (source icons/assets remain tracked)
 **/target/
+artifacts/
 *.exe
 *.msi
 *.msix

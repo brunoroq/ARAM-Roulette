@@ -31,6 +31,47 @@ Output: `src-tauri/target/x86_64-pc-windows-msvc/release/bundle/nsis/*-setup.exe
 Vite copies `public/` into `dist/`, and Tauri embeds `dist/` inside the executable.
 Required artwork is not downloaded at runtime.
 
+For the **portable Windows x64 ZIP**, also on Windows:
+
+```sh
+npm run build:windows:portable
+npm run package:windows:portable
+npm run check:windows:portable
+```
+
+The build helper passes `--no-bundle --config src-tauri/tauri.portable.conf.json`
+and `--locked`, with a separate Cargo target directory at
+`src-tauri/target/portable`. It produces
+`src-tauri/target/portable/x86_64-pc-windows-msvc/release/aram-roulette.exe`.
+Packaging renames the distributed copy to `ARAM Roulette.exe` and writes
+`artifacts/ARAM-Roulette-vX.Y.Z-Windows-Portable.zip`.
+
+The portable config uses Tauri 2.12's
+[`appDirectoriesOverride`](https://v2.tauri.app/reference/config/#appdirectoriesoverride)
+to keep webview data and app directories in `./app-data` relative to the executable,
+not the working directory. It also explicitly enables static Visual C++ runtime
+linking and skips WebView2 installation. No fixed WebView2 runtime is included;
+the system Evergreen Runtime must be present. The normal NSIS config and build
+command do not use this override.
+The override's `silent: null` removes the inherited installer's `silent` field
+during Tauri's JSON merge; that field is invalid for WebView2's `skip` variant.
+
+Only the executable, an emitted `WebView2Loader.dll` if present, and the explicit
+license/notice resources are packaged. The MSVC WebView2 loader is normally
+statically linked. Frontend HTML/JS/CSS, game data, artwork and fonts are embedded
+in the executable from `dist/`; they do not need adjacent source or asset folders.
+No development tools are required by the resulting app.
+
+The Windows smoke check extracts the actual ZIP into a temporary folder outside
+the checkout, validates its file list and byte contents, starts the executable
+with only Windows directories on PATH and an unrelated working directory, then
+uses WebView2's temporary debugging port to verify React rendered and every public
+image/font loads from the embedded app origin. It also checks that `app-data` is
+created beside the executable. This debugging port is enabled only in the test
+process environment, not in the distribution. The test harness needs Node.js and
+PowerShell; the application itself does not. Windows launch checks cannot be run
+on Linux; local packaging unit tests and release asset checks run on either OS.
+
 ## Structure
 
 - `src/engine/`: pure TypeScript random sampling, eligibility, and immutable draft transitions. No React, browser, Tauri, or data-fetching imports. Injected RNG supports reproducible tests; `generateItemChoices` is the future entry point for a weighted selection policy.

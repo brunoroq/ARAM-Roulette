@@ -3,6 +3,8 @@
 The tag-triggered [Windows workflow](../.github/workflows/release.yml) uses the
 [official Tauri action](https://v2.tauri.app/distribute/pipelines/github/) to test,
 type-check and build a Windows x64 NSIS installer, then publish it to GitHub Releases.
+A second Windows job builds and verifies the portable ZIP and uploads it to the
+same release, checking the installer's release ID and both final asset names.
 Only Windows is configured. No signing keys, API keys or updater are required.
 The workflow uses GitHub's automatic token with `contents: write`; repository or
 organization policy must allow Actions to run and create releases.
@@ -19,10 +21,37 @@ git tag -a v0.1.0 -m "ARAM Roulette v0.1.0"
 git push origin v0.1.0
 ```
 
-Watch the **Windows release** run in GitHub Actions. On success, the installer
-appears on release **v0.1.0**. On failure, inspect the logs and rerun the failed
+Watch both jobs in **Windows release** in GitHub Actions. On success, release
+**v0.1.0** contains:
+
+- `ARAM-Roulette-v0.1.0-Windows-Setup.exe`
+- `ARAM-Roulette-v0.1.0-Windows-Portable.zip`
+
+The `windows` job retains the original NSIS build command and default application
+directories. The `portable` job runs on a fresh runner after the installer release
+exists; its separate configuration and Cargo target directory cannot affect NSIS.
+It builds with `--no-bundle`, packages an explicit file list, and launches the
+extracted executable with no development tools on PATH before uploading. Its check
+verifies embedded images/fonts and executable-relative `app-data` storage using
+the system WebView2 runtime. See [Development](DEVELOPMENT.md) for local commands.
+
+The installer is published first. If portable verification fails, the installer
+remains available and the ZIP is not uploaded; rerun the failed portable job after
+diagnosing the failure. Uploads use the same version tag and release ID; retries
+replace the same ZIP asset rather than creating a second release.
+
+On failure, inspect the logs and rerun the failed
 job after resolving the cause. Do not move an already published version tag;
 use a new version for changes. Tags must match the versions in `package.json`,
 `package-lock.json`, `src-tauri/tauri.conf.json`, `src-tauri/Cargo.toml` and
 `src-tauri/Cargo.lock`; the release check rejects mismatches.
 
+Before tagging, run `npm test`, `npm run build`, and `npm run check:release`.
+The portable packaging tests reject non-x64 executables, unintended source/build
+files, unsafe resource paths, and accidental portable settings in the NSIS config.
+For a manual final Windows check, extract the ZIP in a writable folder, launch
+`ARAM Roulette.exe`, complete a draft, close it, and reopen it to check language
+persistence. Check the installer separately for its Start-menu entry and normal
+Windows app-data location. Neither distribution requires Node.js/npm/Rust/Tauri
+CLI on the user's machine. Portable requires the system Microsoft WebView2 Runtime;
+NSIS still bootstraps that runtime if missing.

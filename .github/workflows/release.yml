@@ -18,6 +18,8 @@ jobs:
     timeout-minutes: 45
     permissions:
       contents: write # tauri-action creates the release and uploads the installer.
+    outputs:
+      release-id: ${{ steps.installer.outputs.releaseId }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v6
@@ -34,6 +36,7 @@ jobs:
       - run: npm test
       # beforeBuildCommand type-checks/builds the frontend and validates release assets/version.
       - name: Build and publish Windows x64 installer
+        id: installer
         uses: tauri-apps/tauri-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -46,11 +49,67 @@ jobs:
           uploadUpdaterJson: false
           uploadUpdaterSignatures: false
           uploadPlainBinary: false
+          releaseAssetNamePattern: ARAM-Roulette-v[version]-Windows-Setup[ext]
           releaseBody: |
             A deliberately stupid ARAM: Mayhem build randomizer.
 
-            Windows 10/11 x64: download the attached `-setup.exe`, run it, then launch ARAM Roulette from the Start menu. Node.js, Rust and development tools are not needed.
+            **Windows 10/11 x64 — choose one:**
 
-            The installer automatically installs Microsoft WebView2 if missing (internet required for that step). The installed app works offline. This release is unsigned; Windows SmartScreen may show an unrecognized publisher warning.
+            - **Portable: Download → Extract → Run.** Download `ARAM-Roulette-${{ github.ref_name }}-Windows-Portable.zip`, extract it into a writable folder, and double-click `ARAM Roulette.exe`. No installation. Settings and webview data stay in `app-data` beside the executable.
+            - **Installer: Download → Install → Run.** Download `ARAM-Roulette-${{ github.ref_name }}-Windows-Setup.exe`, run it, then launch ARAM Roulette from the Start menu.
+
+            The portable version requires Microsoft WebView2 Runtime, normally already available on supported modern Windows systems. If missing, install the Evergreen Runtime from https://developer.microsoft.com/microsoft-edge/webview2/ or use the installer. The portable ZIP does not include a fixed WebView2 runtime.
+
+            The installer automatically installs Microsoft WebView2 if missing (internet required for that step). Both versions work offline once WebView2 is available. Node.js, npm, Rust and Tauri CLI are not needed to run either version. This release is unsigned; Windows SmartScreen may show an unrecognized publisher warning.
 
             ARAM Roulette was created under Riot Games' 'Legal Jibber Jabber' policy using assets owned by Riot Games. Riot Games does not endorse or sponsor this project.
+
+  portable:
+    # A separate runner keeps the portable configuration and Cargo output out of NSIS.
+    # Installer publication remains independent if portable packaging fails.
+    needs: windows
+    runs-on: windows-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: './src-tauri -> target'
+      - run: npm ci
+      - name: Build Windows x64 portable executable (no installer)
+        run: npm run build:windows:portable
+      - name: Package executable and required files
+        run: npm run package:windows:portable
+      - name: Verify extracted portable app without development tools on PATH
+        run: npm run check:windows:portable
+      - name: Upload portable ZIP to the installer's GitHub Release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+          RELEASE_ID: ${{ needs.windows.outputs.release-id }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $actualId = gh api "repos/$env:GH_REPO/releases/tags/$env:RELEASE_TAG" --jq '.id'
+          if ($LASTEXITCODE -ne 0 -or "$actualId" -ne $env:RELEASE_ID) {
+            throw 'The installer release could not be verified.'
+          }
+          $zip = "artifacts/ARAM-Roulette-$env:RELEASE_TAG-Windows-Portable.zip"
+          if (!(Test-Path -LiteralPath $zip)) { throw "Missing portable archive: $zip" }
+          gh release upload $env:RELEASE_TAG $zip --clobber
+          if ($LASTEXITCODE -ne 0) { throw 'Portable upload failed.' }
+          $names = gh api "repos/$env:GH_REPO/releases/$env:RELEASE_ID/assets" --jq '.[].name'
+          if ($LASTEXITCODE -ne 0) { throw 'Could not verify release assets.' }
+          foreach ($name in @("ARAM-Roulette-$env:RELEASE_TAG-Windows-Setup.exe", "ARAM-Roulette-$env:RELEASE_TAG-Windows-Portable.zip")) {
+            if ($names -notcontains $name) { throw "Release asset missing: $name" }
+          }

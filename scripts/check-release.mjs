@@ -8,6 +8,7 @@ const read = path => readFileSync(resolve(root, path), 'utf8');
 const json = path => JSON.parse(read(path));
 const pkg = json('package.json');
 const config = json('src-tauri/tauri.conf.json');
+const portable = json('src-tauri/tauri.portable.conf.json');
 const lock = json('package-lock.json');
 const cargoVersion = read('src-tauri/Cargo.toml').match(/^version\s*=\s*"([^"]+)"/m)?.[1];
 const nativeLockVersion = read('src-tauri/Cargo.lock').match(/name = "aram-roulette"\r?\nversion = "([^"]+)"/)?.[1];
@@ -19,6 +20,14 @@ if (process.env.GITHUB_REF_TYPE === 'tag') {
 }
 assert.equal(config.productName, 'ARAM Roulette');
 assert.deepEqual(config.bundle.targets, ['nsis']);
+assert.equal(config.app.appDirectoriesOverride, undefined, 'NSIS must use normal Windows application directories');
+assert.equal(config.bundle.windows.webviewInstallMode.type, 'downloadBootstrapper');
+assert.equal(portable.app.appDirectoriesOverride, './app-data');
+assert.equal(portable.build.windows.staticVCRuntime, true, 'Portable must not require a separate VC runtime installation');
+assert.equal(portable.bundle.active, false);
+assert.equal(portable.bundle.windows.webviewInstallMode.type, 'skip', 'Portable uses system WebView2');
+assert.equal(portable.build.frontendDist, undefined, 'Both builds must embed the same frontend');
+assert.ok(config.app.windows.every(window => !window.dataDirectory), 'Window dataDirectory would bypass the portable override');
 assert.equal(config.build.frontendDist, '../dist');
 assert.ok(existsSync(resolve(root, 'dist/index.html')), 'Build the frontend before checking the release');
 for (const path of config.bundle.icon) {

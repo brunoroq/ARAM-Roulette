@@ -7,10 +7,13 @@
     "dev": "vite --host 127.0.0.1",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host 127.0.0.1",
-    "test": "node --experimental-strip-types --test tests/*.test.ts",
+    "test": "node --experimental-strip-types --test tests/*.test.ts tests/*.test.mjs",
     "data:sync": "node scripts/sync-data.mjs",
     "tauri": "tauri",
-    "check:release": "node scripts/check-release.mjs"
+    "check:release": "node scripts/check-release.mjs",
+    "build:windows:portable": "node scripts/build-windows-portable.mjs",
+    "package:windows:portable": "node scripts/package-windows-portable.mjs",
+    "check:windows:portable": "node scripts/check-windows-portable.mjs"
   },
   "dependencies": {
     "react": "^19.2.0",
