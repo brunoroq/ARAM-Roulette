@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { assertWindowsX64, listFiles, portableArchiveName, stagePortable, projectRoot } from '../scripts/package-windows-portable.mjs';
+import { assertWindowsX64, listFiles, portableArchiveName, stagePortable, verifyExtractedPortable, projectRoot } from '../scripts/package-windows-portable.mjs';
 
 function fixture(run) {
   const root = mkdtempSync(join(tmpdir(), 'aram-packaging-test-'));
@@ -13,8 +13,15 @@ function fixture(run) {
     mkdirSync(join(root, 'stage'));
     writeFileSync(join(root, 'package.json'), JSON.stringify({ version: '1.2.3' }));
     writeFileSync(join(root, 'LICENSE'), 'required license');
-    writeFileSync(join(root, 'src-tauri/tauri.conf.json'), JSON.stringify({ bundle: { resources: { '../LICENSE': 'licenses/LICENSE' } } }));
-    // Header fixture only: the real executable is launched by the Windows CI check.
+    writeFileSync(join(root, 'src-tauri/tauri.conf.json'), JSON.stringify({
+      build: { frontendDist: '../dist' }, app: {}, bundle: { resources: { '../LICENSE': 'licenses/LICENSE' } },
+    }));
+    writeFileSync(join(root, 'src-tauri/tauri.portable.conf.json'), JSON.stringify({
+      app: { appDirectoriesOverride: './app-data' },
+      build: { windows: { staticVCRuntime: true } },
+      bundle: { active: false, windows: { webviewInstallMode: { type: 'skip', silent: null } } },
+    }));
+    // Header fixture only: CI checks the real Windows executable after extraction.
     const pe = Buffer.alloc(256);
     pe.write('MZ'); pe.writeUInt32LE(128, 0x3c); pe.write('PE\0\0', 128); pe.writeUInt16LE(0x8664, 132);
     writeFileSync(join(root, 'build/aram-roulette.exe'), pe);
@@ -39,6 +46,28 @@ test('an emitted WebView2 loader is included, but no fixed runtime is copied', (
   mkdirSync(join(root, 'build/Microsoft.WebView2.FixedVersionRuntime'));
   stagePortable(root, join(root, 'build'), join(root, 'stage'));
   assert.deepEqual(listFiles(join(root, 'stage')), ['ARAM Roulette.exe', 'WebView2Loader.dll', 'licenses/LICENSE']);
+}));
+
+test('extracted package check rejects extra files, changed resources, and non-portable configuration', () => fixture(root => {
+  const build = join(root, 'build');
+  const extracted = join(root, 'stage');
+  stagePortable(root, build, extracted);
+  assert.equal(verifyExtractedPortable(root, build, extracted), 2);
+
+  mkdirSync(join(extracted, 'node_modules'));
+  writeFileSync(join(extracted, 'node_modules/dev.js'), 'development file');
+  assert.throws(() => verifyExtractedPortable(root, build, extracted), /ZIP has missing or extra files/);
+  rmSync(join(extracted, 'node_modules'), { recursive: true });
+
+  writeFileSync(join(extracted, 'licenses/LICENSE'), 'changed');
+  assert.throws(() => verifyExtractedPortable(root, build, extracted), /ZIP changed licenses\/LICENSE/);
+  writeFileSync(join(extracted, 'licenses/LICENSE'), 'required license');
+
+  const configPath = join(root, 'src-tauri/tauri.portable.conf.json');
+  const portable = JSON.parse(readFileSync(configPath, 'utf8'));
+  portable.app.appDirectoriesOverride = undefined;
+  writeFileSync(configPath, JSON.stringify(portable));
+  assert.throws(() => verifyExtractedPortable(root, build, extracted), /Portable app data must stay beside the executable/);
 }));
 
 test('non-Windows and non-x64 executables are rejected', () => fixture(root => {

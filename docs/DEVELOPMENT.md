@@ -62,15 +62,19 @@ statically linked. Frontend HTML/JS/CSS, game data, artwork and fonts are embedd
 in the executable from `dist/`; they do not need adjacent source or asset folders.
 No development tools are required by the resulting app.
 
-The Windows smoke check extracts the actual ZIP into a temporary folder outside
-the checkout, validates its file list and byte contents, starts the executable
-with only Windows directories on PATH and an unrelated working directory, then
-uses WebView2's temporary debugging port to verify React rendered and every public
-image/font loads from the embedded app origin. It also checks that `app-data` is
-created beside the executable. This debugging port is enabled only in the test
-process environment, not in the distribution. The test harness needs Node.js and
-PowerShell; the application itself does not. Windows launch checks cannot be run
-on Linux; local packaging unit tests and release asset checks run on either OS.
+The Windows package check requires the built x64 executable and ZIP, extracts the
+archive into a temporary folder outside the checkout, and checks its exact file
+list and byte contents against the build output and required resources. This
+rejects missing resources and any included source, `node_modules`, or build tools.
+It also checks the portable build configuration: embedded frontend assets, local
+`./app-data`, static Visual C++ runtime, and system WebView2. Tauri compiles this
+configuration into the executable; no separate configuration file is shipped.
+The production frontend and its copied artwork/fonts are checked by
+`check:release` during the build. The CI package check does not launch WebView2.
+On a normal Windows 10/11 machine with Microsoft WebView2 Runtime installed,
+manually launch the extracted EXE and verify the UI, artwork, and `app-data`
+storage beside it. The CI check requires Node.js and PowerShell; the distributed
+application does not.
 
 ## Structure
 

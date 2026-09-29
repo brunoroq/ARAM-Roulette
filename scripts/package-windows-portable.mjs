@@ -60,6 +60,31 @@ export function listFiles(directory, prefix = '') {
   }).sort();
 }
 
+export function verifyExtractedPortable(root, buildDirectory, extractedDirectory) {
+  const base = JSON.parse(readFileSync(join(root, 'src-tauri/tauri.conf.json'), 'utf8'));
+  const portable = JSON.parse(readFileSync(join(root, 'src-tauri/tauri.portable.conf.json'), 'utf8'));
+  assert.equal(base.build.frontendDist, '../dist', 'The frontend must be embedded in the executable');
+  assert.equal(portable.build?.frontendDist, undefined, 'Portable must inherit the embedded frontend');
+  assert.equal(base.app.appDirectoriesOverride, undefined, 'The installer must keep normal app directories');
+  assert.equal(portable.app.appDirectoriesOverride, './app-data', 'Portable app data must stay beside the executable');
+  assert.equal(portable.build.windows.staticVCRuntime, true, 'Portable must include the VC runtime');
+  assert.equal(portable.bundle.active, false, 'Portable must not build an installer');
+  assert.equal(portable.bundle.windows.webviewInstallMode.type, 'skip', 'Portable must use system WebView2');
+  assert.equal(portable.bundle.windows.webviewInstallMode.silent, null, 'Portable must remove the installer WebView2 option');
+
+  const executable = join(buildDirectory, 'aram-roulette.exe');
+  assert.ok(existsSync(executable), 'Missing built portable executable');
+  assertWindowsX64(executable);
+  const expected = portableFiles(root, buildDirectory);
+  // An exact allowlist rejects source, node_modules, build tools, and unrelated assets.
+  assert.deepEqual(listFiles(extractedDirectory), expected.map(file => file.destination).sort(), 'ZIP has missing or extra files');
+  for (const file of expected) {
+    assert.deepEqual(readFileSync(join(extractedDirectory, file.destination)), readFileSync(file.source), `ZIP changed ${file.destination}`);
+  }
+  assertWindowsX64(join(extractedDirectory, 'ARAM Roulette.exe'));
+  return expected.length;
+}
+
 export function runPowerShell(command, env) {
   return execFileSync('powershell.exe', ['-NoProfile', '-NonInteractive', '-Command', `$ErrorActionPreference = 'Stop'; ${command}`], {
     env: { ...process.env, ...env }, stdio: 'pipe', encoding: 'utf8',

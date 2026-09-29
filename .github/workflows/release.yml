@@ -89,7 +89,7 @@ jobs:
         run: npm run build:windows:portable
       - name: Package executable and required files
         run: npm run package:windows:portable
-      - name: Verify extracted portable app without development tools on PATH
+      - name: Verify portable ZIP contents and configuration
         run: npm run check:windows:portable
       - name: Upload portable ZIP to the installer's GitHub Release
         shell: pwsh
