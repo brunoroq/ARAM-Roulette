@@ -1,0 +1,61 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "ARAM Roulette",
+  "version": "0.1.0",
+  "identifier": "com.aramroulette.desktop",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://127.0.0.1:1420",
+    "beforeBuildCommand": "npm run build && npm run check:release",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "ARAM Roulette",
+        "width": 1120,
+        "height": 820,
+        "minWidth": 360,
+        "minHeight": 600
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; img-src 'self' asset: http://asset.localhost; style-src 'self' 'unsafe-inline'; connect-src ipc: http://ipc.localhost"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": [
+      "nsis"
+    ],
+    "icon": [
+      "icons/icon.png",
+      "icons/icon.ico",
+      "icons/icon.icns"
+    ],
+    "publisher": "ARAM Roulette contributors",
+    "shortDescription": "A deliberately stupid ARAM: Mayhem build randomizer.",
+    "resources": {
+      "../LICENSE": "licenses/LICENSE",
+      "../THIRD_PARTY_NOTICES.md": "licenses/THIRD_PARTY_NOTICES.md",
+      "../public/fonts/OFL-Bangers.txt": "licenses/OFL-Bangers.txt",
+      "../node_modules/react/LICENSE": "licenses/React-LICENSE",
+      "../node_modules/react-dom/LICENSE": "licenses/React-DOM-LICENSE",
+      "../node_modules/scheduler/LICENSE": "licenses/Scheduler-LICENSE"
+    },
+    "windows": {
+      "webviewInstallMode": {
+        "type": "downloadBootstrapper",
+        "silent": true
+      },
+      "nsis": {
+        "installMode": "currentUser",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "displayLanguageSelector": true
+      }
+    }
+  }
+}

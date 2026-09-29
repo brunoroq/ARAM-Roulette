@@ -1,0 +1,3226 @@
+{
+  "version": "16.19.1",
+  "champions": [
+    {
+      "id": "Aatrox",
+      "name": "Aatrox",
+      "title": "the Darkin Blade",
+      "icon": "art/16.19.1/champion/Aatrox.png"
+    },
+    {
+      "id": "Ahri",
+      "name": "Ahri",
+      "title": "the Nine-Tailed Fox",
+      "icon": "art/16.19.1/champion/Ahri.png"
+    },
+    {
+      "id": "Akali",
+      "name": "Akali",
+      "title": "the Rogue Assassin",
+      "icon": "art/16.19.1/champion/Akali.png"
+    },
+    {
+      "id": "Akshan",
+      "name": "Akshan",
+      "title": "the Rogue Sentinel",
+      "icon": "art/16.19.1/champion/Akshan.png"
+    },
+    {
+      "id": "Alistar",
+      "name": "Alistar",
+      "title": "the Minotaur",
+      "icon": "art/16.19.1/champion/Alistar.png"
+    },
+    {
+      "id": "Ambessa",
+      "name": "Ambessa",
+      "title": "Matriarch of War",
+      "icon": "art/16.19.1/champion/Ambessa.png"
+    },
+    {
+      "id": "Amumu",
+      "name": "Amumu",
+      "title": "the Sad Mummy",
+      "icon": "art/16.19.1/champion/Amumu.png"
+    },
+    {
+      "id": "Anivia",
+      "name": "Anivia",
+      "title": "the Cryophoenix",
+      "icon": "art/16.19.1/champion/Anivia.png"
+    },
+    {
+      "id": "Annie",
+      "name": "Annie",
+      "title": "the Dark Child",
+      "icon": "art/16.19.1/champion/Annie.png"
+    },
+    {
+      "id": "Aphelios",
+      "name": "Aphelios",
+      "title": "the Weapon of the Faithful",
+      "icon": "art/16.19.1/champion/Aphelios.png"
+    },
+    {
+      "id": "Ashe",
+      "name": "Ashe",
+      "title": "the Frost Archer",
+      "icon": "art/16.19.1/champion/Ashe.png"
+    },
+    {
+      "id": "AurelionSol",
+      "name": "Aurelion Sol",
+      "title": "The Star Forger",
+      "icon": "art/16.19.1/champion/AurelionSol.png"
+    },
+    {
+      "id": "Aurora",
+      "name": "Aurora",
+      "title": "the Witch Between Worlds",
+      "icon": "art/16.19.1/champion/Aurora.png"
+    },
+    {
+      "id": "Azir",
+      "name": "Azir",
+      "title": "the Emperor of the Sands",
+      "icon": "art/16.19.1/champion/Azir.png"
+    },
+    {
+      "id": "Bard",
+      "name": "Bard",
+      "title": "the Wandering Caretaker",
+      "icon": "art/16.19.1/champion/Bard.png"
+    },
+    {
+      "id": "Belveth",
+      "name": "Bel'Veth",
+      "title": "the Empress of the Void",
+      "icon": "art/16.19.1/champion/Belveth.png"
+    },
+    {
+      "id": "Blitzcrank",
+      "name": "Blitzcrank",
+      "title": "the Great Steam Golem",
+      "icon": "art/16.19.1/champion/Blitzcrank.png"
+    },
+    {
+      "id": "Brand",
+      "name": "Brand",
+      "title": "the Burning Vengeance",
+      "icon": "art/16.19.1/champion/Brand.png"
+    },
+    {
+      "id": "Braum",
+      "name": "Braum",
+      "title": "the Heart of the Freljord",
+      "icon": "art/16.19.1/champion/Braum.png"
+    },
+    {
+      "id": "Briar",
+      "name": "Briar",
+      "title": "the Restrained Hunger",
+      "icon": "art/16.19.1/champion/Briar.png"
+    },
+    {
+      "id": "Caitlyn",
+      "name": "Caitlyn",
+      "title": "the Sheriff of Piltover",
+      "icon": "art/16.19.1/champion/Caitlyn.png"
+    },
+    {
+      "id": "Camille",
+      "name": "Camille",
+      "title": "the Steel Shadow",
+      "icon": "art/16.19.1/champion/Camille.png"
+    },
+    {
+      "id": "Cassiopeia",
+      "name": "Cassiopeia",
+      "title": "the Serpent's Embrace",
+      "icon": "art/16.19.1/champion/Cassiopeia.png"
+    },
+    {
+      "id": "Chogath",
+      "name": "Cho'Gath",
+      "title": "the Terror of the Void",
+      "icon": "art/16.19.1/champion/Chogath.png"
+    },
+    {
+      "id": "Corki",
+      "name": "Corki",
+      "title": "the Daring Bombardier",
+      "icon": "art/16.19.1/champion/Corki.png"
+    },
+    {
+      "id": "Darius",
+      "name": "Darius",
+      "title": "the Hand of Noxus",
+      "icon": "art/16.19.1/champion/Darius.png"
+    },
+    {
+      "id": "Diana",
+      "name": "Diana",
+      "title": "Scorn of the Moon",
+      "icon": "art/16.19.1/champion/Diana.png"
+    },
+    {
+      "id": "DrMundo",
+      "name": "Dr. Mundo",
+      "title": "the Madman of Zaun",
+      "icon": "art/16.19.1/champion/DrMundo.png"
+    },
+    {
+      "id": "Draven",
+      "name": "Draven",
+      "title": "the Glorious Executioner",
+      "icon": "art/16.19.1/champion/Draven.png"
+    },
+    {
+      "id": "Ekko",
+      "name": "Ekko",
+      "title": "the Boy Who Shattered Time",
+      "icon": "art/16.19.1/champion/Ekko.png"
+    },
+    {
+      "id": "Elise",
+      "name": "Elise",
+      "title": "the Spider Queen",
+      "icon": "art/16.19.1/champion/Elise.png"
+    },
+    {
+      "id": "Evelynn",
+      "name": "Evelynn",
+      "title": "Agony's Embrace",
+      "icon": "art/16.19.1/champion/Evelynn.png"
+    },
+    {
+      "id": "Ezreal",
+      "name": "Ezreal",
+      "title": "the Prodigal Explorer",
+      "icon": "art/16.19.1/champion/Ezreal.png"
+    },
+    {
+      "id": "Fiddlesticks",
+      "name": "Fiddlesticks",
+      "title": "the Ancient Fear",
+      "icon": "art/16.19.1/champion/Fiddlesticks.png"
+    },
+    {
+      "id": "Fiora",
+      "name": "Fiora",
+      "title": "the Grand Duelist",
+      "icon": "art/16.19.1/champion/Fiora.png"
+    },
+    {
+      "id": "Fizz",
+      "name": "Fizz",
+      "title": "the Tidal Trickster",
+      "icon": "art/16.19.1/champion/Fizz.png"
+    },
+    {
+      "id": "Galio",
+      "name": "Galio",
+      "title": "the Colossus",
+      "icon": "art/16.19.1/champion/Galio.png"
+    },
+    {
+      "id": "Gangplank",
+      "name": "Gangplank",
+      "title": "the Saltwater Scourge",
+      "icon": "art/16.19.1/champion/Gangplank.png"
+    },
+    {
+      "id": "Garen",
+      "name": "Garen",
+      "title": "The Might of Demacia",
+      "icon": "art/16.19.1/champion/Garen.png"
+    },
+    {
+      "id": "Gnar",
+      "name": "Gnar",
+      "title": "the Missing Link",
+      "icon": "art/16.19.1/champion/Gnar.png"
+    },
+    {
+      "id": "Gragas",
+      "name": "Gragas",
+      "title": "the Rabble Rouser",
+      "icon": "art/16.19.1/champion/Gragas.png"
+    },
+    {
+      "id": "Graves",
+      "name": "Graves",
+      "title": "the Outlaw",
+      "icon": "art/16.19.1/champion/Graves.png"
+    },
+    {
+      "id": "Gwen",
+      "name": "Gwen",
+      "title": "The Hallowed Seamstress",
+      "icon": "art/16.19.1/champion/Gwen.png"
+    },
+    {
+      "id": "Hecarim",
+      "name": "Hecarim",
+      "title": "the Shadow of War",
+      "icon": "art/16.19.1/champion/Hecarim.png"
+    },
+    {
+      "id": "Heimerdinger",
+      "name": "Heimerdinger",
+      "title": "the Revered Inventor",
+      "icon": "art/16.19.1/champion/Heimerdinger.png"
+    },
+    {
+      "id": "Hwei",
+      "name": "Hwei",
+      "title": "the Visionary",
+      "icon": "art/16.19.1/champion/Hwei.png"
+    },
+    {
+      "id": "Illaoi",
+      "name": "Illaoi",
+      "title": "the Kraken Priestess",
+      "icon": "art/16.19.1/champion/Illaoi.png"
+    },
+    {
+      "id": "Irelia",
+      "name": "Irelia",
+      "title": "the Blade Dancer",
+      "icon": "art/16.19.1/champion/Irelia.png"
+    },
+    {
+      "id": "Ivern",
+      "name": "Ivern",
+      "title": "the Green Father",
+      "icon": "art/16.19.1/champion/Ivern.png"
+    },
+    {
+      "id": "Janna",
+      "name": "Janna",
+      "title": "the Storm's Fury",
+      "icon": "art/16.19.1/champion/Janna.png"
+    },
+    {
+      "id": "JarvanIV",
+      "name": "Jarvan IV",
+      "title": "the Exemplar of Demacia",
+      "icon": "art/16.19.1/champion/JarvanIV.png"
+    },
+    {
+      "id": "Jax",
+      "name": "Jax",
+      "title": "Grandmaster at Arms",
+      "icon": "art/16.19.1/champion/Jax.png"
+    },
+    {
+      "id": "Jayce",
+      "name": "Jayce",
+      "title": "the Defender of Tomorrow",
+      "icon": "art/16.19.1/champion/Jayce.png"
+    },
+    {
+      "id": "Jhin",
+      "name": "Jhin",
+      "title": "the Virtuoso",
+      "icon": "art/16.19.1/champion/Jhin.png"
+    },
+    {
+      "id": "Jinx",
+      "name": "Jinx",
+      "title": "the Loose Cannon",
+      "icon": "art/16.19.1/champion/Jinx.png"
+    },
+    {
+      "id": "KSante",
+      "name": "K'Sante",
+      "title": "the Pride of Nazumah",
+      "icon": "art/16.19.1/champion/KSante.png"
+    },
+    {
+      "id": "Kaisa",
+      "name": "Kai'Sa",
+      "title": "Daughter of the Void",
+      "icon": "art/16.19.1/champion/Kaisa.png"
+    },
+    {
+      "id": "Kalista",
+      "name": "Kalista",
+      "title": "the Spear of Vengeance",
+      "icon": "art/16.19.1/champion/Kalista.png"
+    },
+    {
+      "id": "Karma",
+      "name": "Karma",
+      "title": "the Enlightened One",
+      "icon": "art/16.19.1/champion/Karma.png"
+    },
+    {
+      "id": "Karthus",
+      "name": "Karthus",
+      "title": "the Deathsinger",
+      "icon": "art/16.19.1/champion/Karthus.png"
+    },
+    {
+      "id": "Kassadin",
+      "name": "Kassadin",
+      "title": "the Void Walker",
+      "icon": "art/16.19.1/champion/Kassadin.png"
+    },
+    {
+      "id": "Katarina",
+      "name": "Katarina",
+      "title": "the Sinister Blade",
+      "icon": "art/16.19.1/champion/Katarina.png"
+    },
+    {
+      "id": "Kayle",
+      "name": "Kayle",
+      "title": "the Righteous",
+      "icon": "art/16.19.1/champion/Kayle.png"
+    },
+    {
+      "id": "Kayn",
+      "name": "Kayn",
+      "title": "the Shadow Reaper",
+      "icon": "art/16.19.1/champion/Kayn.png"
+    },
+    {
+      "id": "Kennen",
+      "name": "Kennen",
+      "title": "the Heart of the Tempest",
+      "icon": "art/16.19.1/champion/Kennen.png"
+    },
+    {
+      "id": "Khazix",
+      "name": "Kha'Zix",
+      "title": "the Voidreaver",
+      "icon": "art/16.19.1/champion/Khazix.png"
+    },
+    {
+      "id": "Kindred",
+      "name": "Kindred",
+      "title": "The Eternal Hunters",
+      "icon": "art/16.19.1/champion/Kindred.png"
+    },
+    {
+      "id": "Kled",
+      "name": "Kled",
+      "title": "the Cantankerous Cavalier",
+      "icon": "art/16.19.1/champion/Kled.png"
+    },
+    {
+      "id": "KogMaw",
+      "name": "Kog'Maw",
+      "title": "the Mouth of the Abyss",
+      "icon": "art/16.19.1/champion/KogMaw.png"
+    },
+    {
+      "id": "Leblanc",
+      "name": "LeBlanc",
+      "title": "the Deceiver",
+      "icon": "art/16.19.1/champion/Leblanc.png"
+    },
+    {
+      "id": "LeeSin",
+      "name": "Lee Sin",
+      "title": "the Blind Monk",
+      "icon": "art/16.19.1/champion/LeeSin.png"
+    },
+    {
+      "id": "Leona",
+      "name": "Leona",
+      "title": "the Radiant Dawn",
+      "icon": "art/16.19.1/champion/Leona.png"
+    },
+    {
+      "id": "Lillia",
+      "name": "Lillia",
+      "title": "the Bashful Bloom",
+      "icon": "art/16.19.1/champion/Lillia.png"
+    },
+    {
+      "id": "Lissandra",
+      "name": "Lissandra",
+      "title": "the Ice Witch",
+      "icon": "art/16.19.1/champion/Lissandra.png"
+    },
+    {
+      "id": "Locke",
+      "name": "Locke",
+      "title": "the Ashen Exorcist",
+      "icon": "art/16.19.1/champion/Locke.png"
+    },
+    {
+      "id": "Lucian",
+      "name": "Lucian",
+      "title": "the Purifier",
+      "icon": "art/16.19.1/champion/Lucian.png"
+    },
+    {
+      "id": "Lulu",
+      "name": "Lulu",
+      "title": "the Fae Sorceress",
+      "icon": "art/16.19.1/champion/Lulu.png"
+    },
+    {
+      "id": "Lux",
+      "name": "Lux",
+      "title": "the Lady of Luminosity",
+      "icon": "art/16.19.1/champion/Lux.png"
+    },
+    {
+      "id": "Malphite",
+      "name": "Malphite",
+      "title": "Shard of the Monolith",
+      "icon": "art/16.19.1/champion/Malphite.png"
+    },
+    {
+      "id": "Malzahar",
+      "name": "Malzahar",
+      "title": "the Prophet of the Void",
+      "icon": "art/16.19.1/champion/Malzahar.png"
+    },
+    {
+      "id": "Maokai",
+      "name": "Maokai",
+      "title": "the Twisted Treant",
+      "icon": "art/16.19.1/champion/Maokai.png"
+    },
+    {
+      "id": "MasterYi",
+      "name": "Master Yi",
+      "title": "the Wuju Bladesman",
+      "icon": "art/16.19.1/champion/MasterYi.png"
+    },
+    {
+      "id": "Mel",
+      "name": "Mel",
+      "title": "the Soul's Reflection",
+      "icon": "art/16.19.1/champion/Mel.png"
+    },
+    {
+      "id": "Milio",
+      "name": "Milio",
+      "title": "The Gentle Flame",
+      "icon": "art/16.19.1/champion/Milio.png"
+    },
+    {
+      "id": "MissFortune",
+      "name": "Miss Fortune",
+      "title": "the Bounty Hunter",
+      "icon": "art/16.19.1/champion/MissFortune.png"
+    },
+    {
+      "id": "Mordekaiser",
+      "name": "Mordekaiser",
+      "title": "the Iron Revenant",
+      "icon": "art/16.19.1/champion/Mordekaiser.png"
+    },
+    {
+      "id": "Morgana",
+      "name": "Morgana",
+      "title": "the Fallen",
+      "icon": "art/16.19.1/champion/Morgana.png"
+    },
+    {
+      "id": "Naafiri",
+      "name": "Naafiri",
+      "title": "the Hound of a Hundred Bites",
+      "icon": "art/16.19.1/champion/Naafiri.png"
+    },
+    {
+      "id": "Nami",
+      "name": "Nami",
+      "title": "the Tidecaller",
+      "icon": "art/16.19.1/champion/Nami.png"
+    },
+    {
+      "id": "Nasus",
+      "name": "Nasus",
+      "title": "the Curator of the Sands",
+      "icon": "art/16.19.1/champion/Nasus.png"
+    },
+    {
+      "id": "Nautilus",
+      "name": "Nautilus",
+      "title": "the Titan of the Depths",
+      "icon": "art/16.19.1/champion/Nautilus.png"
+    },
+    {
+      "id": "Neeko",
+      "name": "Neeko",
+      "title": "the Curious Chameleon",
+      "icon": "art/16.19.1/champion/Neeko.png"
+    },
+    {
+      "id": "Nidalee",
+      "name": "Nidalee",
+      "title": "the Bestial Huntress",
+      "icon": "art/16.19.1/champion/Nidalee.png"
+    },
+    {
+      "id": "Nilah",
+      "name": "Nilah",
+      "title": "the Joy Unbound",
+      "icon": "art/16.19.1/champion/Nilah.png"
+    },
+    {
+      "id": "Nocturne",
+      "name": "Nocturne",
+      "title": "the Eternal Nightmare",
+      "icon": "art/16.19.1/champion/Nocturne.png"
+    },
+    {
+      "id": "Nunu",
+      "name": "Nunu & Willump",
+      "title": "the Boy and His Yeti",
+      "icon": "art/16.19.1/champion/Nunu.png"
+    },
+    {
+      "id": "Olaf",
+      "name": "Olaf",
+      "title": "the Berserker",
+      "icon": "art/16.19.1/champion/Olaf.png"
+    },
+    {
+      "id": "Orianna",
+      "name": "Orianna",
+      "title": "the Lady of Clockwork",
+      "icon": "art/16.19.1/champion/Orianna.png"
+    },
+    {
+      "id": "Ornn",
+      "name": "Ornn",
+      "title": "The Fire below the Mountain",
+      "icon": "art/16.19.1/champion/Ornn.png"
+    },
+    {
+      "id": "Pantheon",
+      "name": "Pantheon",
+      "title": "the Unbreakable Spear",
+      "icon": "art/16.19.1/champion/Pantheon.png"
+    },
+    {
+      "id": "Poppy",
+      "name": "Poppy",
+      "title": "Keeper of the Hammer",
+      "icon": "art/16.19.1/champion/Poppy.png"
+    },
+    {
+      "id": "Pyke",
+      "name": "Pyke",
+      "title": "the Bloodharbor Ripper",
+      "icon": "art/16.19.1/champion/Pyke.png"
+    },
+    {
+      "id": "Qiyana",
+      "name": "Qiyana",
+      "title": "Empress of the Elements",
+      "icon": "art/16.19.1/champion/Qiyana.png"
+    },
+    {
+      "id": "Quinn",
+      "name": "Quinn",
+      "title": "Demacia's Wings",
+      "icon": "art/16.19.1/champion/Quinn.png"
+    },
+    {
+      "id": "Rakan",
+      "name": "Rakan",
+      "title": "The Charmer",
+      "icon": "art/16.19.1/champion/Rakan.png"
+    },
+    {
+      "id": "Rammus",
+      "name": "Rammus",
+      "title": "the Armordillo",
+      "icon": "art/16.19.1/champion/Rammus.png"
+    },
+    {
+      "id": "RekSai",
+      "name": "Rek'Sai",
+      "title": "the Void Burrower",
+      "icon": "art/16.19.1/champion/RekSai.png"
+    },
+    {
+      "id": "Rell",
+      "name": "Rell",
+      "title": "the Iron Maiden",
+      "icon": "art/16.19.1/champion/Rell.png"
+    },
+    {
+      "id": "Renata",
+      "name": "Renata Glasc",
+      "title": "the Chem-Baroness",
+      "icon": "art/16.19.1/champion/Renata.png"
+    },
+    {
+      "id": "Renekton",
+      "name": "Renekton",
+      "title": "the Butcher of the Sands",
+      "icon": "art/16.19.1/champion/Renekton.png"
+    },
+    {
+      "id": "Rengar",
+      "name": "Rengar",
+      "title": "the Pridestalker",
+      "icon": "art/16.19.1/champion/Rengar.png"
+    },
+    {
+      "id": "Riven",
+      "name": "Riven",
+      "title": "the Exile",
+      "icon": "art/16.19.1/champion/Riven.png"
+    },
+    {
+      "id": "Rumble",
+      "name": "Rumble",
+      "title": "the Mechanized Menace",
+      "icon": "art/16.19.1/champion/Rumble.png"
+    },
+    {
+      "id": "Ryze",
+      "name": "Ryze",
+      "title": "the Rune Mage",
+      "icon": "art/16.19.1/champion/Ryze.png"
+    },
+    {
+      "id": "Samira",
+      "name": "Samira",
+      "title": "the Desert Rose",
+      "icon": "art/16.19.1/champion/Samira.png"
+    },
+    {
+      "id": "Sejuani",
+      "name": "Sejuani",
+      "title": "Fury of the North",
+      "icon": "art/16.19.1/champion/Sejuani.png"
+    },
+    {
+      "id": "Senna",
+      "name": "Senna",
+      "title": "the Redeemer",
+      "icon": "art/16.19.1/champion/Senna.png"
+    },
+    {
+      "id": "Seraphine",
+      "name": "Seraphine",
+      "title": "the Starry-Eyed Songstress",
+      "icon": "art/16.19.1/champion/Seraphine.png"
+    },
+    {
+      "id": "Sett",
+      "name": "Sett",
+      "title": "the Boss",
+      "icon": "art/16.19.1/champion/Sett.png"
+    },
+    {
+      "id": "Shaco",
+      "name": "Shaco",
+      "title": "the Demon Jester",
+      "icon": "art/16.19.1/champion/Shaco.png"
+    },
+    {
+      "id": "Shen",
+      "name": "Shen",
+      "title": "the Eye of Twilight",
+      "icon": "art/16.19.1/champion/Shen.png"
+    },
+    {
+      "id": "Shyvana",
+      "name": "Shyvana",
+      "title": "the Half-Dragon",
+      "icon": "art/16.19.1/champion/Shyvana.png"
+    },
+    {
+      "id": "Singed",
+      "name": "Singed",
+      "title": "the Mad Chemist",
+      "icon": "art/16.19.1/champion/Singed.png"
+    },
+    {
+      "id": "Sion",
+      "name": "Sion",
+      "title": "The Undead Juggernaut",
+      "icon": "art/16.19.1/champion/Sion.png"
+    },
+    {
+      "id": "Sivir",
+      "name": "Sivir",
+      "title": "the Battle Mistress",
+      "icon": "art/16.19.1/champion/Sivir.png"
+    },
+    {
+      "id": "Skarner",
+      "name": "Skarner",
+      "title": "the Primordial Sovereign",
+      "icon": "art/16.19.1/champion/Skarner.png"
+    },
+    {
+      "id": "Smolder",
+      "name": "Smolder",
+      "title": "the Fiery Fledgling",
+      "icon": "art/16.19.1/champion/Smolder.png"
+    },
+    {
+      "id": "Sona",
+      "name": "Sona",
+      "title": "Maven of the Strings",
+      "icon": "art/16.19.1/champion/Sona.png"
+    },
+    {
+      "id": "Soraka",
+      "name": "Soraka",
+      "title": "the Starchild",
+      "icon": "art/16.19.1/champion/Soraka.png"
+    },
+    {
+      "id": "Swain",
+      "name": "Swain",
+      "title": "the Noxian Grand General",
+      "icon": "art/16.19.1/champion/Swain.png"
+    },
+    {
+      "id": "Sylas",
+      "name": "Sylas",
+      "title": "the Unshackled",
+      "icon": "art/16.19.1/champion/Sylas.png"
+    },
+    {
+      "id": "Syndra",
+      "name": "Syndra",
+      "title": "the Dark Sovereign",
+      "icon": "art/16.19.1/champion/Syndra.png"
+    },
+    {
+      "id": "TahmKench",
+      "name": "Tahm Kench",
+      "title": "The River King",
+      "icon": "art/16.19.1/champion/TahmKench.png"
+    },
+    {
+      "id": "Taliyah",
+      "name": "Taliyah",
+      "title": "the Stoneweaver",
+      "icon": "art/16.19.1/champion/Taliyah.png"
+    },
+    {
+      "id": "Talon",
+      "name": "Talon",
+      "title": "the Blade's Shadow",
+      "icon": "art/16.19.1/champion/Talon.png"
+    },
+    {
+      "id": "Taric",
+      "name": "Taric",
+      "title": "the Shield of Valoran",
+      "icon": "art/16.19.1/champion/Taric.png"
+    },
+    {
+      "id": "Teemo",
+      "name": "Teemo",
+      "title": "the Swift Scout",
+      "icon": "art/16.19.1/champion/Teemo.png"
+    },
+    {
+      "id": "Thresh",
+      "name": "Thresh",
+      "title": "the Chain Warden",
+      "icon": "art/16.19.1/champion/Thresh.png"
+    },
+    {
+      "id": "Tristana",
+      "name": "Tristana",
+      "title": "the Yordle Gunner",
+      "icon": "art/16.19.1/champion/Tristana.png"
+    },
+    {
+      "id": "Trundle",
+      "name": "Trundle",
+      "title": "the Troll King",
+      "icon": "art/16.19.1/champion/Trundle.png"
+    },
+    {
+      "id": "Tryndamere",
+      "name": "Tryndamere",
+      "title": "the Barbarian King",
+      "icon": "art/16.19.1/champion/Tryndamere.png"
+    },
+    {
+      "id": "TwistedFate",
+      "name": "Twisted Fate",
+      "title": "the Card Master",
+      "icon": "art/16.19.1/champion/TwistedFate.png"
+    },
+    {
+      "id": "Twitch",
+      "name": "Twitch",
+      "title": "the Plague Rat",
+      "icon": "art/16.19.1/champion/Twitch.png"
+    },
+    {
+      "id": "Udyr",
+      "name": "Udyr",
+      "title": "the Spirit Walker",
+      "icon": "art/16.19.1/champion/Udyr.png"
+    },
+    {
+      "id": "Urgot",
+      "name": "Urgot",
+      "title": "the Dreadnought",
+      "icon": "art/16.19.1/champion/Urgot.png"
+    },
+    {
+      "id": "Varus",
+      "name": "Varus",
+      "title": "the Arrow of Retribution",
+      "icon": "art/16.19.1/champion/Varus.png"
+    },
+    {
+      "id": "Vayne",
+      "name": "Vayne",
+      "title": "the Night Hunter",
+      "icon": "art/16.19.1/champion/Vayne.png"
+    },
+    {
+      "id": "Veigar",
+      "name": "Veigar",
+      "title": "the Tiny Master of Evil",
+      "icon": "art/16.19.1/champion/Veigar.png"
+    },
+    {
+      "id": "Velkoz",
+      "name": "Vel'Koz",
+      "title": "the Eye of the Void",
+      "icon": "art/16.19.1/champion/Velkoz.png"
+    },
+    {
+      "id": "Vex",
+      "name": "Vex",
+      "title": "the Gloomist",
+      "icon": "art/16.19.1/champion/Vex.png"
+    },
+    {
+      "id": "Vi",
+      "name": "Vi",
+      "title": "the Piltover Enforcer",
+      "icon": "art/16.19.1/champion/Vi.png"
+    },
+    {
+      "id": "Viego",
+      "name": "Viego",
+      "title": "The Ruined King",
+      "icon": "art/16.19.1/champion/Viego.png"
+    },
+    {
+      "id": "Viktor",
+      "name": "Viktor",
+      "title": "the Herald of the Arcane",
+      "icon": "art/16.19.1/champion/Viktor.png"
+    },
+    {
+      "id": "Vladimir",
+      "name": "Vladimir",
+      "title": "the Crimson Reaper",
+      "icon": "art/16.19.1/champion/Vladimir.png"
+    },
+    {
+      "id": "Volibear",
+      "name": "Volibear",
+      "title": "the Relentless Storm",
+      "icon": "art/16.19.1/champion/Volibear.png"
+    },
+    {
+      "id": "Warwick",
+      "name": "Warwick",
+      "title": "the Uncaged Wrath of Zaun",
+      "icon": "art/16.19.1/champion/Warwick.png"
+    },
+    {
+      "id": "MonkeyKing",
+      "name": "Wukong",
+      "title": "the Monkey King",
+      "icon": "art/16.19.1/champion/MonkeyKing.png"
+    },
+    {
+      "id": "Xayah",
+      "name": "Xayah",
+      "title": "the Rebel",
+      "icon": "art/16.19.1/champion/Xayah.png"
+    },
+    {
+      "id": "Xerath",
+      "name": "Xerath",
+      "title": "the Magus Ascendant",
+      "icon": "art/16.19.1/champion/Xerath.png"
+    },
+    {
+      "id": "XinZhao",
+      "name": "Xin Zhao",
+      "title": "the Seneschal of Demacia",
+      "icon": "art/16.19.1/champion/XinZhao.png"
+    },
+    {
+      "id": "Yasuo",
+      "name": "Yasuo",
+      "title": "the Unforgiven",
+      "icon": "art/16.19.1/champion/Yasuo.png"
+    },
+    {
+      "id": "Yone",
+      "name": "Yone",
+      "title": "the Unforgotten",
+      "icon": "art/16.19.1/champion/Yone.png"
+    },
+    {
+      "id": "Yorick",
+      "name": "Yorick",
+      "title": "Shepherd of Souls",
+      "icon": "art/16.19.1/champion/Yorick.png"
+    },
+    {
+      "id": "Yunara",
+      "name": "Yunara",
+      "title": "the Unbroken Faith",
+      "icon": "art/16.19.1/champion/Yunara.png"
+    },
+    {
+      "id": "Yuumi",
+      "name": "Yuumi",
+      "title": "the Magical Cat",
+      "icon": "art/16.19.1/champion/Yuumi.png"
+    },
+    {
+      "id": "Zaahen",
+      "name": "Zaahen",
+      "title": "The Unsundered",
+      "icon": "art/16.19.1/champion/Zaahen.png"
+    },
+    {
+      "id": "Zac",
+      "name": "Zac",
+      "title": "the Secret Weapon",
+      "icon": "art/16.19.1/champion/Zac.png"
+    },
+    {
+      "id": "Zed",
+      "name": "Zed",
+      "title": "the Master of Shadows",
+      "icon": "art/16.19.1/champion/Zed.png"
+    },
+    {
+      "id": "Zeri",
+      "name": "Zeri",
+      "title": "The Spark of Zaun",
+      "icon": "art/16.19.1/champion/Zeri.png"
+    },
+    {
+      "id": "Ziggs",
+      "name": "Ziggs",
+      "title": "the Hexplosives Expert",
+      "icon": "art/16.19.1/champion/Ziggs.png"
+    },
+    {
+      "id": "Zilean",
+      "name": "Zilean",
+      "title": "the Chronokeeper",
+      "icon": "art/16.19.1/champion/Zilean.png"
+    },
+    {
+      "id": "Zoe",
+      "name": "Zoe",
+      "title": "the Aspect of Twilight",
+      "icon": "art/16.19.1/champion/Zoe.png"
+    },
+    {
+      "id": "Zyra",
+      "name": "Zyra",
+      "title": "Rise of the Thorns",
+      "icon": "art/16.19.1/champion/Zyra.png"
+    }
+  ],
+  "items": [
+    {
+      "id": "2065",
+      "name": "Shurelya's Battlesong",
+      "icon": "art/16.19.1/item/2065.png",
+      "description": "Activate to speed up nearby allies.",
+      "stats": [
+        "50 Ability Power",
+        "15 Ability Haste",
+        "4% Move Speed",
+        "125% Base Mana Regen"
+      ],
+      "cost": 2200,
+      "tags": [
+        "SpellDamage",
+        "ManaRegen",
+        "Active",
+        "CooldownReduction",
+        "NonbootsMovement",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "2501",
+      "name": "Overlord's Bloodmail",
+      "icon": "art/16.19.1/item/2501.png",
+      "description": "Tyranny\nGain 2.5% of your bonus Health as Attack Damage. \n\nRetribution\nGain up to 12% increased Attack Damage based on your percent missing Health.",
+      "stats": [
+        "30 Attack Damage",
+        "550 Health"
+      ],
+      "cost": 3300,
+      "tags": [
+        "Health",
+        "Damage"
+      ],
+      "groups": []
+    },
+    {
+      "id": "2502",
+      "name": "Unending Despair",
+      "icon": "art/16.19.1/item/2502.png",
+      "description": "Anguish\nEvery 4 seconds while in combat with champions, deal magic damage to nearby enemy champions and heal for 250% of the damage dealt.",
+      "stats": [
+        "400 Health",
+        "50 Armor",
+        "15 Ability Haste"
+      ],
+      "cost": 2800,
+      "tags": [
+        "Health",
+        "Armor",
+        "CooldownReduction",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "2503",
+      "name": "Blackfire Torch",
+      "icon": "art/16.19.1/item/2503.png",
+      "description": "Baleful Blaze\nDamaging Abilities deals bonus magic damage for 3 seconds.\n\nBlackfire\nFor each enemy champion, epic and large monster affected by your Baleful Blaze, gain 4% Ability Power.",
+      "stats": [
+        "80 Ability Power",
+        "600 Mana",
+        "20 Ability Haste"
+      ],
+      "cost": 2800,
+      "tags": [
+        "SpellDamage",
+        "Mana",
+        "CooldownReduction",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "2504",
+      "name": "Kaenic Rookern",
+      "icon": "art/16.19.1/item/2504.png",
+      "description": "Magebane\nAfter not taking magic damage for 15 seconds, gain a magic shield.",
+      "stats": [
+        "400 Health",
+        "80 Magic Resist",
+        "100% Base Health Regen"
+      ],
+      "cost": 2900,
+      "tags": [
+        "Health",
+        "SpellBlock",
+        "HealthRegen"
+      ],
+      "groups": []
+    },
+    {
+      "id": "2510",
+      "name": "Dusk and Dawn",
+      "icon": "art/16.19.1/item/2510.png",
+      "description": "Spellblade (0s)\nAfter using an Ability, your next Attack deals  bonus magic damage and heals you for  On-Hit and then applies On-Hit effects an additional time.",
+      "stats": [
+        "300 Health",
+        "60 Ability Power",
+        "20 Ability Haste",
+        "20% Attack Speed"
+      ],
+      "cost": 3100,
+      "tags": [
+        "Health",
+        "AttackSpeed",
+        "SpellDamage",
+        "OnHit",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "2512",
+      "name": "Fiendhunter Bolts",
+      "icon": "art/16.19.1/item/2512.png",
+      "description": "Night Vigil\nGain 30 Ultimate Ability Haste.\n\nOpening Barrage\nAfter casting your Ultimate, your next 3 basic attacks gain 50% Attack Speed and Critically Strike for 80% of your normal Critical Strike damage for 8 seconds. If an attack would already Critically Strike, instead it deals 15% bonus true damage.",
+      "stats": [
+        "45% Attack Speed",
+        "25% Critical Strike Chance",
+        "4% Move Speed"
+      ],
+      "cost": 2650,
+      "tags": [
+        "CriticalStrike",
+        "AttackSpeed",
+        "NonbootsMovement",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "2517",
+      "name": "Endless Hunger",
+      "icon": "art/16.19.1/item/2517.png",
+      "description": "Famine\nGain Ability Haste based on your Bonus AD.\n\nFeast\nWhen a champion that you damaged recently dies, gain Omnivamp for a moderate duration.",
+      "stats": [
+        "65 Attack Damage",
+        "5% Omnivamp",
+        "20% Tenacity"
+      ],
+      "cost": 3100,
+      "tags": [
+        "Damage",
+        "LifeSteal",
+        "SpellVamp",
+        "Tenacity",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "2522",
+      "name": "Actualizer",
+      "icon": "art/16.19.1/item/2522.png",
+      "description": "Mana Made Real (0s)\nFor 8 seconds, your mana is Empowered. While Empowered, your spells cost 100% more Mana, you gain  increased Ability damage, Shielding, and Healing, and your basic ability cooldowns progress 30% faster.",
+      "stats": [
+        "90 Ability Power",
+        "300 Mana",
+        "10 Ability Haste"
+      ],
+      "cost": 2800,
+      "tags": [
+        "SpellDamage",
+        "Mana",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "2523",
+      "name": "Hexoptics C44",
+      "icon": "art/16.19.1/item/2523.png",
+      "description": "Magnification\nDeal up to 10% increased damage with Attacks, based on how far away the enemy is (max damage at 500 range).\n\nArcane Aim\nWhen a champion that you damaged within 3 seconds dies, gain 100 additional attack range for 8 seconds.",
+      "stats": [
+        "55 Attack Damage",
+        "25% Critical Strike Chance"
+      ],
+      "cost": 2800,
+      "tags": [
+        "Damage",
+        "CriticalStrike"
+      ],
+      "groups": []
+    },
+    {
+      "id": "2524",
+      "name": "Bandlepipes",
+      "icon": "art/16.19.1/item/2524.png",
+      "description": "Fanfare\nSlowing or Immobilizing an enemy champion grants Fanfare for  seconds. Fanfare grants you 20 Move Speed. While you have Fanfare, nearby allies, including yourself, gain  Attack Speed.",
+      "stats": [
+        "200 Health",
+        "15 Ability Haste",
+        "20 Armor",
+        "20 Magic Resist"
+      ],
+      "cost": 2300,
+      "tags": [
+        "Health",
+        "SpellBlock",
+        "Armor",
+        "AttackSpeed",
+        "NonbootsMovement",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "2525",
+      "name": "Protoplasm Harness",
+      "icon": "art/16.19.1/item/2525.png",
+      "description": "Lifeline (0s)\nTaking damage that would reduce your Health below 30% causes you to gain  maximum Health for 5 seconds, then heal  Health over the duration. While regenerating Health, you gain 15% increased Size, 10% Move Speed, and 25% Tenacity.",
+      "stats": [
+        "600 Health",
+        "20 Ability Haste"
+      ],
+      "cost": 2600,
+      "tags": [
+        "Health",
+        "NonbootsMovement",
+        "Tenacity",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3003",
+      "name": "Archangel's Staff",
+      "icon": "art/16.19.1/item/3003.png",
+      "description": "Increases Ability Power based on maximum Mana",
+      "stats": [
+        "70 Ability Power",
+        "600 Mana",
+        "25 Ability Haste"
+      ],
+      "cost": 2900,
+      "tags": [
+        "SpellDamage",
+        "Mana",
+        "AbilityHaste"
+      ],
+      "groups": [
+        "tear"
+      ]
+    },
+    {
+      "id": "3004",
+      "name": "Manamune",
+      "icon": "art/16.19.1/item/3004.png",
+      "description": "Increases Attack Damage based on maximum Mana",
+      "stats": [
+        "35 Attack Damage",
+        "500 Mana",
+        "15 Ability Haste"
+      ],
+      "cost": 2900,
+      "tags": [
+        "Damage",
+        "Mana",
+        "CooldownReduction",
+        "OnHit",
+        "AbilityHaste"
+      ],
+      "groups": [
+        "tear"
+      ]
+    },
+    {
+      "id": "3006",
+      "name": "Berserker's Greaves",
+      "icon": "art/16.19.1/item/3006.png",
+      "description": "Enhances Move Speed and Attack Speed",
+      "stats": [
+        "30% Attack Speed",
+        "45 Move Speed"
+      ],
+      "cost": 1100,
+      "tags": [
+        "AttackSpeed",
+        "Boots"
+      ],
+      "groups": [
+        "boots"
+      ]
+    },
+    {
+      "id": "3009",
+      "name": "Boots of Swiftness",
+      "icon": "art/16.19.1/item/3009.png",
+      "description": "Enhances Move Speed and reduces the effect of slows",
+      "stats": [
+        "55 Move Speed"
+      ],
+      "cost": 1000,
+      "tags": [
+        "Boots"
+      ],
+      "groups": [
+        "boots"
+      ]
+    },
+    {
+      "id": "3020",
+      "name": "Sorcerer's Shoes",
+      "icon": "art/16.19.1/item/3020.png",
+      "description": "Enhances Move Speed and magic damage",
+      "stats": [
+        "12 Magic Penetration",
+        "45 Move Speed"
+      ],
+      "cost": 1100,
+      "tags": [
+        "Boots",
+        "MagicPenetration"
+      ],
+      "groups": [
+        "boots"
+      ]
+    },
+    {
+      "id": "3031",
+      "name": "Infinity Edge",
+      "icon": "art/16.19.1/item/3031.png",
+      "description": "Massively enhances critical strikes",
+      "stats": [
+        "75 Attack Damage",
+        "25% Critical Strike Chance",
+        "30% Critical Strike Damage"
+      ],
+      "cost": 3500,
+      "tags": [
+        "CriticalStrike",
+        "Damage"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3032",
+      "name": "Yun Tal Wildarrows",
+      "icon": "art/16.19.1/item/3032.png",
+      "description": "Practice Makes Lethal\nOn-Attack, gain Critical Strike Chance permanently up to 25%.\n\nFlurry\nOn-Attacking an enemy champion, gain 30% Attack Speed for 6 seconds (30 second cooldown). \nAttacks reduce this cooldown by 1 second, increased to 2 seconds for Critical Strikes.",
+      "stats": [
+        "50 Attack Damage",
+        "45% Attack Speed",
+        "0% Critical Strike Chance"
+      ],
+      "cost": 3000,
+      "tags": [
+        "Damage",
+        "CriticalStrike",
+        "AttackSpeed"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3033",
+      "name": "Mortal Reminder",
+      "icon": "art/16.19.1/item/3033.png",
+      "description": "Overcomes enemies with high Health recovery and Armor",
+      "stats": [
+        "35 Attack Damage",
+        "30% Armor Penetration",
+        "25% Critical Strike Chance"
+      ],
+      "cost": 3000,
+      "tags": [
+        "Damage",
+        "CriticalStrike",
+        "ArmorPenetration"
+      ],
+      "groups": [
+        "lastWhisper"
+      ]
+    },
+    {
+      "id": "3036",
+      "name": "Lord Dominik's Regards",
+      "icon": "art/16.19.1/item/3036.png",
+      "description": "Overcomes enemies with high health and armor",
+      "stats": [
+        "35 Attack Damage",
+        "35% Armor Penetration",
+        "25% Critical Strike Chance"
+      ],
+      "cost": 3300,
+      "tags": [
+        "Damage",
+        "CriticalStrike",
+        "ArmorPenetration"
+      ],
+      "groups": [
+        "lastWhisper"
+      ]
+    },
+    {
+      "id": "3046",
+      "name": "Phantom Dancer",
+      "icon": "art/16.19.1/item/3046.png",
+      "description": "Move faster while attacking enemies and gain a shield when on low health.",
+      "stats": [
+        "65% Attack Speed",
+        "25% Critical Strike Chance",
+        "10% Move Speed"
+      ],
+      "cost": 2650,
+      "tags": [
+        "CriticalStrike",
+        "AttackSpeed",
+        "NonbootsMovement"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3047",
+      "name": "Plated Steelcaps",
+      "icon": "art/16.19.1/item/3047.png",
+      "description": "Enhances Move Speed and reduces incoming basic attack damage",
+      "stats": [
+        "25 Armor",
+        "45 Move Speed"
+      ],
+      "cost": 1200,
+      "tags": [
+        "Armor",
+        "Boots"
+      ],
+      "groups": [
+        "boots"
+      ]
+    },
+    {
+      "id": "3050",
+      "name": "Zeke's Convergence",
+      "icon": "art/16.19.1/item/3050.png",
+      "description": "Grants you and your ally bonuses when you cast your ultimate.",
+      "stats": [
+        "300 Health",
+        "25 Armor",
+        "25 Magic Resist",
+        "10 Ability Haste"
+      ],
+      "cost": 2200,
+      "tags": [
+        "Health",
+        "SpellBlock",
+        "Armor",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3053",
+      "name": "Sterak's Gage",
+      "icon": "art/16.19.1/item/3053.png",
+      "description": "Shields against large bursts of damage",
+      "stats": [
+        "400 Health",
+        "20% Tenacity"
+      ],
+      "cost": 3200,
+      "tags": [
+        "Health",
+        "Damage",
+        "Tenacity"
+      ],
+      "groups": [
+        "lifeline"
+      ]
+    },
+    {
+      "id": "3065",
+      "name": "Spirit Visage",
+      "icon": "art/16.19.1/item/3065.png",
+      "description": "Increases Health and healing effects",
+      "stats": [
+        "400 Health",
+        "50 Magic Resist",
+        "10 Ability Haste",
+        "100% Base Health Regen"
+      ],
+      "cost": 2700,
+      "tags": [
+        "Health",
+        "SpellBlock",
+        "HealthRegen",
+        "CooldownReduction",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3068",
+      "name": "Sunfire Aegis",
+      "icon": "art/16.19.1/item/3068.png",
+      "description": "High armor. Constantly deals damage to nearby enemies. Immobilize enemies to release a wave of damaging flame",
+      "stats": [
+        "350 Health",
+        "50 Armor",
+        "10 Ability Haste"
+      ],
+      "cost": 2800,
+      "tags": [
+        "Health",
+        "Armor",
+        "Aura",
+        "AbilityHaste"
+      ],
+      "groups": [
+        "immolate"
+      ]
+    },
+    {
+      "id": "3071",
+      "name": "Black Cleaver",
+      "icon": "art/16.19.1/item/3071.png",
+      "description": "Dealing physical damage to enemy champions reduces their Armor",
+      "stats": [
+        "45 Attack Damage",
+        "400 Health",
+        "20 Ability Haste"
+      ],
+      "cost": 3000,
+      "tags": [
+        "Health",
+        "Damage",
+        "CooldownReduction",
+        "OnHit",
+        "NonbootsMovement",
+        "ArmorPenetration",
+        "AbilityHaste"
+      ],
+      "groups": [
+        "terminusCleaver"
+      ]
+    },
+    {
+      "id": "3072",
+      "name": "Bloodthirster",
+      "icon": "art/16.19.1/item/3072.png",
+      "description": "Grants Attack Damage, Life Steal and Life Steal now overheals",
+      "stats": [
+        "80 Attack Damage",
+        "15% Life Steal"
+      ],
+      "cost": 3400,
+      "tags": [
+        "Damage",
+        "LifeSteal"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3073",
+      "name": "Experimental Hexplate",
+      "icon": "art/16.19.1/item/3073.png",
+      "description": "Increases maximum Mana as Mana is spent",
+      "stats": [
+        "40 Attack Damage",
+        "20% Attack Speed",
+        "450 Health"
+      ],
+      "cost": 3000,
+      "tags": [
+        "Health",
+        "Damage",
+        "AttackSpeed",
+        "CooldownReduction",
+        "NonbootsMovement",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3074",
+      "name": "Ravenous Hydra",
+      "icon": "art/16.19.1/item/3074.png",
+      "description": "Melee attacks hit nearby enemies, dealing damage and restoring Health",
+      "stats": [
+        "65 Attack Damage",
+        "15 Ability Haste",
+        "12% Life Steal"
+      ],
+      "cost": 3300,
+      "tags": [
+        "Damage",
+        "LifeSteal",
+        "CooldownReduction",
+        "OnHit",
+        "AbilityHaste"
+      ],
+      "groups": [
+        "hydra"
+      ]
+    },
+    {
+      "id": "3075",
+      "name": "Thornmail",
+      "icon": "art/16.19.1/item/3075.png",
+      "description": "Thorns\nWhen struck by an Attack, deal magic damage to the attacker and apply 40% Wounds for 3 seconds if they are a champion.",
+      "stats": [
+        "150 Health",
+        "75 Armor"
+      ],
+      "cost": 2450,
+      "tags": [
+        "Health",
+        "Armor"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3078",
+      "name": "Trinity Force",
+      "icon": "art/16.19.1/item/3078.png",
+      "description": "Tons of Damage",
+      "stats": [
+        "36 Attack Damage",
+        "30% Attack Speed",
+        "333 Health",
+        "15 Ability Haste"
+      ],
+      "cost": 3333,
+      "tags": [
+        "Health",
+        "Damage",
+        "AttackSpeed",
+        "CooldownReduction",
+        "OnHit",
+        "NonbootsMovement",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3083",
+      "name": "Warmog's Armor",
+      "icon": "art/16.19.1/item/3083.png",
+      "description": "Grants massive Health and Health Regen",
+      "stats": [
+        "1000 Health",
+        "100% Base Health Regen"
+      ],
+      "cost": 3100,
+      "tags": [
+        "Health",
+        "HealthRegen"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3084",
+      "name": "Heartsteel",
+      "icon": "art/16.19.1/item/3084.png",
+      "description": "Restores Health on kill or assist",
+      "stats": [
+        "900 Health",
+        "100% Base Health Regen"
+      ],
+      "cost": 3000,
+      "tags": [
+        "Health",
+        "HealthRegen"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3085",
+      "name": "Runaan's Hurricane",
+      "icon": "art/16.19.1/item/3085.png",
+      "description": "Ranged attacks fire two bolts at nearby enemies",
+      "stats": [
+        "40% Attack Speed",
+        "25% Critical Strike Chance",
+        "5% Move Speed"
+      ],
+      "cost": 2650,
+      "tags": [
+        "CriticalStrike",
+        "AttackSpeed",
+        "OnHit",
+        "NonbootsMovement"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3087",
+      "name": "Statikk Shiv",
+      "icon": "art/16.19.1/item/3087.png",
+      "description": "Movement builds charges that release chain lightning on basic attack",
+      "stats": [
+        "45 Attack Damage",
+        "45 Ability Power",
+        "30% Attack Speed",
+        "4% Move Speed"
+      ],
+      "cost": 3000,
+      "tags": [
+        "Damage",
+        "AttackSpeed",
+        "SpellDamage",
+        "OnHit",
+        "NonbootsMovement"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3089",
+      "name": "Rabadon's Deathcap",
+      "icon": "art/16.19.1/item/3089.png",
+      "description": "Massively increases Ability Power",
+      "stats": [
+        "130 Ability Power"
+      ],
+      "cost": 3500,
+      "tags": [
+        "SpellDamage"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3091",
+      "name": "Wit's End",
+      "icon": "art/16.19.1/item/3091.png",
+      "description": "Resist magic damage and claw your way back to life.",
+      "stats": [
+        "50% Attack Speed",
+        "45 Magic Resist",
+        "20% Tenacity"
+      ],
+      "cost": 2800,
+      "tags": [
+        "SpellBlock",
+        "AttackSpeed",
+        "OnHit",
+        "Tenacity"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3094",
+      "name": "Rapid Firecannon",
+      "icon": "art/16.19.1/item/3094.png",
+      "description": "Movement builds charges that release a sieging fire attack on release",
+      "stats": [
+        "35% Attack Speed",
+        "25% Critical Strike Chance",
+        "4% Move Speed"
+      ],
+      "cost": 2650,
+      "tags": [
+        "CriticalStrike",
+        "AttackSpeed",
+        "NonbootsMovement"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3100",
+      "name": "Lich Bane",
+      "icon": "art/16.19.1/item/3100.png",
+      "description": "Grants a bonus to next attack after spell cast",
+      "stats": [
+        "100 Ability Power",
+        "6% Move Speed",
+        "10 Ability Haste"
+      ],
+      "cost": 2900,
+      "tags": [
+        "SpellDamage",
+        "OnHit",
+        "NonbootsMovement",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3102",
+      "name": "Banshee's Veil",
+      "icon": "art/16.19.1/item/3102.png",
+      "description": "Periodically blocks enemy abilities",
+      "stats": [
+        "105 Ability Power",
+        "40 Magic Resist"
+      ],
+      "cost": 3000,
+      "tags": [
+        "SpellBlock",
+        "SpellDamage"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3107",
+      "name": "Redemption",
+      "icon": "art/16.19.1/item/3107.png",
+      "description": "Activate to heal allies and damage enemies in an area",
+      "stats": [
+        "30 Ability Power",
+        "15 Ability Haste",
+        "100% Base Mana Regen",
+        "10% Heal and Shield Power"
+      ],
+      "cost": 2300,
+      "tags": [
+        "SpellDamage",
+        "ManaRegen",
+        "CooldownReduction",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3109",
+      "name": "Knight's Vow",
+      "icon": "art/16.19.1/item/3109.png",
+      "description": "Partner with an ally to protect each other",
+      "stats": [
+        "200 Health",
+        "40 Armor",
+        "10 Ability Haste",
+        "100% Base Health Regen"
+      ],
+      "cost": 2300,
+      "tags": [
+        "Health",
+        "HealthRegen",
+        "Armor",
+        "Aura",
+        "Active",
+        "CooldownReduction",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3110",
+      "name": "Frozen Heart",
+      "icon": "art/16.19.1/item/3110.png",
+      "description": "Massively increases Armor and slows enemy basic attacks",
+      "stats": [
+        "75 Armor",
+        "400 Mana",
+        "20 Ability Haste"
+      ],
+      "cost": 2500,
+      "tags": [
+        "Armor",
+        "Mana",
+        "Aura",
+        "CooldownReduction",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3111",
+      "name": "Mercury's Treads",
+      "icon": "art/16.19.1/item/3111.png",
+      "description": "Increases Move Speed and reduces duration of disabling effects",
+      "stats": [
+        "20 Magic Resist",
+        "45 Move Speed",
+        "30% Tenacity"
+      ],
+      "cost": 1250,
+      "tags": [
+        "Boots",
+        "SpellBlock",
+        "Tenacity"
+      ],
+      "groups": [
+        "boots"
+      ]
+    },
+    {
+      "id": "3115",
+      "name": "Nashor's Tooth",
+      "icon": "art/16.19.1/item/3115.png",
+      "description": "Increases Attack Speed, Ability Power, and Cooldown Reduction",
+      "stats": [
+        "80 Ability Power",
+        "50% Attack Speed",
+        "15 Ability Haste"
+      ],
+      "cost": 2900,
+      "tags": [
+        "AttackSpeed",
+        "SpellDamage",
+        "OnHit",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3116",
+      "name": "Rylai's Crystal Scepter",
+      "icon": "art/16.19.1/item/3116.png",
+      "description": "Abilities slow enemies",
+      "stats": [
+        "65 Ability Power",
+        "400 Health"
+      ],
+      "cost": 2600,
+      "tags": [
+        "Health",
+        "SpellDamage",
+        "Slow"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3118",
+      "name": "Malignance",
+      "icon": "art/16.19.1/item/3118.png",
+      "description": "Partner with an ally to protect each other",
+      "stats": [
+        "90 Ability Power",
+        "600 Mana",
+        "15 Ability Haste"
+      ],
+      "cost": 2700,
+      "tags": [
+        "SpellDamage",
+        "Mana",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3119",
+      "name": "Winter's Approach",
+      "icon": "art/16.19.1/item/3119.png",
+      "description": "Awe\nGain  Health.\n\nManaflow (8s, max 4 charges)\nLanding Attacks and Abilities grant 3 max Mana (doubled vs. champions).\nTransforms into Fimbulwinter at 360 max Mana.",
+      "stats": [
+        "550 Health",
+        "500 Mana",
+        "15 Ability Haste"
+      ],
+      "cost": 2400,
+      "tags": [
+        "Health",
+        "Mana",
+        "AbilityHaste"
+      ],
+      "groups": [
+        "tear"
+      ]
+    },
+    {
+      "id": "3124",
+      "name": "Guinsoo's Rageblade",
+      "icon": "art/16.19.1/item/3124.png",
+      "description": "Wrath\nAttacks deal 30 bonus magic damage On-Hit.\n\nSeething Strike\nAttacks grant 8% Attack Speed for 4 seconds. (stacks 4 times). \nWhile fully stacked, every third Attack applies On-Hit effects twice.",
+      "stats": [
+        "30 Attack Damage",
+        "30 Ability Power",
+        "25% Attack Speed"
+      ],
+      "cost": 3000,
+      "tags": [
+        "Damage",
+        "AttackSpeed",
+        "SpellDamage",
+        "OnHit"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3135",
+      "name": "Void Staff",
+      "icon": "art/16.19.1/item/3135.png",
+      "description": "Increases magic damage",
+      "stats": [
+        "95 Ability Power",
+        "40% Magic Penetration"
+      ],
+      "cost": 3000,
+      "tags": [
+        "MagicPenetration",
+        "SpellDamage"
+      ],
+      "groups": [
+        "voidPenetration"
+      ]
+    },
+    {
+      "id": "3137",
+      "name": "Cryptbloom",
+      "icon": "art/16.19.1/item/3137.png",
+      "description": "Activate to remove all debuffs and grant massive Move Speed",
+      "stats": [
+        "75 Ability Power",
+        "30% Magic Penetration",
+        "20 Ability Haste"
+      ],
+      "cost": 3000,
+      "tags": [
+        "SpellDamage",
+        "MagicPenetration",
+        "AbilityHaste"
+      ],
+      "groups": [
+        "voidPenetration"
+      ]
+    },
+    {
+      "id": "3139",
+      "name": "Mercurial Scimitar",
+      "icon": "art/16.19.1/item/3139.png",
+      "description": "Activate to remove all crowd control debuffs and grant massive Move Speed",
+      "stats": [
+        "50 Attack Damage",
+        "35 Magic Resist",
+        "10% Life Steal"
+      ],
+      "cost": 3200,
+      "tags": [
+        "SpellBlock",
+        "Damage",
+        "LifeSteal",
+        "Active",
+        "NonbootsMovement",
+        "Tenacity"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3142",
+      "name": "Youmuu's Ghostblade",
+      "icon": "art/16.19.1/item/3142.png",
+      "description": "Activate to greatly increase Move Speed",
+      "stats": [
+        "55 Attack Damage",
+        "18 Lethality",
+        "4% Move Speed"
+      ],
+      "cost": 2800,
+      "tags": [
+        "Damage",
+        "Active",
+        "NonbootsMovement",
+        "ArmorPenetration"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3143",
+      "name": "Randuin's Omen",
+      "icon": "art/16.19.1/item/3143.png",
+      "description": "Greatly increases defenses, activate to slow nearby enemies",
+      "stats": [
+        "350 Health",
+        "75 Armor"
+      ],
+      "cost": 2700,
+      "tags": [
+        "Health",
+        "Armor",
+        "Active",
+        "Slow"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3146",
+      "name": "Hextech Gunblade",
+      "icon": "art/16.19.1/item/3146.png",
+      "description": "Increases Attack Damage and Ability Power, activate to slow a target",
+      "stats": [
+        "80 Ability Power",
+        "40 Attack Damage",
+        "10% Omnivamp"
+      ],
+      "cost": 3000,
+      "tags": [
+        "Damage",
+        "LifeSteal",
+        "SpellDamage",
+        "Active",
+        "SpellVamp"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3152",
+      "name": "Hextech Rocketbelt",
+      "icon": "art/16.19.1/item/3152.png",
+      "description": "Activate to dash forward and unleash a fiery explosion",
+      "stats": [
+        "60 Ability Power",
+        "350 Health",
+        "20 Ability Haste"
+      ],
+      "cost": 2650,
+      "tags": [
+        "Health",
+        "SpellDamage",
+        "Active",
+        "CooldownReduction",
+        "NonbootsMovement",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3153",
+      "name": "Blade of The Ruined King",
+      "icon": "art/16.19.1/item/3153.png",
+      "description": "Deals damage based on target's Health, can steal Move Speed",
+      "stats": [
+        "40 Attack Damage",
+        "25% Attack Speed",
+        "10% Life Steal"
+      ],
+      "cost": 3200,
+      "tags": [
+        "Damage",
+        "AttackSpeed",
+        "LifeSteal",
+        "Slow",
+        "OnHit"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3156",
+      "name": "Maw of Malmortius",
+      "icon": "art/16.19.1/item/3156.png",
+      "description": "Grants bonus Attack Damage when Health is low",
+      "stats": [
+        "60 Attack Damage",
+        "15 Ability Haste",
+        "40 Magic Resist"
+      ],
+      "cost": 3100,
+      "tags": [
+        "SpellBlock",
+        "Damage",
+        "LifeSteal",
+        "SpellVamp",
+        "AbilityHaste"
+      ],
+      "groups": [
+        "lifeline"
+      ]
+    },
+    {
+      "id": "3157",
+      "name": "Zhonya's Hourglass",
+      "icon": "art/16.19.1/item/3157.png",
+      "description": "Activate to become invincible but unable to take actions",
+      "stats": [
+        "105 Ability Power",
+        "50 Armor"
+      ],
+      "cost": 3250,
+      "tags": [
+        "Armor",
+        "SpellDamage",
+        "Active"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3158",
+      "name": "Ionian Boots of Lucidity",
+      "icon": "art/16.19.1/item/3158.png",
+      "description": "Increases Move Speed and Cooldown Reduction",
+      "stats": [
+        "10 Ability Haste",
+        "45 Move Speed"
+      ],
+      "cost": 900,
+      "tags": [
+        "Boots",
+        "CooldownReduction"
+      ],
+      "groups": [
+        "boots"
+      ]
+    },
+    {
+      "id": "3161",
+      "name": "Spear of Shojin",
+      "icon": "art/16.19.1/item/3161.png",
+      "description": "Reduce damage taken from champions by a flat amount. Attack while near multiple enemy champions to increase this amount for a short time.",
+      "stats": [
+        "45 Attack Damage",
+        "450 Health"
+      ],
+      "cost": 3100,
+      "tags": [
+        "Health",
+        "Damage",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3165",
+      "name": "Morellonomicon",
+      "icon": "art/16.19.1/item/3165.png",
+      "description": "Increases magic damage",
+      "stats": [
+        "75 Ability Power",
+        "350 Health",
+        "15 Ability Haste"
+      ],
+      "cost": 2850,
+      "tags": [
+        "Health",
+        "SpellDamage",
+        "CooldownReduction",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3179",
+      "name": "Umbral Glaive",
+      "icon": "art/16.19.1/item/3179.png",
+      "description": "Provides trap and ward detection periodically",
+      "stats": [
+        "60 Attack Damage",
+        "18 Lethality",
+        "15 Ability Haste"
+      ],
+      "cost": 2800,
+      "tags": [
+        "Damage",
+        "Vision",
+        "CooldownReduction",
+        "ArmorPenetration",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3181",
+      "name": "Hullbreaker",
+      "icon": "art/16.19.1/item/3181.png",
+      "description": "Skipper\nEvery fifth Attack against champions and epic monsters deals bonus physical damage, increased against Structures.\n\nBoarding Party\nNearby allied siege and super minions gain Armor and Magic Resist.",
+      "stats": [
+        "40 Attack Damage",
+        "500 Health",
+        "4% Move Speed"
+      ],
+      "cost": 3000,
+      "tags": [
+        "Health",
+        "Damage",
+        "NonbootsMovement"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3190",
+      "name": "Locket of the Iron Solari",
+      "icon": "art/16.19.1/item/3190.png",
+      "description": "Activate to shield nearby allies from damage",
+      "stats": [
+        "200 Health",
+        "30 Armor",
+        "30 Magic Resist",
+        "10 Ability Haste"
+      ],
+      "cost": 2200,
+      "tags": [
+        "Health",
+        "SpellBlock",
+        "Armor",
+        "Aura",
+        "Active",
+        "MagicResist",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3222",
+      "name": "Mikael's Blessing",
+      "icon": "art/16.19.1/item/3222.png",
+      "description": "Activate to remove all disabling effects from an allied champion",
+      "stats": [
+        "250 Health",
+        "100% Base Mana Regen",
+        "12% Heal and Shield Power",
+        "15 Ability Haste"
+      ],
+      "cost": 2300,
+      "tags": [
+        "Health",
+        "ManaRegen",
+        "Active",
+        "CooldownReduction",
+        "Tenacity",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3302",
+      "name": "Terminus",
+      "icon": "art/16.19.1/item/3302.png",
+      "description": "Kill minions periodically to heal and grant gold to a nearby ally",
+      "stats": [
+        "30 Attack Damage",
+        "35% Attack Speed"
+      ],
+      "cost": 3000,
+      "tags": [
+        "Damage",
+        "AttackSpeed",
+        "OnHit",
+        "MagicPenetration",
+        "ArmorPenetration"
+      ],
+      "groups": [
+        "lastWhisper",
+        "voidPenetration",
+        "terminusCleaver"
+      ]
+    },
+    {
+      "id": "3504",
+      "name": "Ardent Censer",
+      "icon": "art/16.19.1/item/3504.png",
+      "description": "Shield and heal effects on other units grant both of you Attack Speed and their attacks deal additional on-hit magic damage.",
+      "stats": [
+        "45 Ability Power",
+        "10% Heal and Shield Power",
+        "125% Base Mana Regen",
+        "4% Move Speed"
+      ],
+      "cost": 2200,
+      "tags": [
+        "AttackSpeed",
+        "SpellDamage",
+        "ManaRegen",
+        "NonbootsMovement"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3508",
+      "name": "Essence Reaver",
+      "icon": "art/16.19.1/item/3508.png",
+      "description": "Spellblade\nAfter using an Ability, your next Attack deals bonus physical damage and grants Mana On-Hit.",
+      "stats": [
+        "50 Attack Damage",
+        "20 Ability Haste",
+        "25% Critical Strike Chance"
+      ],
+      "cost": 3050,
+      "tags": [
+        "Damage",
+        "CriticalStrike",
+        "ManaRegen",
+        "CooldownReduction",
+        "OnHit",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3742",
+      "name": "Dead Man's Plate",
+      "icon": "art/16.19.1/item/3742.png",
+      "description": "Build momentum as you move around then smash into enemies.",
+      "stats": [
+        "350 Health",
+        "55 Armor",
+        "4% Move Speed"
+      ],
+      "cost": 2900,
+      "tags": [
+        "Health",
+        "Armor",
+        "Slow",
+        "NonbootsMovement"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3748",
+      "name": "Titanic Hydra",
+      "icon": "art/16.19.1/item/3748.png",
+      "description": "Deals area of effect damage based on owner's health",
+      "stats": [
+        "40 Attack Damage",
+        "600 Health"
+      ],
+      "cost": 3300,
+      "tags": [
+        "Health",
+        "HealthRegen",
+        "Damage",
+        "OnHit"
+      ],
+      "groups": [
+        "hydra"
+      ]
+    },
+    {
+      "id": "3814",
+      "name": "Edge of Night",
+      "icon": "art/16.19.1/item/3814.png",
+      "description": "Periodically blocks enemy abilities",
+      "stats": [
+        "50 Attack Damage",
+        "15 Lethality",
+        "250 Health"
+      ],
+      "cost": 3000,
+      "tags": [
+        "Health",
+        "Damage",
+        "ArmorPenetration"
+      ],
+      "groups": []
+    },
+    {
+      "id": "4004",
+      "name": "Spectral Cutlass",
+      "icon": "art/16.19.1/item/4004.png",
+      "description": "Marks the ground, and returns you there after a few moments",
+      "stats": [
+        "50 Attack Damage",
+        "15 Lethality",
+        "4% Move Speed"
+      ],
+      "cost": 2800,
+      "tags": [
+        "Damage",
+        "NonbootsMovement",
+        "ArmorPenetration"
+      ],
+      "groups": []
+    },
+    {
+      "id": "4005",
+      "name": "Imperial Mandate",
+      "icon": "art/16.19.1/item/4005.png",
+      "description": "Defer damage until later.",
+      "stats": [
+        "60 Ability Power",
+        "15 Ability Haste",
+        "150% Base Mana Regen"
+      ],
+      "cost": 2400,
+      "tags": [
+        "SpellDamage",
+        "ManaRegen",
+        "CooldownReduction",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "4401",
+      "name": "Force of Nature",
+      "icon": "art/16.19.1/item/4401.png",
+      "description": "Move Speed, Magic Resist, and max Health Regeneration",
+      "stats": [
+        "400 Health",
+        "55 Magic Resist",
+        "4% Move Speed"
+      ],
+      "cost": 2800,
+      "tags": [
+        "Health",
+        "SpellBlock",
+        "NonbootsMovement"
+      ],
+      "groups": []
+    },
+    {
+      "id": "4628",
+      "name": "Horizon Focus",
+      "icon": "art/16.19.1/item/4628.png",
+      "description": "Immobilizing a champion causes lightning to strike them",
+      "stats": [
+        "75 Ability Power",
+        "25 Ability Haste"
+      ],
+      "cost": 2700,
+      "tags": [
+        "SpellDamage",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "4629",
+      "name": "Cosmic Drive",
+      "icon": "art/16.19.1/item/4629.png",
+      "description": "Massive amounts of Cooldown Reduction",
+      "stats": [
+        "70 Ability Power",
+        "350 Health",
+        "25 Ability Haste",
+        "4% Move Speed"
+      ],
+      "cost": 3000,
+      "tags": [
+        "Health",
+        "SpellDamage",
+        "NonbootsMovement",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "4633",
+      "name": "Riftmaker",
+      "icon": "art/16.19.1/item/4633.png",
+      "description": "Void Corruption\nFor each second in combat with enemy champions, deal 2% bonus damage, up to 8%. At maximum strength, gain Omnivamp.\n\nVoid Infusion\nGain 2% of your bonus Health as Ability Power.",
+      "stats": [
+        "70 Ability Power",
+        "350 Health",
+        "15 Ability Haste"
+      ],
+      "cost": 3100,
+      "tags": [
+        "Health",
+        "SpellDamage",
+        "CooldownReduction",
+        "SpellVamp"
+      ],
+      "groups": []
+    },
+    {
+      "id": "4645",
+      "name": "Shadowflame",
+      "icon": "art/16.19.1/item/4645.png",
+      "description": "Cinderbloom\nMagic and true damage Critically Strike enemies below 40% Health, dealing 20% increased damage.",
+      "stats": [
+        "110 Ability Power",
+        "15 Magic Penetration"
+      ],
+      "cost": 3200,
+      "tags": [
+        "SpellDamage",
+        "MagicPenetration"
+      ],
+      "groups": []
+    },
+    {
+      "id": "4646",
+      "name": "Stormsurge",
+      "icon": "art/16.19.1/item/4646.png",
+      "description": "Stormraider\nDealing 25% of a champion's maximum Health within 2.5s applies Squall to them.\n\nSquall\nAfter 2 seconds, deal magic damage. If the target dies before Squall triggers, it damages nearby enemies.",
+      "stats": [
+        "90 Ability Power",
+        "15 Magic Penetration",
+        "6% Move Speed"
+      ],
+      "cost": 2800,
+      "tags": [
+        "SpellDamage",
+        "GoldPer",
+        "NonbootsMovement",
+        "MagicPenetration"
+      ],
+      "groups": []
+    },
+    {
+      "id": "6333",
+      "name": "Death's Dance",
+      "icon": "art/16.19.1/item/6333.png",
+      "description": "Ignore Pain\nA percentage of damage taken is dealt to you over 3 seconds instead.\n\nDefy\nWhen a champion that you damaged within 3 seconds dies, cleanse Ignore Pain's remaining damage and restore Health over 2 seconds.",
+      "stats": [
+        "60 Attack Damage",
+        "50 Armor",
+        "15 Ability Haste"
+      ],
+      "cost": 3300,
+      "tags": [
+        "Armor",
+        "Damage",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "6609",
+      "name": "Chempunk Chainsword",
+      "icon": "art/16.19.1/item/6609.png",
+      "description": "Hackshorn\nDealing physical damage applies 40% Wounds to enemy champions for 3 seconds.",
+      "stats": [
+        "45 Attack Damage",
+        "450 Health",
+        "15 Ability Haste"
+      ],
+      "cost": 3000,
+      "tags": [
+        "Health",
+        "Damage",
+        "CooldownReduction",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "6610",
+      "name": "Sundered Sky",
+      "icon": "art/16.19.1/item/6610.png",
+      "description": "Lightshield Strike\nYour first Attack against a champion Critically Strikes and restores Health.",
+      "stats": [
+        "40 Attack Damage",
+        "400 Health",
+        "10 Ability Haste"
+      ],
+      "cost": 3100,
+      "tags": [
+        "Health",
+        "Damage",
+        "CooldownReduction",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "6616",
+      "name": "Staff of Flowing Water",
+      "icon": "art/16.19.1/item/6616.png",
+      "description": "Your heals and shields reduce crowd control and grant Move Speed",
+      "stats": [
+        "35 Ability Power",
+        "10% Heal and Shield Power",
+        "125% Base Mana Regen",
+        "10 Ability Haste"
+      ],
+      "cost": 2250,
+      "tags": [
+        "SpellDamage",
+        "ManaRegen",
+        "CooldownReduction",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "6617",
+      "name": "Moonstone Renewer",
+      "icon": "art/16.19.1/item/6617.png",
+      "description": "Your heals and shields cool down faster and have greater effect on low health allies",
+      "stats": [
+        "25 Ability Power",
+        "200 Health",
+        "20 Ability Haste",
+        "125% Base Mana Regen"
+      ],
+      "cost": 2200,
+      "tags": [
+        "Health",
+        "SpellDamage",
+        "ManaRegen",
+        "CooldownReduction",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "6620",
+      "name": "Echoes of Helia",
+      "icon": "art/16.19.1/item/6620.png",
+      "description": "Damage low-health enemies to trigger a cursed explosion, dealing damage and slowing nearby foes",
+      "stats": [
+        "35 Ability Power",
+        "200 Health",
+        "20 Ability Haste",
+        "125% Base Mana Regen"
+      ],
+      "cost": 2200,
+      "tags": [
+        "Health",
+        "SpellDamage",
+        "ManaRegen",
+        "CooldownReduction",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "6621",
+      "name": "Dawncore",
+      "icon": "art/16.19.1/item/6621.png",
+      "description": "First Light\nGain 2% Heal and Shield Power and 10 Ability Power per 100% Base Mana Regen.",
+      "stats": [
+        "45 Ability Power",
+        "16% Heal and Shield Power",
+        "100% Base Mana Regen"
+      ],
+      "cost": 2500,
+      "tags": [
+        "SpellDamage",
+        "ManaRegen"
+      ],
+      "groups": []
+    },
+    {
+      "id": "6631",
+      "name": "Stridebreaker",
+      "icon": "art/16.19.1/item/6631.png",
+      "description": "Cleave\nAttacks deal physical damage to nearby enemies.\nBreaking Shockwave\nDeal physical damage and Slow nearby enemies by 35%.\nGain 35% decaying Move Speed per champion hit for 3 seconds.",
+      "stats": [
+        "40 Attack Damage",
+        "25% Attack Speed",
+        "450 Health"
+      ],
+      "cost": 3300,
+      "tags": [
+        "Health",
+        "Damage",
+        "AttackSpeed",
+        "Slow"
+      ],
+      "groups": [
+        "hydra"
+      ]
+    },
+    {
+      "id": "6653",
+      "name": "Liandry's Torment",
+      "icon": "art/16.19.1/item/6653.png",
+      "description": "Charge up in combat to deal high damage over time, especially against durable enemies",
+      "stats": [
+        "60 Ability Power",
+        "300 Health"
+      ],
+      "cost": 3000,
+      "tags": [
+        "Health",
+        "SpellDamage"
+      ],
+      "groups": []
+    },
+    {
+      "id": "6655",
+      "name": "Luden's Echo",
+      "icon": "art/16.19.1/item/6655.png",
+      "description": "High burst damage, good against fragile foes",
+      "stats": [
+        "100 Ability Power",
+        "600 Mana",
+        "10 Ability Haste"
+      ],
+      "cost": 2750,
+      "tags": [
+        "SpellDamage",
+        "Mana",
+        "CooldownReduction",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "6657",
+      "name": "Rod of Ages",
+      "icon": "art/16.19.1/item/6657.png",
+      "description": "Timeless\nThis item gains 10 Health, 30 Mana and 3 Ability Power every 60 seconds up to 10 times. Upon reaching max stacks, gain a level.\n\nEternity\nTaking damage from champions restores 10% of the damage as Mana. \nCasting an ability heals for 25% of Mana spent.",
+      "stats": [
+        "45 Ability Power",
+        "350 Health",
+        "500 Mana"
+      ],
+      "cost": 2600,
+      "tags": [
+        "Health",
+        "HealthRegen",
+        "SpellDamage",
+        "Mana",
+        "ManaRegen"
+      ],
+      "groups": []
+    },
+    {
+      "id": "6662",
+      "name": "Iceborn Gauntlet",
+      "icon": "art/16.19.1/item/6662.png",
+      "description": "High Magic Resist.Passively slow nearby enemies. When spells are cast near you, release a wave of energy that damages and slows.",
+      "stats": [
+        "300 Health",
+        "50 Armor",
+        "15 Ability Haste"
+      ],
+      "cost": 2900,
+      "tags": [
+        "Health",
+        "Armor",
+        "CooldownReduction",
+        "Slow",
+        "OnHit",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "6664",
+      "name": "Hollow Radiance",
+      "icon": "art/16.19.1/item/6664.png",
+      "description": "Immobilize enemies to gain a shield. Activate to run faster at opponents.",
+      "stats": [
+        "400 Health",
+        "40 Magic Resist",
+        "10 Ability Haste",
+        "100% Base Health Regen"
+      ],
+      "cost": 2800,
+      "tags": [
+        "Health",
+        "SpellBlock",
+        "HealthRegen",
+        "Aura",
+        "MagicResist",
+        "AbilityHaste"
+      ],
+      "groups": [
+        "immolate"
+      ]
+    },
+    {
+      "id": "6665",
+      "name": "Jak'Sho, The Protean",
+      "icon": "art/16.19.1/item/6665.png",
+      "description": "Voidborn Resilience\nAfter 5 seconds of champion combat, increase your bonus Armor and Magic Resist by 30% until end of combat.",
+      "stats": [
+        "350 Health",
+        "45 Armor",
+        "45 Magic Resist"
+      ],
+      "cost": 3200,
+      "tags": [
+        "Health",
+        "SpellBlock",
+        "Armor",
+        "MagicResist"
+      ],
+      "groups": []
+    },
+    {
+      "id": "6672",
+      "name": "Kraken Slayer",
+      "icon": "art/16.19.1/item/6672.png",
+      "description": "Bring It Down\nEvery third Attack deals bonus physical damage On-Hit, increased based on their missing Health.",
+      "stats": [
+        "45 Attack Damage",
+        "40% Attack Speed",
+        "4% Move Speed"
+      ],
+      "cost": 3000,
+      "tags": [
+        "Damage",
+        "AttackSpeed",
+        "OnHit",
+        "NonbootsMovement"
+      ],
+      "groups": []
+    },
+    {
+      "id": "6673",
+      "name": "Immortal Shieldbow",
+      "icon": "art/16.19.1/item/6673.png",
+      "description": "Lifeline\nTaking damage that would reduce your Health below 30% grants a Shield for 3 seconds.",
+      "stats": [
+        "55 Attack Damage",
+        "25% Critical Strike Chance"
+      ],
+      "cost": 3000,
+      "tags": [
+        "Damage",
+        "CriticalStrike"
+      ],
+      "groups": [
+        "lifeline"
+      ]
+    },
+    {
+      "id": "6675",
+      "name": "Navori Flickerblade",
+      "icon": "art/16.19.1/item/6675.png",
+      "description": "Transcendence\nAttacks reduce Basic Ability cooldowns by 15% of their remaining cooldown.",
+      "stats": [
+        "40% Attack Speed",
+        "25% Critical Strike Chance",
+        "4% Move Speed"
+      ],
+      "cost": 2650,
+      "tags": [
+        "CriticalStrike",
+        "AttackSpeed",
+        "NonbootsMovement"
+      ],
+      "groups": []
+    },
+    {
+      "id": "6676",
+      "name": "The Collector",
+      "icon": "art/16.19.1/item/6676.png",
+      "description": "Death\nYour damage executes champions that are below 5% Health.\n\nTaxes\nChampion kills grant 25 bonus gold.",
+      "stats": [
+        "50 Attack Damage",
+        "10 Lethality",
+        "25% Critical Strike Chance"
+      ],
+      "cost": 3000,
+      "tags": [
+        "Damage",
+        "CriticalStrike",
+        "ArmorPenetration"
+      ],
+      "groups": []
+    },
+    {
+      "id": "6692",
+      "name": "Eclipse",
+      "icon": "art/16.19.1/item/6692.png",
+      "description": "Ever Rising Moon\nHitting a champion with 2 separate Attacks or Abilities within 2 seconds grants you a Shield for 2 seconds.",
+      "stats": [
+        "60 Attack Damage",
+        "15 Ability Haste"
+      ],
+      "cost": 2900,
+      "tags": [
+        "Damage",
+        "CooldownReduction",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "6694",
+      "name": "Serylda's Grudge",
+      "icon": "art/16.19.1/item/6694.png",
+      "description": "Bitter Cold\nDamaging Abilities Slow enemies below 50% Health by 30% for 1 second.",
+      "stats": [
+        "45 Attack Damage",
+        "35% Armor Penetration",
+        "15 Ability Haste"
+      ],
+      "cost": 3000,
+      "tags": [
+        "Damage",
+        "CooldownReduction",
+        "ArmorPenetration",
+        "AbilityHaste"
+      ],
+      "groups": [
+        "lastWhisper"
+      ]
+    },
+    {
+      "id": "6695",
+      "name": "Serpent's Fang",
+      "icon": "art/16.19.1/item/6695.png",
+      "description": "Shield Reaver\nDamaging an enemy champion reduces Shields they gain by % for 3 seconds. \nIf they were not already affected by Shield Reaver, reduce Shields on them by %.",
+      "stats": [
+        "55 Attack Damage",
+        "15 Lethality"
+      ],
+      "cost": 2500,
+      "tags": [
+        "Damage",
+        "ArmorPenetration"
+      ],
+      "groups": []
+    },
+    {
+      "id": "6696",
+      "name": "Axiom Arc",
+      "icon": "art/16.19.1/item/6696.png",
+      "description": "Flux\nWhen a champion that you damaged within 3 seconds dies, refund some of your Ultimate Ability's total cooldown.",
+      "stats": [
+        "55 Attack Damage",
+        "18 Lethality",
+        "20 Ability Haste"
+      ],
+      "cost": 2750,
+      "tags": [
+        "Damage",
+        "ArmorPenetration",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "6698",
+      "name": "Profane Hydra",
+      "icon": "art/16.19.1/item/6698.png",
+      "description": "Cleave\nAttacks deal physical damage to nearby enemies.\nHeretical Cleave\nDeal physical damage around you.",
+      "stats": [
+        "55 Attack Damage",
+        "18 Lethality",
+        "10 Ability Haste"
+      ],
+      "cost": 2850,
+      "tags": [
+        "Damage",
+        "Active",
+        "CooldownReduction",
+        "ArmorPenetration",
+        "AbilityHaste"
+      ],
+      "groups": [
+        "hydra"
+      ]
+    },
+    {
+      "id": "6699",
+      "name": "Voltaic Cyclosword",
+      "icon": "art/16.19.1/item/6699.png",
+      "description": "Galvanize\nDamaging an Enemy Champions with an ability triggers Energized if it is ready.\n\nFirmament\nYour Energized Attack deals % target's Current Health as bonus physical damage and grants you bonus Lethality for 4 seconds.",
+      "stats": [
+        "55 Attack Damage",
+        "10 Lethality",
+        "10 Ability Haste"
+      ],
+      "cost": 3000,
+      "tags": [
+        "Damage",
+        "Active",
+        "CooldownReduction",
+        "ArmorPenetration",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "8010",
+      "name": "Bloodletter's Curse",
+      "icon": "art/16.19.1/item/8010.png",
+      "description": "Vile Decay\nDealing magic damage with abilities or passives to champions reduces their Magic Resist by 7.5% for 6 seconds. (Stacks 4 times).",
+      "stats": [
+        "65 Ability Power",
+        "400 Health",
+        "15 Ability Haste"
+      ],
+      "cost": 2900,
+      "tags": [
+        "Health",
+        "SpellDamage",
+        "CooldownReduction",
+        "MagicPenetration"
+      ],
+      "groups": []
+    },
+    {
+      "id": "8020",
+      "name": "Abyssal Mask",
+      "icon": "art/16.19.1/item/8020.png",
+      "description": "Unmake\nNearby enemy champions take 12% more magic damage.",
+      "stats": [
+        "350 Health",
+        "45 Magic Resist",
+        "15 Ability Haste"
+      ],
+      "cost": 2650,
+      "tags": [
+        "Health",
+        "SpellBlock",
+        "CooldownReduction",
+        "MagicResist",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "123430",
+      "name": "Rite of Ruin",
+      "icon": "art/16.19.1/item/123430.png",
+      "description": "Wrath and Ruin\nOn spell cast, gain 2.5% Critical Strike Chance for 6 seconds, stacking up to 20%.\n\nSalvage the Wreckage\nYour spells have a chance equal to your Critical Strike Chance to grant you or your targeted ally a shield for  for 3s.",
+      "stats": [
+        "55 Ability Power",
+        "10 Ability Haste",
+        "25% Critical Strike Chance",
+        "4% Move Speed"
+      ],
+      "cost": 3000,
+      "tags": [
+        "CriticalStrike",
+        "SpellDamage",
+        "CooldownReduction",
+        "NonbootsMovement"
+      ],
+      "groups": []
+    },
+    {
+      "id": "124011",
+      "name": "Sword of Blossoming Dawn",
+      "icon": "art/16.19.1/item/124011.png",
+      "description": "Effervescence\nGain +1.2% Attack Speed for every 1% Heal and Shield Power you have. \n\nPeppermint\nOn-Hit, heal the lowest health ally champion near you for , prioritizing lower health allies.",
+      "stats": [
+        "45 Ability Power",
+        "200 Health",
+        "12% Heal and Shield Power",
+        "15 Ability Haste"
+      ],
+      "cost": 2350,
+      "tags": [
+        "Health",
+        "SpellDamage",
+        "CooldownReduction",
+        "OnHit",
+        "AbilityHaste"
+      ],
+      "groups": []
+    },
+    {
+      "id": "126697",
+      "name": "Hubris",
+      "icon": "art/16.19.1/item/126697.png",
+      "description": "Eminence\nGain temporary AD based on champion kills on kill.",
+      "stats": [
+        "55 Attack Damage",
+        "18 Lethality",
+        "10 Ability Haste"
+      ],
+      "cost": 2950,
+      "tags": [
+        "Damage",
+        "Active",
+        "CooldownReduction",
+        "ArmorPenetration",
+        "AbilityHaste"
+      ],
+      "groups": []
+    }
+  ],
+  "spells": [
+    {
+      "id": "SummonerBarrier",
+      "name": "Barrier",
+      "description": "Gain a brief Shield.",
+      "icon": "art/16.19.1/spell/SummonerBarrier.png"
+    },
+    {
+      "id": "SummonerBoost",
+      "name": "Cleanse",
+      "description": "Removes all disables (excluding suppression and airborne) and summoner spell debuffs affecting your champion and gives Tenacity.",
+      "icon": "art/16.19.1/spell/SummonerBoost.png"
+    },
+    {
+      "id": "SummonerDot",
+      "name": "Ignite",
+      "description": "Deals true damage over time to target enemy champion and reduces healing effects on them for the duration.",
+      "icon": "art/16.19.1/spell/SummonerDot.png"
+    },
+    {
+      "id": "SummonerFlash",
+      "name": "Flash",
+      "description": "Teleports you a short distance toward your cursor.",
+      "icon": "art/16.19.1/spell/SummonerFlash.png"
+    },
+    {
+      "id": "SummonerHaste",
+      "name": "Ghost",
+      "description": "Gain Move Speed and ignore unit collision for the duration.",
+      "icon": "art/16.19.1/spell/SummonerHaste.png"
+    },
+    {
+      "id": "SummonerHeal",
+      "name": "Heal",
+      "description": "Restores Health and grants Move Speed to you and target allied champion.",
+      "icon": "art/16.19.1/spell/SummonerHeal.png"
+    },
+    {
+      "id": "SummonerMana",
+      "name": "Clarity",
+      "description": "Restores your and ally champion's Mana.",
+      "icon": "art/16.19.1/spell/SummonerMana.png"
+    },
+    {
+      "id": "SummonerSnowball",
+      "name": "Mark",
+      "description": "Throw a snowball in a straight line at your enemies. If it hits an enemy, they become marked, granting True Sight, and your champion can quickly travel to the marked target as a follow up.",
+      "icon": "art/16.19.1/spell/SummonerSnowball.png"
+    }
+  ]
+}

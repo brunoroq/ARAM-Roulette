@@ -1,0 +1,56 @@
+name: Windows release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write # tauri-action creates the release and uploads the installer.
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: './src-tauri -> target'
+      - run: npm ci
+      - run: npm test
+      # beforeBuildCommand type-checks/builds the frontend and validates release assets/version.
+      - name: Build and publish Windows x64 installer
+        uses: tauri-apps/tauri-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          args: --target x86_64-pc-windows-msvc --bundles nsis -- --locked
+          tagName: ${{ github.ref_name }}
+          releaseName: ARAM Roulette ${{ github.ref_name }}
+          releaseDraft: false
+          prerelease: false
+          uploadUpdaterJson: false
+          uploadUpdaterSignatures: false
+          uploadPlainBinary: false
+          releaseBody: |
+            A deliberately stupid ARAM: Mayhem build randomizer.
+
+            Windows 10/11 x64: download the attached `-setup.exe`, run it, then launch ARAM Roulette from the Start menu. Node.js, Rust and development tools are not needed.
+
+            The installer automatically installs Microsoft WebView2 if missing (internet required for that step). The installed app works offline. This release is unsigned; Windows SmartScreen may show an unrecognized publisher warning.
+
+            ARAM Roulette was created under Riot Games' 'Legal Jibber Jabber' policy using assets owned by Riot Games. Riot Games does not endorse or sponsor this project.

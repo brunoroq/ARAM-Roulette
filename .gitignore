@@ -1,0 +1,35 @@
+node_modules/
+dist/
+src-tauri/target/
+src-tauri/gen/
+*.local
+.DS_Store
+
+# Local tooling, caches and temporary output
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.log
+coverage/
+.tmp/
+tmp/
+playwright-report/
+test-results/
+Thumbs.db
+Desktop.ini
+.env
+.env.*
+!.env.example
+
+# Native build products and installers (source icons/assets remain tracked)
+**/target/
+*.exe
+*.msi
+*.msix
+*.appx
+*.dmg
+*.AppImage
+*.deb
+*.rpm
