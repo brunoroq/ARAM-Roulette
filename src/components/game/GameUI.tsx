@@ -17,10 +17,6 @@ export function ComicHeading({ children, accent, className = '' }: { children: R
   return <h1 className={`comic-heading ${className}`}>{children}{accent && <><br /><span>{accent}</span></>}</h1>;
 }
 
-export function VersusBadge({ children }: { children: ReactNode }) {
-  return <div className="versus" aria-hidden="true"><span>{children}</span></div>;
-}
-
 export function ResourcePips({ remaining, total, label }: { remaining: number; total: number; label: string }) {
   return <span className="resource-pips" role="img" aria-label={label}>
     {Array.from({ length: total }, (_, index) => <span key={index} className={index < remaining ? 'available' : ''} aria-hidden="true" />)}

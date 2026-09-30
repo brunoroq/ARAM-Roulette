@@ -78,12 +78,13 @@ application does not.
 
 ## Structure
 
-- `src/engine/`: pure TypeScript random sampling, eligibility, and immutable draft transitions. No React, browser, Tauri, or data-fetching imports. Injected RNG supports reproducible tests; `generateItemChoices` is the future entry point for a weighted selection policy.
+- `src/engine/`: pure TypeScript random sampling, eligibility, six-slot build generation, and immutable full-build/item reroll transitions. No React, browser, Tauri, or data-fetching imports. Injected RNG supports reproducible tests.
 - `src/types/`: small data and draft interfaces.
 - `src/data/raw/`: unmodified [Riot Data Dragon](https://developer.riotgames.com/docs/lol#data-dragon) JSON snapshots.
-- `src/data/mayhem.json`: application-owned item allowlist, spell eligibility, exclusive groups, and the six-round pool sequence.
+- `src/data/mayhem.json`: application-owned item allowlist, spell eligibility, exclusive groups, and the six-slot pool sequence.
 - `scripts/sync-data.mjs`: development-time importer and artwork downloader. Normalizes Riot descriptions as plain text, validates the allowlist, and emits `src/data/catalog.json`.
-- `src/i18n/`: typed English/Spanish UI dictionaries and a small React context. The header selector persists to localStorage; unavailable storage falls back to a session-only preference. Language changes preserve the active draft. Official Riot names/descriptions remain in English.
+- `src/i18n/`: typed English/Spanish UI dictionaries and a small React context. The header selector persists to localStorage; unavailable storage falls back to a session-only preference. Language changes preserve the active build. Official Riot names/descriptions remain in English.
+- `src/session.ts`: stores the current spell/build screen by catalog IDs, separate reroll counters, and the full-build commitment in localStorage. Invalid or obsolete sessions safely reset; the language setting is independent.
 - `src/pages/`, `src/components/`: screens and shared presentation.
 - `src-tauri/`: window and packaging configuration only. No commands, plugins, or game integration.
 
@@ -93,7 +94,7 @@ The bundled Data Dragon snapshot is **16.19.1**, with **173 champions, 111 items
 
 This first milestone uses an explicit subset of finished purchasable ARAM items plus upgraded boots. It does not offer starter items, components, consumables, trinkets, automatically transformed items, Classic/Arena variants, or augment/quest reward items. The allowlist deliberately avoids relying on map 12 alone: Data Dragon includes entries from several modes with overlapping map flags. Mayhem-specific Rite of Ruin, Sword of Blossoming Dawn, and Hubris are included. Exhaust, Teleport, and Smite are excluded from the spell pool; eligible spells are configured locally, not inferred from the broad ARAM flag alone.
 
-Supported purchase restrictions: no duplicate item, at most one boots/Lifeline/Tear/Hydra/Last Whisper/Void-penetration/Immolate group, Terminus–Black Cleaver exclusion, Data Dragon's champion-specific restriction field. These are best-effort base-shop restrictions, not a complete simulation of the live shop. Augment-dependent rules and new patch changes require manual review. A build can contain AP or mana items on Garen; strategic usefulness is never a filter. Exactly one pair of boots is mandatory, chosen by the player in round two. No application-owned champion exceptions are configured.
+Supported purchase restrictions: no duplicate item, at most one boots/Lifeline/Tear/Hydra/Last Whisper/Void-penetration/Immolate group, Terminus–Black Cleaver exclusion, Data Dragon's champion-specific restriction field. These are best-effort base-shop restrictions, not a complete simulation of the live shop. Augment-dependent rules and new patch changes require manual review. A build can contain AP or mana items on Garen; strategic usefulness is never a filter. Exactly one pair of boots is mandatory in slot two. No application-owned champion exceptions are configured.
 
 To update:
 
@@ -110,9 +111,9 @@ No accounts, backend, database, runes, augments, optimization, client detection,
 
 ARAM Roulette is not endorsed by Riot Games. League of Legends and associated artwork are owned by Riot Games.
 
-## Round configuration
+## Slot configuration
 
-`src/data/mayhem.json` defines `rounds` as `standard, boots, standard, standard, standard, standard`. The engine uses this sequence for initial offers and rerolls. `boots` refers to the configured exclusive boots group (completed boots only); `standard` excludes that group. Moving the boots entry changes the mandatory round without UI conditions. A draft requires six rounds and one boots entry. No difficulty modes are implemented.
+`src/data/mayhem.json` defines `slots` as `standard, boots, standard, standard, standard, standard`, plus separate allowances of three full-build and three item rerolls. A full reroll draws all six slots again; the first item reroll permanently locks full rerolls. The third item reroll commits its replacement and enters a pending-finalization state. The UI finishes that transition after the spin lands, or immediately on reload if the spin was interrupted. `boots` refers to the configured exclusive boots group (completed boots only); `standard` excludes that group. The second slot is fixed to boots. The UI cycles decorative icons without touching the engine RNG. No difficulty modes are implemented.
 
 All application-owned UI text, including accessible labels, errors, dynamic counts, and document metadata, lives in `src/i18n/en.ts` and `es.ts`. Spanish is type-checked against the English dictionary. The language preference key is `aram-roulette.language`; missing or unsupported values default to English. No i18n dependencies are added.
 

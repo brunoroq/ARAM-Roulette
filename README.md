@@ -2,10 +2,10 @@
 
 A deliberately stupid ARAM: Mayhem build randomizer.
 
-Turn your next ARAM into six questionable decisions. Pick your champion, let the
-roulette deal your spells, and build something you would never choose on purpose.
+Turn your next ARAM into six questionable items. Pick your champion, let the
+roulette deal your spells and build, then negotiate with fate.
 
-**Six choices. Three rerolls. Absolutely no professional advice.**
+**Six random items. Three full-build rerolls. Three item rerolls. Zero advice.**
 
 ## Download
 
@@ -45,17 +45,22 @@ yet, a release has not been published. Older releases may offer only an installe
 
 1. **Pick the champion** you received in ARAM.
 2. **Get two random summoner spells.** They are locked for this build.
-3. **Choose one of two random items** for each of your six build slots.
-4. **Slot #2 is always boots.** Even bad ideas need shoes.
-5. **Use your three rerolls wisely.** Each reroll replaces both offered items;
-   the three rerolls are shared across the whole build.
-6. **Live with your decisions.** Take the completed build into your match.
+3. **Reveal a complete random six-item build.** Slot #2 is always boots.
+4. **Reroll the whole build up to three times.** Every slot is drawn again; the
+   previous build is gone. These rerolls do not spend item rerolls.
+5. **Choose a slot to reroll up to three times.** The first item reroll permanently
+   locks any remaining full-build rerolls. The replacement is automatic, with no
+   undo. You can reroll the same slot again, including boots.
+6. **Lock It In whenever you like.** The third item reroll finishes the build
+   automatically after its result lands. Take the final build into your match.
 
 Want Flash on the other key? Press **Swap D / F** on the spell screen. It swaps
 the assignments for free without changing which spells you were dealt.
 
-Choose **New Build** to try again with the same champion, or **Change Champion**
-to pick someone else. Closing the app clears your current build.
+Choose **Run It Again** to try again with the same champion, or **Change Champion**
+to pick someone else. The current build, both reroll counts, and the full-build
+commitment survive a reload;
+starting a new game resets them.
 
 ## Good to know
 

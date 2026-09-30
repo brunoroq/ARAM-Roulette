@@ -18,7 +18,10 @@ test('English and Spanish have matching keys and nonempty translations', () => {
   compare(en, es);
   assert.equal(es.champions.count(1), '1 campeón');
   assert.equal(es.champions.count(2), '2 campeones');
-  assert.equal(es.draft.lockedCount(2, 6), '2 de 6 confirmados');
+  assert.equal(es.draft.left(2), '2 RESTANTES');
+  assert.equal(es.draft.fullLocked, 'BLOQUEADO');
+  assert.equal(es.draft.fullReroll, 'CAMBIAR TODO');
+  assert.equal(es.draft.slot(2), 'HUECO 2');
   assert.ok(es.spells.intro('Garen').includes('Garen'));
 });
 

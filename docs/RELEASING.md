@@ -57,7 +57,7 @@ files, unsafe resource paths, and accidental portable settings in the NSIS confi
 For a manual final check on a normal Windows 10/11 machine with Microsoft WebView2
 Runtime installed, extract the ZIP in a writable folder and launch `ARAM Roulette.exe`
 without Node.js/npm/Rust/Tauri CLI. Verify the UI and artwork render, complete a
-draft, close and reopen the app to check language persistence, and confirm
+build, close and reopen the app to check language and build persistence, and confirm
 `app-data` appears beside the executable. Check the installer separately for its
 Start-menu entry and normal Windows app-data location. NSIS still bootstraps
 WebView2 if missing.

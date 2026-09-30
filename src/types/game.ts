@@ -31,11 +31,12 @@ export interface GameData {
   readonly spells: readonly SummonerSpell[];
 }
 
-export type RoundPool = 'standard' | 'boots';
+export type SlotPool = 'standard' | 'boots';
 
 export interface DraftRules {
-  readonly rounds: readonly RoundPool[];
-  readonly rerolls: number;
+  readonly slots: readonly SlotPool[];
+  readonly fullBuildRerolls: number;
+  readonly individualRerolls: number;
 }
 
 export type SpellKeys = readonly ['D', 'F'] | readonly ['F', 'D'];
@@ -44,9 +45,10 @@ export interface Draft {
   readonly champion: Champion;
   readonly spells: readonly [SummonerSpell, SummonerSpell];
   readonly spellKeys: SpellKeys;
-  readonly items: readonly Item[];
-  readonly choices: readonly Item[];
-  readonly rerollsLeft: number;
+  readonly buildSlots: readonly { readonly pool: SlotPool; readonly item: Item }[];
+  readonly fullBuildRerollsLeft: number;
+  readonly individualRerollsLeft: number;
+  readonly fullBuildRerollsLocked: boolean;
   readonly revision: number;
-  readonly status: 'drafting' | 'complete';
+  readonly status: 'spells' | 'editing' | 'finalizing' | 'finalized';
 }
