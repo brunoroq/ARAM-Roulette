@@ -1270,6 +1270,27 @@
       "groups": []
     },
     {
+      "id": "2526",
+      "name": "Whispering Circlet",
+      "icon": "art/16.19.1/item/2526.png",
+      "description": "Harmony\nGain % Heal and Shield Power.\n\nManaflow (8s, max 5 charges)\nLanding Abilities grants 4 max Mana (doubled vs. champions).\nTransforms into Diadem of Songs at 360 max Mana.",
+      "stats": [
+        "200 Health",
+        "8% Heal and Shield Power",
+        "75% Base Mana Regen",
+        "300 Mana"
+      ],
+      "cost": 2250,
+      "tags": [
+        "Health",
+        "Mana",
+        "ManaRegen"
+      ],
+      "groups": [
+        "tear"
+      ]
+    },
+    {
       "id": "3003",
       "name": "Archangel's Staff",
       "icon": "art/16.19.1/item/3003.png",
@@ -1323,6 +1344,25 @@
       "cost": 1100,
       "tags": [
         "AttackSpeed",
+        "Boots"
+      ],
+      "groups": [
+        "boots"
+      ]
+    },
+    {
+      "id": "3008",
+      "name": "Gluttonous Greaves",
+      "icon": "art/16.19.1/item/3008.png",
+      "description": "Increases Attack Damage based on maximum Mana",
+      "stats": [
+        "45 Move Speed",
+        "4% Omnivamp"
+      ],
+      "cost": 1000,
+      "tags": [
+        "LifeSteal",
+        "SpellVamp",
         "Boots"
       ],
       "groups": [
@@ -1437,6 +1477,23 @@
       "groups": [
         "lastWhisper"
       ]
+    },
+    {
+      "id": "3039",
+      "name": "Atma's Reckoning",
+      "icon": "art/16.19.1/item/3039.png",
+      "description": "Big Hands\nGain 0-30% Critical Strike Chance, scaling with your bonus Health.",
+      "stats": [
+        "700 Health",
+        "20% Critical Strike Chance",
+        "10 Ability Haste"
+      ],
+      "cost": 2900,
+      "tags": [
+        "Health",
+        "CriticalStrike"
+      ],
+      "groups": []
     },
     {
       "id": "3046",
@@ -1794,6 +1851,25 @@
       ],
       "cost": 2650,
       "tags": [
+        "CriticalStrike",
+        "AttackSpeed",
+        "NonbootsMovement"
+      ],
+      "groups": []
+    },
+    {
+      "id": "3095",
+      "name": "Stormrazor",
+      "icon": "art/16.19.1/item/3095.png",
+      "description": "Tremendously empower other Energized effects.",
+      "stats": [
+        "50 Attack Damage",
+        "25% Attack Speed",
+        "25% Critical Strike Chance"
+      ],
+      "cost": 3200,
+      "tags": [
+        "Damage",
         "CriticalStrike",
         "AttackSpeed",
         "NonbootsMovement"

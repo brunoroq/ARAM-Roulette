@@ -176,6 +176,60 @@ test('purchase restrictions apply without champion stat optimization', () => {
   assert.equal(isItemEligible({ ...item('3089'), requiredChampion: 'Viktor' }, garen, []), false);
 });
 
+test('confirmed Mayhem additions enter only their intended slot pools', () => {
+  for (const id of ['2526', '3039', '3095']) {
+    assert.ok(item(id), `Missing standard item ${id}`);
+    assert.equal(isBoots(item(id)), false);
+    assert.ok(data.items.some(entry => entry.id === id));
+  }
+  assert.equal(isBoots(item('3008')), true);
+  const bootIds = new Set(data.items.filter(isBoots).map(entry => entry.id));
+  assert.deepEqual(bootIds, new Set(['3006', '3008', '3009', '3020', '3047', '3111', '3158']));
+  assert.equal(isItemEligible(item('2526'), garen, [item('3003')]), false, 'Whispering Circlet shares the Tear restriction');
+  assert.equal(isItemEligible(item('3003'), garen, [item('2526')]), false);
+  assert.equal(isItemEligible(item('3008'), garen, [item('3006')]), false, 'Gluttonous Greaves shares the boots restriction');
+  for (const id of ['2526', '3039', '3095', '3008']) {
+    const only = { ...context, data: { ...data, items: [item(id)] } };
+    const pool = id === '3008' ? 'boots' : 'standard';
+    assert.equal(generateItemForSlot(garen, pool, [], only).id, id);
+    assert.throws(() => generateItemForSlot(garen, pool === 'boots' ? 'standard' : 'boots', [], only), /Cannot draw/);
+  }
+});
+
+test('all seven boots can occupy slot two and be drawn by individual boots rerolls', () => {
+  const boots = data.items.filter(isBoots);
+  for (const [index, boot] of boots.entries()) {
+    const chosen = { ...context, random: () => (index + 0.5) / boots.length };
+    const initial = generateBuild(createDraft(garen, chosen), chosen);
+    assert.equal(initial.buildSlots[1].item.id, boot.id);
+    assertLegalBuild(items(initial));
+    const sourceIndex = (index + 1) % boots.length;
+    const source = { ...context, random: () => (sourceIndex + 0.5) / boots.length };
+    const base = generateBuild(createDraft(garen, source), source);
+    const alternatives = boots.filter(entry => entry.id !== base.buildSlots[1].item.id);
+    const rerollIndex = alternatives.findIndex(entry => entry.id === boot.id);
+    const replacement = { ...context, random: () => (rerollIndex + 0.5) / alternatives.length };
+    const changed = rerollSlot(base, 1, base.revision, replacement);
+    assert.equal(changed.buildSlots[1].item.id, boot.id);
+    assertLegalBuild(items(changed));
+  }
+});
+
+test('augment and special reward IDs are absent from initial builds and rerolls', () => {
+  const specialIds = new Set(['994403', '4403', '224403', '664403', '223069', '226668', '228002', '220012']);
+  assert.ok(data.items.every(entry => !specialIds.has(entry.id)));
+  for (let seed = 0; seed < 30; seed++) {
+    const random = () => (seed + 0.5) / 30;
+    const seeded = { ...context, random };
+    let draft = generateBuild(createDraft(garen, seeded), seeded);
+    assert.ok(items(draft).every(entry => !specialIds.has(entry.id)));
+    assertLegalBuild(items(draft));
+    draft = rerollSlot(draft, seed % 6, draft.revision, seeded);
+    assert.ok(items(draft).every(entry => !specialIds.has(entry.id)));
+    assertLegalBuild(items(draft));
+  }
+});
+
 test('restart makes a fresh build with three rerolls for the same champion', () => {
   const first = rerollSlot(generateBuild(createDraft(garen, context), context), 1, 1, context);
   const restarted = generateBuild(createDraft(first.champion, context), context);
