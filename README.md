@@ -62,6 +62,13 @@ to pick someone else. The current build, both reroll counts, and the full-build
 commitment survive a reload;
 starting a new game resets them.
 
+## Share your build
+
+On the results screen, press **SHARE BUILD** (**COMPARTIR BUILD**) to copy a build
+card. When **COPIED!** appears, paste it into Discord with **Ctrl+V**.
+You can also choose **SAVE PNG** to save the image and attach it yourself. If
+copying is unavailable, the app offers this save option.
+
 ## Good to know
 
 - The interface is available in **English and Spanish**. Game names and

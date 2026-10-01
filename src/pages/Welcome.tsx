@@ -11,7 +11,7 @@ export function Welcome({ onStart }: { onStart: () => void }) {
       <h1 className="title-logo"><img src={assets.logoMain} alt={t.app.title} /></h1>
       <p className="title-tagline">{t.welcome.tagline}</p>
       <p className="intro">{t.welcome.intro}</p>
-      <div className="menu-action"><GameButton onClick={onStart}>{t.welcome.start}<span aria-hidden="true">→</span></GameButton><span className="doodle-arrow" aria-hidden="true">↶</span></div>
+      <div className="menu-action"><GameButton onClick={onStart}>{t.welcome.start}<span aria-hidden="true">→</span></GameButton></div>
       <p className="menu-note">{t.welcome.note}</p>
     </div>
     <div className="instruction-stage">
@@ -19,7 +19,6 @@ export function Welcome({ onStart }: { onStart: () => void }) {
         <img className="rules-paper" src={assets.rulesPaper} alt="" />
         <StickerLabel tone="pink">{t.welcome.rulesTitle}</StickerLabel>
         <ol className="rules-list">{t.welcome.rules.map((rule, index) => <li key={index}><span>{index + 1}</span>{rule}</li>)}</ol>
-        <span className="paper-scribble" aria-hidden="true">× × ×</span>
       </div>
       <DiceMascot className="welcome-mascot" dialogue={t.mascot.welcome} />
     </div>

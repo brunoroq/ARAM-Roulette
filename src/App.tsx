@@ -7,6 +7,7 @@ import type { Champion, Draft } from './types/game.ts';
 import { restoreSession, serializeSession, sessionStorageKey } from './session.ts';
 import { useI18n } from './i18n/I18n.tsx';
 import { GameBackdrop, GameButton } from './components/game/GameUI.tsx';
+import { ReturnHomeDialog } from './components/game/ReturnHomeDialog.tsx';
 import { LanguageSelector } from './components/LanguageSelector.tsx';
 import { Welcome } from './pages/Welcome.tsx';
 import { ChampionSelection } from './pages/ChampionSelection.tsx';
@@ -29,9 +30,11 @@ export function App() {
     catch { return { page: 'welcome' }; }
   });
   const [error, setError] = useState(false);
+  const [confirmingHome, setConfirmingHome] = useState(false);
   const { t } = useI18n();
   const main = useRef<HTMLElement>(null);
   const enteringBuild = useRef(false);
+  const homePromptOpen = useRef(false);
   useEffect(() => {
     // Return keyboard focus to the new screen.
     if (screen.page !== 'champions') main.current?.focus({ preventScroll: true });
@@ -45,7 +48,10 @@ export function App() {
       setError(true);
     }
   }
-  const start = (champion: Champion) => attempt(() => ({ page: 'spells', draft: createDraft(champion, context) }));
+  const start = (champion: Champion) => {
+    homePromptOpen.current = false;
+    attempt(() => ({ page: 'spells', draft: createDraft(champion, context) }));
+  };
   function continueToBuild() {
     if (screen.page !== 'spells' || enteringBuild.current) return;
     enteringBuild.current = true;
@@ -67,7 +73,23 @@ export function App() {
   const rerollEverything = (revision: number) => updateBuild(draft => rerollBuild(draft, revision, context));
   const reroll = (index: number, revision: number) => updateBuild(draft => rerollSlot(draft, index, revision, context));
   function finish() {
-    if (screen.page === 'draft') attempt(() => ({ page: 'result', draft: finalizeBuild(screen.draft) }));
+    if (!homePromptOpen.current && screen.page === 'draft') attempt(() => ({ page: 'result', draft: finalizeBuild(screen.draft) }));
+  }
+  function requestHome() {
+    homePromptOpen.current = true;
+    setConfirmingHome(true);
+  }
+  function cancelHome() {
+    homePromptOpen.current = false;
+    setConfirmingHome(false);
+  }
+  function returnHome() {
+    // Keep the guard raised until a new session starts so a queued finish cannot restore this build.
+    const welcome: Screen = { page: 'welcome' };
+    persist(welcome);
+    setScreen(welcome);
+    setError(false);
+    setConfirmingHome(false);
   }
 
   return <div className="app-shell"><GameBackdrop />
@@ -77,9 +99,10 @@ export function App() {
       {screen.page === 'welcome' && <Welcome onStart={() => setScreen({ page: 'champions' })} />}
       {screen.page === 'champions' && <ChampionSelection champions={gameData.champions} initialChampion={screen.champion} onStart={start} />}
       {screen.page === 'spells' && <Spells draft={screen.draft} onSwap={() => setScreen(current => current.page === 'spells' ? { ...current, draft: swapSpellKeys(current.draft) } : current)} onContinue={continueToBuild} />}
-      {screen.page === 'draft' && <ItemDraft draft={screen.draft} allItems={gameData.items} fullRerollTotal={rules.fullBuildRerolls} individualRerollTotal={rules.individualRerolls} onRerollBuild={rerollEverything} onReroll={reroll} onFinish={finish} />}
-      {screen.page === 'result' && <FinalBuild draft={screen.draft} onNewBuild={() => start(screen.draft.champion)} onChangeChampion={() => setScreen({ page: 'champions', champion: screen.draft.champion })} />}
+      {screen.page === 'draft' && <ItemDraft draft={screen.draft} allItems={gameData.items} fullRerollTotal={rules.fullBuildRerolls} individualRerollTotal={rules.individualRerolls} confirmingHome={confirmingHome} onRerollBuild={rerollEverything} onReroll={reroll} onFinish={finish} onReturnHome={requestHome} />}
+      {screen.page === 'result' && <FinalBuild draft={screen.draft} onNewBuild={() => start(screen.draft.champion)} onChangeChampion={() => setScreen({ page: 'champions', champion: screen.draft.champion })} onReturnHome={requestHome} />}
     </main>
+    {confirmingHome && <ReturnHomeDialog onCancel={cancelHome} onConfirm={returnHome} />}
     <footer><span>{t.app.footer}</span><span>{t.app.dataVersion(gameData.version)}</span><small>{t.app.disclaimer}</small></footer>
   </div>;
 }

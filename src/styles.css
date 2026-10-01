@@ -46,6 +46,8 @@ footer small { flex-basis: 100%; font-size: 9px; letter-spacing: 0; opacity: .85
 .game-button.primary:hover:not(:disabled) { background: #fff08a; transform: translate(-1px, -3px) rotate(-1deg); box-shadow: 6px 9px 0 var(--ink); }
 .game-button.secondary { background: #13253a; border-color: #768899; color: var(--white); font-size: 19px; }
 .game-button.secondary:hover:not(:disabled) { border-color: var(--cyan); transform: translateY(-2px); }
+.game-button.danger { color: var(--white); background: #df2857; }
+.game-button.danger:hover:not(:disabled) { background: #fa4a73; transform: translate(-1px, -3px) rotate(1deg); box-shadow: 6px 9px 0 var(--ink); }
 .game-button:active:not(:disabled) { transform: translate(3px, 4px); box-shadow: 1px 2px var(--ink); }
 .game-button:disabled { opacity: .48; cursor: not-allowed; box-shadow: 2px 2px var(--ink); }
 .game-panel { position: relative; background: var(--panel); border: var(--outline); border-radius: 5px 9px 6px 3px; box-shadow: var(--shadow); }
@@ -71,18 +73,18 @@ footer small { flex-basis: 100%; font-size: 9px; letter-spacing: 0; opacity: .85
 .title-stage .intro { max-width: 350px; margin: 0 0 25px; font-size: 15px; }
 .menu-action { display: flex; align-items: center; gap: 20px; }
 .menu-action .game-button { font-size: 30px; min-height: 62px; transform: rotate(-2deg); }
-.doodle-arrow { color: var(--cyan); font: 60px/1 var(--display); transform: rotate(20deg); }
 .title-stage .menu-note { margin: 19px 0 0; }
-.instruction-stage { position: relative; padding-top: 10px; padding-bottom: 140px; }
-.instruction-sheet { position: relative; isolation: isolate; color: var(--ink); padding: 60px 48px 64px 58px; max-width: 470px; margin-left: auto; }
+.instruction-stage { position: relative; min-width: 0; padding-top: 10px; }
+.instruction-sheet { position: relative; isolation: isolate; color: var(--ink); width: 100%; max-width: 470px; padding: 60px 48px 64px 58px; margin: 0 auto; }
 .rules-paper { position: absolute; z-index: -1; inset: 0; width: 100%; height: 100%; object-fit: fill; pointer-events: none; }
 .instruction-sheet > .sticker { transform: rotate(-5deg); margin: -8px 0 22px -12px; font-size: 22px; }
 .rules-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
 .rules-list li { display: flex; align-items: center; gap: 12px; font: 400 23px/1.2 var(--display); letter-spacing: .4px; }
 .rules-list li > span { flex-shrink: 0; display: grid; place-items: center; width: 25px; height: 25px; border-radius: 50%; background: var(--ink); color: var(--paper); font-size: 20px; }
-.paper-scribble { display: block; color: #a65449; font: 26px var(--display); text-align: right; margin-top: 8px; letter-spacing: 7px; }
-.welcome-mascot { position: absolute; width: 260px; bottom: 12px; right: 8px; transform: rotate(5deg); }
-.welcome-mascot .mascot-bubble { position: absolute; right: 195px; top: 50px; width: 132px; transform: rotate(-10deg); }
+.welcome-mascot { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); align-items: center; gap: 18px; width: min(100%, 420px); margin: 16px auto 0; }
+.welcome-mascot .mascot-art { grid-column: 1; grid-row: 1; min-width: 0; }
+.welcome-mascot .mascot-bubble { position: relative; grid-column: 2; grid-row: 1; width: 100%; max-width: none; margin: 0; transform: rotate(4deg); }
+.welcome-mascot .mascot-bubble::after { left: -14px; top: 55%; bottom: auto; width: 19px; height: 19px; border-right: 0; border-left: var(--outline); transform: translateY(-50%) rotate(45deg); }
 
 /* Searchable roster + a pinned suspect poster. */
 .selection-layout { display: grid; grid-template-columns: minmax(0, 1fr) 248px; gap: 30px; align-items: start; }
@@ -169,6 +171,8 @@ footer small { flex-basis: 100%; font-size: 9px; letter-spacing: 0; opacity: .85
 .roulette-controls.has-mascot { padding-right: 150px; }
 .roulette-actions { display: flex; flex-wrap: wrap; gap: 13px; align-items: center; }
 .roulette-actions .game-button { font-size: 22px; padding: 10px 17px; }
+.roulette-commit-actions { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 13px; max-width: 100%; }
+.roulette-commit-actions .game-button { max-width: 100%; min-width: 0; text-align: center; }
 .roulette-controls .quiet { display: block; margin-top: 12px; }
 .resource-mascot { position: absolute; right: 0; bottom: 0; width: 105px; pointer-events: none; }
 .resource-mascot .mascot-bubble { position: absolute; right: 78px; top: 16px; font-size: 18px; padding: 7px 10px; white-space: nowrap; }
@@ -178,6 +182,12 @@ footer small { flex-basis: 100%; font-size: 9px; letter-spacing: 0; opacity: .85
 .roulette-details p { margin: 8px 0; font-size: 12px; line-height: 1.5; }
 .roulette-details ul { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0; padding-left: 20px; font-size: 11px; }
 @keyframes slot-jitter { from { transform: translateY(-2px); } to { transform: translateY(2px); } }
+.return-home-dialog { width: min(440px, calc(100vw - 28px)); max-width: none; max-height: calc(100dvh - 28px); overflow: auto; padding: 25px; border: 4px solid var(--ink); border-radius: 7px 11px 5px 9px; background: var(--paper); color: var(--ink); box-shadow: 9px 10px 0 var(--ink); }
+.return-home-dialog::backdrop { background: #020712bd; }
+.return-home-dialog h2 { margin: 0 0 12px; font: 38px/1.05 var(--display); letter-spacing: 1px; }
+.return-home-dialog p { margin: 0 0 24px; font-size: 14px; line-height: 1.5; }
+.return-home-dialog-actions { display: flex; flex-wrap: wrap; gap: 13px; }
+.return-home-dialog-actions .game-button { min-width: 0; max-width: 100%; font-size: 19px; }
 .build-tray { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 9px; list-style: none; padding: 0; margin: 0; }
 .build-tray li { position: relative; min-width: 0; min-height: 79px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 5px; padding: 7px 4px; border: 2px solid #3f566c; border-radius: 3px 5px 2px 3px; background: #0a1422; box-shadow: 2px 2px var(--ink); }
 .build-tray li.filled { border-color: #708997; }
@@ -212,7 +222,6 @@ footer small { flex-basis: 100%; font-size: 9px; letter-spacing: 0; opacity: .85
   .rules-list li { font-size: 20px; }
   .instruction-sheet { padding-left: 45px; padding-right: 35px; }
   .menu-action .game-button { font-size: 25px; padding: 11px 17px; }
-  .doodle-arrow { display: none; }
   .selection-layout { grid-template-columns: minmax(0, 1fr) 210px; gap: 20px; }
   .champion-grid { grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); }
   .result-mascot { margin-right: 0; }
@@ -234,13 +243,12 @@ footer small { flex-basis: 100%; font-size: 9px; letter-spacing: 0; opacity: .85
   .title-tagline { font-size: 29px; }
   .title-stage .intro { font-size: 13px; max-width: 310px; }
   .title-stage > .sticker { font-size: 13px; }
-  .instruction-stage { padding: 18px 0 155px; }
+  .instruction-stage { padding-top: 18px; }
   .instruction-sheet { max-width: 470px; margin: 0 auto; }
   .instruction-sheet > .sticker { margin-left: -8px; }
   .rules-list { gap: 10px; }
   .rules-list li { font-size: 22px; }
-  .welcome-mascot { width: 200px; bottom: 25px; }
-  .welcome-mascot .mascot-bubble { right: 150px; top: 35px; }
+  .welcome-mascot { width: min(100%, 390px); gap: 14px; }
   .selection-layout { grid-template-columns: minmax(0, 1fr); gap: 18px; }
   .champion-grid { max-height: 44vh; grid-template-columns: repeat(auto-fill, minmax(71px, 1fr)); }
   .selection-bar { position: relative; top: auto; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: center; padding-top: 3px; }
@@ -346,5 +354,14 @@ footer small { flex-basis: 100%; font-size: 9px; letter-spacing: 0; opacity: .85
   .instruction-sheet { padding: 48px 28px 54px; }
   .rules-list li { font-size: 19px; }
   .instruction-sheet > .sticker { font-size: 20px; }
-  .welcome-mascot .mascot-bubble { right: 150px; width: 115px; font-size: 19px; }
+  .welcome-mascot .mascot-bubble { padding: 10px 9px; font-size: 18px; }
+  .welcome-mascot .mascot-bubble::after { left: -12px; width: 16px; height: 16px; }
 }
+
+/* Sharing uses an independent canvas, never the visible results layout. */
+.final-page .actions { flex-wrap: wrap; align-items: flex-start; }
+.share-build { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; max-width: 360px; }
+.game-button.secondary.share-button { background: var(--cyan); color: var(--ink); border-color: var(--ink); }
+.share-save { background: var(--ink); color: var(--cyan); border: 1px solid var(--cyan); border-radius: 4px; padding: 9px; font: 18px var(--display); }
+.share-status { flex-basis: 100%; font-size: 12px; line-height: 1.5; color: var(--white); }
+.share-status:empty { display: none; }

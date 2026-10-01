@@ -7,14 +7,16 @@ import { SpellPair } from '../components/SpellPair.tsx';
 import { ComicHeading, GameButton, ResourcePips, StickerLabel } from '../components/game/GameUI.tsx';
 import { DiceMascot } from '../components/game/DiceMascot.tsx';
 
-export function ItemDraft({ draft, allItems, fullRerollTotal, individualRerollTotal, onRerollBuild, onReroll, onFinish }: {
+export function ItemDraft({ draft, allItems, fullRerollTotal, individualRerollTotal, confirmingHome, onRerollBuild, onReroll, onFinish, onReturnHome }: {
   draft: Draft;
   allItems: readonly Item[];
   fullRerollTotal: number;
   individualRerollTotal: number;
+  confirmingHome: boolean;
   onRerollBuild: (revision: number) => boolean;
   onReroll: (index: number, revision: number) => boolean;
   onFinish: () => void;
+  onReturnHome: () => void;
 }) {
   const { t, formatNumber } = useI18n();
   const [reducedMotion, setReducedMotion] = useState(() => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
@@ -72,11 +74,11 @@ export function ItemDraft({ draft, allItems, fullRerollTotal, individualRerollTo
   useEffect(() => { if (reducedMotion) busy.current = false; }, [draft.revision, reducedMotion]);
   useEffect(() => { if (!animating) busy.current = false; }, [animating]);
   useEffect(() => {
-    if (draft.status !== 'finalizing' || animating) return;
+    if (draft.status !== 'finalizing' || animating || confirmingHome) return;
     // Let the final replacement visibly land before leaving the build screen.
     const timer = window.setTimeout(onFinish, reducedMotion || resumedFinalizing ? 0 : 300);
     return () => window.clearTimeout(timer);
-  }, [draft.status, animating, onFinish, reducedMotion, resumedFinalizing]);
+  }, [draft.status, animating, confirmingHome, onFinish, reducedMotion, resumedFinalizing]);
 
   function rerollEverything() {
     if (busy.current || animating || draft.status !== 'editing' || draft.fullBuildRerollsLocked || draft.fullBuildRerollsLeft === 0) return;
@@ -122,7 +124,7 @@ export function ItemDraft({ draft, allItems, fullRerollTotal, individualRerollTo
       })}
     </div>
     <p className="sr-only" role="status">{revealing ? t.draft.revealing : spinning !== null ? t.draft.spinning : selected !== null ? t.draft.selectedItem(draft.buildSlots[selected].item.name) : t.draft.revealDone}</p>
-    <div className={`roulette-controls ${draft.individualRerollsLeft === 0 ? 'has-mascot' : ''}`}><div className="roulette-actions"><GameButton variant="secondary" disabled={animating || draft.status !== 'editing' || draft.fullBuildRerollsLocked || draft.fullBuildRerollsLeft === 0} onClick={rerollEverything}>↻ {t.draft.fullReroll}</GameButton><GameButton variant="secondary" disabled={animating || draft.status !== 'editing' || selected === null || draft.individualRerollsLeft === 0} onClick={rerollSelected}>↻ {t.draft.reroll}</GameButton><GameButton disabled={animating || draft.status === 'finalizing'} onClick={onFinish}>{t.draft.finish} <span aria-hidden="true">→</span></GameButton></div>
+    <div className={`roulette-controls ${draft.individualRerollsLeft === 0 ? 'has-mascot' : ''}`}><div className="roulette-actions"><GameButton variant="secondary" disabled={animating || draft.status !== 'editing' || draft.fullBuildRerollsLocked || draft.fullBuildRerollsLeft === 0} onClick={rerollEverything}>↻ {t.draft.fullReroll}</GameButton><GameButton variant="secondary" disabled={animating || draft.status !== 'editing' || selected === null || draft.individualRerollsLeft === 0} onClick={rerollSelected}>↻ {t.draft.reroll}</GameButton><span className="roulette-commit-actions"><GameButton disabled={animating || draft.status === 'finalizing'} onClick={onFinish}>{t.draft.finish} <span aria-hidden="true">→</span></GameButton><GameButton variant="danger" onClick={onReturnHome}><span aria-hidden="true">←</span> {t.app.returnHome}</GameButton></span></div>
       <span className="quiet">{draft.fullBuildRerollsLocked ? t.draft.committed : draft.fullBuildRerollsLeft === 0 ? t.draft.fullSpent : t.draft.commitHint} {draft.individualRerollsLeft > 0 && (selected === null ? t.draft.pickSlot : t.draft.gamble)}</span>
       {draft.individualRerollsLeft === 0 && <DiceMascot mood="worried" className="resource-mascot" dialogue={t.mascot.empty} />}
     </div>

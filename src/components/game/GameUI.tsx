@@ -1,7 +1,7 @@
 import { assets } from '../../assets.ts';
 import type { ButtonHTMLAttributes, HTMLAttributes, ReactNode } from 'react';
 
-export function GameButton({ variant = 'primary', className = '', ...props }: ButtonHTMLAttributes<HTMLButtonElement> & { variant?: 'primary' | 'secondary' }) {
+export function GameButton({ variant = 'primary', className = '', ...props }: ButtonHTMLAttributes<HTMLButtonElement> & { variant?: 'primary' | 'secondary' | 'danger' }) {
   return <button className={`game-button ${variant} ${className}`} {...props} />;
 }
 

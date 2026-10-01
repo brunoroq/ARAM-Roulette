@@ -7,6 +7,9 @@ export const en = {
     dataVersion: (version: string) => `Offline · Data Dragon ${version}`,
     disclaimer: 'ARAM Roulette isn’t endorsed by Riot Games. League of Legends and its artwork belong to Riot Games.',
     error: 'The roulette hit a snag. Please try again.', back: 'Back to champions',
+    returnHome: 'RETURN TO HOME', cancel: 'CANCEL',
+    returnHomeTitle: 'LEAVE THIS BUILD?',
+    returnHomeMessage: 'Returning home will abandon this build, including its champion, spells, items, and remaining rerolls.',
   },
   welcome: {
     eyebrow: 'A VERY BAD IDEA. NOW PLAYABLE.',
@@ -50,6 +53,13 @@ export const en = {
   },
   tray: { label: 'Final build items', gold: (amount: string) => `${amount} gold` },
   mascot: { welcome: 'Trust me. I’m a die.', empty: 'I think we made it worse.', final: 'I see nothing wrong here.' },
+  share: {
+    button: 'SHARE BUILD', copied: 'COPIED!', working: 'PREPARING…', save: 'SAVE PNG',
+    fallback: 'Could not copy the image. Save the PNG to share it.',
+    saved: 'PNG exported.', cancelled: 'Save cancelled. Your image is ready to try again.',
+    error: 'Could not export the image. Please try again.',
+    total: (amount: string) => `TOTAL BUILD: ${amount} GOLD`,
+  },
   final: {
     eyebrow: '04 / ABSOLUTELY NO REFUNDS', title: 'Your questionable', accent: 'masterpiece.',
     intro: 'Fate picked six items. You negotiated as best you could.',

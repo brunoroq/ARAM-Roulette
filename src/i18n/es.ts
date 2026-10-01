@@ -9,6 +9,9 @@ export const es: Messages = {
     dataVersion: (version: string) => `Sin conexión · Data Dragon ${version}`,
     disclaimer: 'ARAM Roulette no cuenta con el respaldo de Riot Games. League of Legends y sus ilustraciones pertenecen a Riot Games.',
     error: 'La ruleta se atascó. Inténtalo de nuevo.', back: 'Volver a los campeones',
+    returnHome: 'VOLVER AL INICIO', cancel: 'CANCELAR',
+    returnHomeTitle: '¿ABANDONAR ESTA PARTIDA?',
+    returnHomeMessage: 'Volver al inicio abandonará esta partida: perderás el campeón, los hechizos, los objetos y los reintentos restantes.',
   },
   welcome: {
     eyebrow: 'UNA PÉSIMA IDEA. AHORA JUGABLE.',
@@ -52,6 +55,13 @@ export const es: Messages = {
   },
   tray: { label: 'Objetos finales', gold: (amount: string) => `${amount} de oro` },
   mascot: { welcome: 'Confía en mí. Soy un dado.', empty: 'Creo que lo empeoramos.', final: 'No veo ningún problema.' },
+  share: {
+    button: 'COMPARTIR BUILD', copied: '¡COPIADO!', working: 'PREPARANDO…', save: 'GUARDAR PNG',
+    fallback: 'No se pudo copiar la imagen. Guarda el PNG para compartirlo.',
+    saved: 'PNG exportado.', cancelled: 'Guardado cancelado. Puedes volver a intentarlo.',
+    error: 'No se pudo exportar la imagen. Vuelve a intentarlo.',
+    total: (amount: string) => `COSTE TOTAL: ${amount} DE ORO`,
+  },
   final: {
     eyebrow: '04 / NO SE ACEPTAN DEVOLUCIONES', title: 'Tu cuestionable', accent: 'obra maestra.',
     intro: 'El destino eligió seis objetos. Tú hiciste lo que pudiste.',
