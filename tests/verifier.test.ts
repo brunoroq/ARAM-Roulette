@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, readdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { readFileSync } from 'node:fs';
+import { frontendSources } from './frontend-sources.ts';
 import { createDraft, finalizeBuild, generateBuild } from '../src/engine/draft.ts';
 import type { DraftRules, GameData } from '../src/types/game.ts';
 import { applyOutcome, challengeMatchesDraft, createChallenge, parseChallenge, parseHistory, serializeHistory } from '../src/verify/challenge.ts';
@@ -240,11 +240,9 @@ test('21. client replies are reduced to known fields, so nothing extra reaches t
 });
 
 test('the frontend never handles League Client credentials or Riot API keys', () => {
-  const files = (directory: string): string[] => readdirSync(directory, { withFileTypes: true })
-    .flatMap(entry => (entry.isDirectory() ? files(join(directory, entry.name)) : [join(directory, entry.name)]));
-  for (const path of files(new URL('../src', import.meta.url).pathname)) {
-    if (!/\.(ts|tsx)$/.test(path)) continue;
-    const source = readFileSync(path, 'utf8');
+  const sources = frontendSources(/\.(ts|tsx)$/);
+  assert.ok(sources.length > 0);
+  for (const { path, source } of sources) {
     assert.ok(!/lockfile|riot:|Authorization|X-Riot-Token|RIOT_API_KEY|api\.riotgames\.com|\/lol-match/.test(source), path);
   }
 });
