@@ -9,6 +9,8 @@
     "preview": "vite preview --host 127.0.0.1",
     "test": "node --experimental-strip-types --test tests/*.test.ts tests/*.test.mjs && vitest run",
     "data:sync": "node scripts/sync-data.mjs",
+    "riot:inspect": "node scripts/riot-inspect.mjs",
+    "lcu:inspect": "node scripts/lcu-inspect.mjs",
     "tauri": "tauri",
     "check:release": "node scripts/check-release.mjs",
     "build:windows:portable": "node scripts/build-windows-portable.mjs",

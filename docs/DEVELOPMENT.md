@@ -118,4 +118,6 @@ ARAM Roulette is not endorsed by Riot Games. League of Legends and associated ar
 All application-owned UI text, including accessible labels, errors, dynamic counts, and document metadata, lives in `src/i18n/en.ts` and `es.ts`. Spanish is type-checked against the English dictionary. The language preference key is `aram-roulette.language`; missing or unsupported values default to English. No i18n dependencies are added.
 
 
+The development-only Riot API and League Client inspectors (`npm run riot:inspect`, `npm run lcu:inspect`) are described in [Riot API experiment](RIOT_API_EXPERIMENT.md). The app doesn't use either.
+
 See [Releasing](RELEASING.md) for the Windows publication workflow.
