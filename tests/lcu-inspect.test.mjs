@@ -6,6 +6,7 @@ import {
   gamesFromList, main, newestGameId, ownEndOfGameRecord, parseArgs, parseGameId, parseLockfile, sanitize,
   summarizeGame, timelineFrames,
 } from '../scripts/lcu-inspect.mjs';
+import { frontendSources } from './frontend-sources.ts';
 
 // Synthetic placeholders only: no real lockfile, account or game.
 const PASSWORD = 'placeholder-lcu-password';
@@ -199,13 +200,8 @@ test('fails clearly without a lockfile, on other platforms, or with stale creden
   assert.ok(!refused.join('').includes(PASSWORD), 'Password is redacted from errors');
 });
 
-test('the shipped frontend never references the League Client inspector', async () => {
-  const { readdirSync, readFileSync } = await import('node:fs');
-  const { join } = await import('node:path');
-  const files = directory => readdirSync(directory, { withFileTypes: true })
-    .flatMap(entry => (entry.isDirectory() ? files(join(directory, entry.name)) : [join(directory, entry.name)]));
-  for (const path of files(new URL('../src', import.meta.url).pathname)) {
-    if (!/\.(ts|tsx|js)$/.test(path)) continue;
-    assert.ok(!/lcu-inspect|lol-match-history|lockfile/.test(readFileSync(path, 'utf8')), path);
-  }
+test('the shipped frontend never references the League Client inspector', () => {
+  const sources = frontendSources(/\.(ts|tsx|js)$/);
+  assert.ok(sources.length > 0);
+  for (const { path, source } of sources) assert.ok(!/lcu-inspect|lol-match-history|lockfile/.test(source), path);
 });
