@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { frontendSources } from './frontend-sources.ts';
+import { readFileSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
 import {
   CliError, RiotApiError, accountPath, accountRegion, countEventTypes, createRiotClient, describeHttpError,
   findParticipant, findTimelineParticipantId, formatEvent, formatTimestamp, itemEvents, main, matchIdsPath,
@@ -216,7 +217,10 @@ test('lists matches through mocked Riot routes without leaking the key', async (
 });
 
 test('the shipped frontend never references the Riot key', () => {
-  const sources = frontendSources(/\.(ts|tsx|js|json)$/);
-  assert.ok(sources.length > 0);
-  for (const { path, source } of sources) assert.ok(!/RIOT_API_KEY|RGAPI-|riot-inspect/.test(source), path);
+  const files = directory => readdirSync(directory, { withFileTypes: true })
+    .flatMap(entry => (entry.isDirectory() ? files(join(directory, entry.name)) : [join(directory, entry.name)]));
+  for (const path of files(new URL('../src', import.meta.url).pathname)) {
+    if (!/\.(ts|tsx|js|json)$/.test(path)) continue;
+    assert.ok(!/RIOT_API_KEY|RGAPI-|riot-inspect/.test(readFileSync(path, 'utf8')), path);
+  }
 });
