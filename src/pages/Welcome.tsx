@@ -1,9 +1,10 @@
+import type { ReactNode } from 'react';
 import { assets } from '../assets.ts';
 import { useI18n } from '../i18n/I18n.tsx';
 import { GameButton, StickerLabel } from '../components/game/GameUI.tsx';
 import { DiceMascot } from '../components/game/DiceMascot.tsx';
 
-export function Welcome({ onStart }: { onStart: () => void }) {
+export function Welcome({ runCheck, onHistory, onStart }: { runCheck?: ReactNode; onHistory: () => void; onStart: () => void }) {
   const { t } = useI18n();
   return <section className="welcome">
     <div className="title-stage">
@@ -11,8 +12,9 @@ export function Welcome({ onStart }: { onStart: () => void }) {
       <h1 className="title-logo"><img src={assets.logoMain} alt={t.app.title} /></h1>
       <p className="title-tagline">{t.welcome.tagline}</p>
       <p className="intro">{t.welcome.intro}</p>
-      <div className="menu-action"><GameButton onClick={onStart}>{t.welcome.start}<span aria-hidden="true">→</span></GameButton></div>
+      <div className="menu-action"><GameButton onClick={onStart}>{t.welcome.start}<span aria-hidden="true">→</span></GameButton><GameButton variant="secondary" onClick={onHistory}>{t.history.open}</GameButton></div>
       <p className="menu-note">{t.welcome.note}</p>
+      {runCheck}
     </div>
     <div className="instruction-stage">
       <div className="instruction-sheet">
