@@ -1,6 +1,4 @@
-import type {
-  BuildStatus, LcuGame, LcuPlayer, LcuRead, LockedChallenge, Outcome, PendingReason, UnverifiableReason, VerificationData,
-} from './types.ts';
+import type { ActiveRead, LcuGame, LcuPlayer, LcuRead, LockedChallenge, Resolution, VerificationData, VerifiedRun } from './types.ts';
 
 // Local, post-game verification of the signed-in player's own ARAM: Mayhem game.
 // Mayhem timelines carry no item events, so purchase order is never checked or implied:
@@ -113,55 +111,38 @@ export function spellsMatch(challenge: LockedChallenge, player: LcuPlayer): bool
   return locked[0] === actual[0] && locked[1] === actual[1];
 }
 
-const readReasons: Record<Exclude<LcuRead['status'], 'ok'>, PendingReason> = {
-  clientNotRunning: 'CLIENT_NOT_RUNNING', notSignedIn: 'NOT_SIGNED_IN', unavailable: 'LCU_UNAVAILABLE', desktopOnly: 'DESKTOP_ONLY',
-};
-
 /**
- * Finds the challenge game among Mayhem games created after the lock, skipping games already
- * counted. Other modes played in between are ignored. The earliest verifying game wins;
- * otherwise the earliest game with the locked champion explains why it could not verify.
+ * Judges one run against the one game the queue assigned to it. Champion and the spell pair
+ * decide whether the game belongs to the challenge at all (if not, the run is cancelled); the
+ * final inventory then decides verified or unverifiable. Purchase order is never considered.
  */
-export function verifyChallenge(
-  challenge: LockedChallenge, read: LcuRead, countedGameIds: ReadonlySet<number>, data: VerificationData, now: number,
+export function evaluateGame(
+  run: LockedChallenge, game: LcuGame & { player: LcuPlayer }, data: VerificationData, now: number,
   exceptions: Readonly<Record<number, readonly string[]>> = AUGMENT_ITEM_EXCEPTIONS,
-): Outcome {
-  if (read.status !== 'ok') return { kind: 'pending', reason: readReasons[read.status] };
-  const mayhem = read.games
-    .filter(game => game.queueId === MAYHEM_QUEUE_ID && game.gameCreation > challenge.lockedAt)
-    .sort((a, b) => a.gameCreation - b.gameCreation);
-  if (!mayhem.length) return { kind: 'pending', reason: 'NO_MAYHEM_GAME' };
-  const fresh = mayhem.filter(game => !countedGameIds.has(game.gameId));
-  if (!fresh.length) return { kind: 'pending', reason: 'ALREADY_COUNTED' };
-  const readable = fresh.filter((game): game is LcuGame & { player: LcuPlayer } => game.player !== null);
-  if (!readable.length) return { kind: 'pending', reason: 'INCOMPLETE_DATA' };
-  const candidates = readable.filter(game => game.player.championId === challenge.championKey);
-  if (!candidates.length) return { kind: 'pending', reason: 'CHAMPION_DIFFERS' };
-
-  const evaluated = candidates.map(game => {
-    const spells = spellsMatch(challenge, game.player);
-    const build = checkBuild(challenge.itemIds, game.player.items, game.player.augments, data, exceptions);
-    return { game, spells, build };
-  });
-  const verified = evaluated.find(entry => entry.spells && entry.build.status === 'compatible');
-  if (verified && verified.build.status === 'compatible') {
-    const { game } = verified;
+): { resolution: Resolution; verified: VerifiedRun | null } {
+  const base = { gameId: game.gameId, gameCreation: game.gameCreation, resolvedAt: now };
+  const championMatch = game.player.championId === run.championKey;
+  const spells = spellsMatch(run, game.player);
+  if (!championMatch || !spells) {
     return {
-      kind: 'verified',
-      run: {
-        challengeId: challenge.id, lockedAt: challenge.lockedAt, gameId: game.gameId, gameCreation: game.gameCreation, verifiedAt: now,
-        championId: challenge.championId, championKey: game.player.championId,
-        lockedSpellIds: [challenge.spellD, challenge.spellF], actualSpellIds: [game.player.spell1Id, game.player.spell2Id],
-        challengeItemIds: [...challenge.itemIds], finalItemIds: game.player.items.slice(0, TRINKET_SLOT),
-        completedItemIds: verified.build.completedItemIds, win: game.player.win,
-      },
+      resolution: { ...base, kind: 'cancelled', reason: championMatch ? 'SPELL_MISMATCH' : 'CHAMPION_MISMATCH', championMatch, spellsMatch: spells },
+      verified: null,
     };
   }
-  const { game, spells, build } = evaluated[0]!;
-  const status: BuildStatus = build.status;
-  const reason: UnverifiableReason = !spells ? 'SPELL_MISMATCH' : status === 'mismatch' ? 'BUILD_MISMATCH' : 'UNSUPPORTED_ITEM';
-  const completed = build.status === 'compatible' ? build.completedItemIds.length : 0;
-  return { kind: 'unverifiable', result: { gameId: game.gameId, reason, spellsMatch: spells, build: status, completed } };
+  const build = checkBuild(run.itemIds, game.player.items, game.player.augments, data, exceptions);
+  if (build.status !== 'compatible') {
+    return { resolution: { ...base, kind: 'unverifiable', reason: build.status === 'mismatch' ? 'BUILD_MISMATCH' : 'UNSUPPORTED_ITEM' }, verified: null };
+  }
+  return {
+    resolution: { ...base, kind: 'verified' },
+    verified: {
+      challengeId: run.id, lockedAt: run.lockedAt, gameId: game.gameId, gameCreation: game.gameCreation, verifiedAt: now,
+      championId: run.championId, championKey: game.player.championId,
+      lockedSpellIds: [run.spellD, run.spellF], actualSpellIds: [game.player.spell1Id, game.player.spell2Id],
+      challengeItemIds: [...run.itemIds], finalItemIds: game.player.items.slice(0, TRINKET_SLOT),
+      completedItemIds: build.completedItemIds, win: game.player.win,
+    },
+  };
 }
 
 const isInteger = (value: unknown): value is number => Number.isSafeInteger(value);
@@ -199,4 +180,16 @@ export function parseLcuRead(value: unknown): LcuRead {
     });
   }
   return { status: 'ok', games };
+}
+
+/** Strict validation of the active-game reply; anything unexpected reads as unavailable. */
+export function parseActiveRead(value: unknown): ActiveRead {
+  if (!value || typeof value !== 'object') return { status: 'unavailable' };
+  const reply = value as Record<string, unknown>;
+  if (reply.status === 'clientNotRunning' || reply.status === 'unavailable') return { status: reply.status };
+  if (reply.status !== 'ok') return { status: 'unavailable' };
+  if (reply.active === null) return { status: 'ok', active: null };
+  const active = reply.active as Record<string, unknown> | undefined;
+  if (!active || typeof active !== 'object' || !isInteger(active.gameId) || active.gameId <= 0 || !isInteger(active.queueId)) return { status: 'unavailable' };
+  return { status: 'ok', active: { gameId: active.gameId, queueId: active.queueId } };
 }

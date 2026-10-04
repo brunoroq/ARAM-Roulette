@@ -24,6 +24,7 @@ export const ENDPOINTS = {
   game: gameId => `/lol-match-history/v1/games/${gameId}`,
   timeline: gameId => `/lol-match-history/v1/game-timelines/${gameId}`,
   endOfGame: () => '/lol-end-of-game/v1/eog-stats-block',
+  gameflow: () => '/lol-gameflow/v1/session',
 };
 
 const USAGE = `Usage (Windows, League Client running and signed in):
@@ -334,6 +335,16 @@ export async function main({
       if (own && options.raw) stdout(JSON.stringify(sanitize(own), null, 2));
     } else {
       stdout(`End-of-game block not available (status ${endOfGame.status}). It is normally only present on the post-game screen.`);
+    }
+
+    // Only the phase and the game's own IDs; the session also lists every player, never printed.
+    const gameflow = await get(ENDPOINTS.gameflow());
+    stdout('');
+    if (gameflow.status === 200 && gameflow.body && typeof gameflow.body === 'object') {
+      const { phase, gameData } = gameflow.body;
+      stdout(`Gameflow: phase=${JSON.stringify(phase ?? 'not reported')} gameId=${JSON.stringify(gameData?.gameId ?? 'not reported')} queueId=${JSON.stringify(gameData?.queue?.id ?? 'not reported')}`);
+    } else {
+      stdout(`Gameflow session not available (status ${gameflow.status}).`);
     }
 
     stdout('');

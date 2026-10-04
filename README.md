@@ -71,25 +71,29 @@ copying is unavailable, the app offers this save option.
 
 ## Verify your run
 
-After **LOCK IT IN**, play the build in ARAM: Mayhem, then return to ARAM Roulette
-with the League client still open. It checks once on its own when you come back.
-**VERIFY RUN** (**VERIFICAR PARTIDA**) is there if you want to check again. ARAM
-Roulette reads your own recent games from the League client on your computer. It
-looks for an ARAM: Mayhem game that started after you locked in, then checks your
-champion, your summoner spells and your final items.
+Press **LOCK IT IN** before or during your ARAM: Mayhem match, then play the build.
+A match that had already ended can't be used. ARAM Roulette reads your own games
+from the League client on your computer, and checks the challenge's match once it
+appears in your match history. League can take a few minutes to publish it, so the
+run stays **PENDING** until then. You can keep using the app or close it; it checks
+again on startup and when you come back. **VERIFY RUN** (**VERIFICAR PARTIDA**) is
+there to check right away.
 
+- Each challenge counts for one match. If you lock during a match, that's the match;
+  otherwise it's your next ARAM: Mayhem match. Other modes don't count.
+- If you play that match with a different champion or summoner spells, the run is
+  **CANCELLED**. That isn't a loss.
 - Your final items only need to fit the challenge. Unfinished items are fine, and
   so are their components. Potions and Poro-Snax are ignored.
 - Mayhem doesn't record purchase order, so the order isn't checked.
 - If an item can't be checked (for example, one from a Mayhem augment), the run
   shows as **UNVERIFIABLE** rather than failed.
-- **RUN HISTORY** on the home screen lists your verified runs. It shows your
+- **RUN HISTORY** on the home screen lists pending and finished runs. It shows your
   runs, wins, losses, win rate and **Random Win Streak** (verified challenge wins in
-  a row). Only verified ARAM Roulette runs count. Other Mayhem games and
-  unverifiable runs don't affect your stats or streak.
+  a row). Only verified runs count. Pending, cancelled and unverifiable runs, and
+  Mayhem games without a locked challenge, don't affect your stats or streak.
 - Nothing is uploaded, no Riot API key is needed, and other players' data isn't
-  read. Lock in during champion select: games that started before you locked in
-  don't count.
+  read.
 
 ## Good to know
 

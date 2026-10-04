@@ -447,3 +447,12 @@ footer small { flex-basis: 100%; font-size: 9px; letter-spacing: 0; opacity: .85
   .history-list { grid-template-columns: 1fr; }
   .menu-action .game-button.secondary { font-size: 18px; }
 }
+.history-card.pending { background: var(--white); border-style: dashed; }
+.history-card.cancelled, .history-card.unverifiable { opacity: .82; }
+.history-card.cancelled .history-build, .history-card.unverifiable .history-build, .history-card.pending .history-build { opacity: .6; }
+.history-tag.pending { background: var(--yellow); }
+.history-tag.cancelled { color: var(--white); background: var(--pink); }
+.history-tag.unverifiable { background: var(--paper-dark); }
+.history-card-text { margin: 0 0 6px; font-size: 13px; line-height: 1.45; }
+.history-card-note { margin: 0 0 10px; font-size: 11px; line-height: 1.4; color: #5d4a2c; }
+.run-check .run-check-link { margin: 0 0 6px; font-weight: bold; }

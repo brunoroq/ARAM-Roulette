@@ -4,10 +4,9 @@ import { readFileSync } from 'node:fs';
 import { frontendSources } from './frontend-sources.ts';
 import { createDraft, finalizeBuild, generateBuild } from '../src/engine/draft.ts';
 import type { DraftRules, GameData } from '../src/types/game.ts';
-import { applyOutcome, challengeMatchesDraft, createChallenge, parseChallenge, parseHistory, serializeHistory } from '../src/verify/challenge.ts';
-import { runStats } from '../src/verify/stats.ts';
-import type { LcuGame, LcuPlayer, LcuRead, LockedChallenge, VerificationData } from '../src/verify/types.ts';
-import { checkBuild, parseLcuRead, spellsMatch, unexplainedComponents, verifyChallenge } from '../src/verify/verifier.ts';
+import { challengeMatchesDraft, createChallenge } from '../src/verify/challenge.ts';
+import type { LcuGame, LcuPlayer, LockedChallenge, VerificationData } from '../src/verify/types.ts';
+import { checkBuild, evaluateGame, parseActiveRead, parseLcuRead, spellsMatch, unexplainedComponents } from '../src/verify/verifier.ts';
 
 const read = (path: string) => JSON.parse(readFileSync(new URL(path, import.meta.url), 'utf8'));
 const data: VerificationData = read('../src/data/verification.json');
@@ -22,8 +21,8 @@ const REAL_AUGMENTS = [1029, 1220, 1063, 2016];
 const LOCKED_AT = 1_000_000;
 
 const challenge: LockedChallenge = {
-  schema: 1, id: 'challenge-1', lockedAt: LOCKED_AT, championId: 'Lucian', championKey: 236, spellD: 32, spellF: 1,
-  itemIds: [AXIOM, LUCIDITY, GUNBLADE, WITS, LUDENS, HUBRIS], status: 'pending',
+  schema: 2, id: 'challenge-1', lockedAt: LOCKED_AT, championId: 'Lucian', championKey: 236, spellD: 32, spellF: 1,
+  itemIds: [AXIOM, LUCIDITY, GUNBLADE, WITS, LUDENS, HUBRIS],
 };
 
 function player(overrides: Partial<LcuPlayer> = {}): LcuPlayer {
@@ -32,8 +31,7 @@ function player(overrides: Partial<LcuPlayer> = {}): LcuPlayer {
 function mayhem(gameId: number, gameCreation: number, overrides: Partial<LcuPlayer> = {}): LcuGame {
   return { gameId, gameCreation, queueId: 2400, mapId: 12, gameMode: 'KIWI', player: player(overrides) };
 }
-const ok = (...games: LcuGame[]): LcuRead => ({ status: 'ok', games });
-const verify = (result: LcuRead, counted: number[] = []) => verifyChallenge(challenge, result, new Set(counted), data, 2_000_000);
+const judge = (game: LcuGame) => evaluateGame(challenge, game as LcuGame & { player: LcuPlayer }, data, 2_000_000);
 
 test('generated data has the Riot keys and recipe facts the verifier relies on', () => {
   assert.equal(data.champions.Lucian, 236);
@@ -139,82 +137,37 @@ test('recipe packing is deterministic and guards against cycles', () => {
 });
 
 test('the real game verifies end to end', () => {
-  const outcome = verify(ok(mayhem(1628325258, LOCKED_AT + 60_000)));
-  assert.equal(outcome.kind, 'verified');
-  if (outcome.kind !== 'verified') return;
-  assert.deepEqual(outcome.run, {
+  const { resolution, verified } = judge(mayhem(1628325258, LOCKED_AT + 60_000));
+  assert.deepEqual(resolution, { kind: 'verified', gameId: 1628325258, gameCreation: LOCKED_AT + 60_000, resolvedAt: 2_000_000 });
+  assert.deepEqual(verified, {
     challengeId: 'challenge-1', lockedAt: LOCKED_AT, gameId: 1628325258, gameCreation: LOCKED_AT + 60_000, verifiedAt: 2_000_000,
     championId: 'Lucian', championKey: 236, lockedSpellIds: [32, 1], actualSpellIds: [32, 1],
     challengeItemIds: challenge.itemIds, finalItemIds: REAL_INVENTORY.slice(0, 6), completedItemIds: challenge.itemIds, win: true,
   });
 });
 
-test('12. a different champion keeps the challenge pending', () => {
-  assert.deepEqual(verify(ok(mayhem(1, LOCKED_AT + 1, { championId: 1 }))), { kind: 'pending', reason: 'CHAMPION_DIFFERS' });
-});
-
-test('13. different summoner spells are unverifiable, with the other checks reported', () => {
-  assert.deepEqual(verify(ok(mayhem(5, LOCKED_AT + 1, { spell2Id: 4 }))), {
-    kind: 'unverifiable', result: { gameId: 5, reason: 'SPELL_MISMATCH', spellsMatch: false, build: 'compatible', completed: 6 },
+test('12–13. a different champion or spell pair cancels; it is not a loss or a build problem', () => {
+  assert.deepEqual(judge(mayhem(1, LOCKED_AT + 1, { championId: 1 })), {
+    resolution: { kind: 'cancelled', gameId: 1, gameCreation: LOCKED_AT + 1, resolvedAt: 2_000_000, reason: 'CHAMPION_MISMATCH', championMatch: false, spellsMatch: true },
+    verified: null,
+  });
+  assert.deepEqual(judge(mayhem(2, LOCKED_AT + 1, { spell2Id: 4 })).resolution, {
+    kind: 'cancelled', gameId: 2, gameCreation: LOCKED_AT + 1, resolvedAt: 2_000_000, reason: 'SPELL_MISMATCH', championMatch: true, spellsMatch: false,
   });
 });
 
 test('14. D/F is compared unordered because the client does not document slot meaning', () => {
   assert.equal(spellsMatch(challenge, player({ spell1Id: 1, spell2Id: 32 })), true);
-  assert.equal(verify(ok(mayhem(1, LOCKED_AT + 1, { spell1Id: 1, spell2Id: 32 }))).kind, 'verified');
+  assert.equal(judge(mayhem(1, LOCKED_AT + 1, { spell1Id: 1, spell2Id: 32 })).resolution.kind, 'verified');
   assert.equal(spellsMatch(challenge, player({ spell1Id: 32, spell2Id: 32 })), false);
 });
 
-test('15. a non-Mayhem game is never a candidate', () => {
-  const arena: LcuGame = { gameId: 2, gameCreation: LOCKED_AT + 1, queueId: 1750, mapId: 30, gameMode: 'CHERRY', player: player() };
-  const aram: LcuGame = { gameId: 3, gameCreation: LOCKED_AT + 1, queueId: 450, mapId: 12, gameMode: 'ARAM', player: player() };
-  assert.deepEqual(verify(ok(arena, aram)), { kind: 'pending', reason: 'NO_MAYHEM_GAME' });
-});
-
-test('queue 2400 is authoritative; redundant map/mode fields are not required', () => {
-  assert.equal(verify(ok({ ...mayhem(4, LOCKED_AT + 1), mapId: null, gameMode: 'SOMETHING_NEW' })).kind, 'verified');
-});
-
-test('16. games created before (or at) the lock are ignored', () => {
-  assert.deepEqual(verify(ok(mayhem(1, LOCKED_AT - 1), mayhem(2, LOCKED_AT))), { kind: 'pending', reason: 'NO_MAYHEM_GAME' });
-});
-
-test('17. other modes between lock and the challenge game are skipped', () => {
-  const arena: LcuGame = { gameId: 10, gameCreation: LOCKED_AT + 10, queueId: 1750, mapId: 30, gameMode: 'CHERRY', player: null };
-  const otherChampion = mayhem(11, LOCKED_AT + 20, { championId: 1 });
-  const outcome = verify(ok(mayhem(12, LOCKED_AT + 30), otherChampion, arena));
-  assert.equal(outcome.kind === 'verified' && outcome.run.gameId, 12);
-});
-
-test('the earliest verifying game wins; otherwise the earliest candidate explains why', () => {
-  const failing = mayhem(20, LOCKED_AT + 10, { spell1Id: 4 });
-  const passing = mayhem(21, LOCKED_AT + 20);
-  assert.equal((verify(ok(passing, failing)) as { run: { gameId: number } }).run.gameId, 21);
-  const mismatch = mayhem(22, LOCKED_AT + 30, { items: [3031, 0, 0, 0, 0, 0, 2052] });
-  const unsupported = mayhem(23, LOCKED_AT + 40, { items: [3171, 0, 0, 0, 0, 0, 2052] });
-  assert.deepEqual(verify(ok(unsupported, mismatch)), {
-    kind: 'unverifiable', result: { gameId: 22, reason: 'BUILD_MISMATCH', spellsMatch: true, build: 'mismatch', completed: 0 },
-  });
-  assert.equal((verify(ok(unsupported)) as { result: { reason: string } }).result.reason, 'UNSUPPORTED_ITEM');
-});
-
-test('18. a game already counted cannot be counted twice', () => {
-  assert.deepEqual(verify(ok(mayhem(7, LOCKED_AT + 1)), [7]), { kind: 'pending', reason: 'ALREADY_COUNTED' });
-  const first = verify(ok(mayhem(7, LOCKED_AT + 1)));
-  assert.equal(first.kind, 'verified');
-  const once = applyOutcome(challenge, [], first);
-  const twice = applyOutcome({ ...challenge, id: 'challenge-2' }, once.runs, first);
-  assert.equal(twice.runs.length, 1);
-  assert.equal(parseHistory(serializeHistory([...once.runs, ...once.runs])).length, 1);
-});
-
-test('19. League Client unavailable states keep the challenge pending', () => {
-  assert.deepEqual(verify({ status: 'clientNotRunning' }), { kind: 'pending', reason: 'CLIENT_NOT_RUNNING' });
-  assert.deepEqual(verify({ status: 'notSignedIn' }), { kind: 'pending', reason: 'NOT_SIGNED_IN' });
-  assert.deepEqual(verify({ status: 'unavailable' }), { kind: 'pending', reason: 'LCU_UNAVAILABLE' });
-  assert.deepEqual(verify({ status: 'desktopOnly' }), { kind: 'pending', reason: 'DESKTOP_ONLY' });
-  const pending = applyOutcome(challenge, [], { kind: 'pending', reason: 'CLIENT_NOT_RUNNING' });
-  assert.equal(pending.challenge, challenge);
+test('a matching game with an unrelated or unexplained item is unverifiable, never a loss', () => {
+  assert.deepEqual(judge(mayhem(3, 5, { items: [3031, 0, 0, 0, 0, 0, 2052] })).resolution,
+    { kind: 'unverifiable', gameId: 3, gameCreation: 5, resolvedAt: 2_000_000, reason: 'BUILD_MISMATCH' });
+  assert.deepEqual(judge(mayhem(4, 5, { items: [3171, 0, 0, 0, 0, 0, 2052] })).resolution,
+    { kind: 'unverifiable', gameId: 4, gameCreation: 5, resolvedAt: 2_000_000, reason: 'UNSUPPORTED_ITEM' });
+  assert.equal(judge(mayhem(5, 5, { win: false })).verified?.win, false);
 });
 
 test('20. malformed or incomplete client replies fail safely', () => {
@@ -224,7 +177,6 @@ test('20. malformed or incomplete client replies fail safely', () => {
     { status: 'ok', games: [{ gameId: 1, gameCreation: 1, queueId: 2400, player: { ...player(), win: 'Win' } }] }]) {
     assert.deepEqual(parseLcuRead(reply), { status: 'unavailable' }, JSON.stringify(reply));
   }
-  assert.deepEqual(verify(ok({ ...mayhem(1, LOCKED_AT + 1), player: null })), { kind: 'pending', reason: 'INCOMPLETE_DATA' });
   assert.deepEqual(parseLcuRead({ status: 'clientNotRunning' }), { status: 'clientNotRunning' });
 });
 
@@ -253,33 +205,22 @@ test('locking freezes the final D/F assignment and item slots by ID', () => {
   const draft = finalizeBuild(generateBuild(createDraft(lucian, context), context));
   const swapped = { ...draft, spellKeys: ['F', 'D'] as const };
   const locked = createChallenge(swapped, data, 123, 'id-1');
-  assert.equal(locked.championKey, 236);
-  assert.equal(locked.spellD, data.spells[draft.spells[1].id]);
-  assert.equal(locked.spellF, data.spells[draft.spells[0].id]);
-  assert.deepEqual(locked.itemIds, draft.buildSlots.map(slot => slot.item.id));
-  assert.equal(locked.status, 'pending');
+  assert.deepEqual(locked, {
+    schema: 2, id: 'id-1', lockedAt: 123, championId: 'Lucian', championKey: 236,
+    spellD: data.spells[draft.spells[1].id], spellF: data.spells[draft.spells[0].id], itemIds: draft.buildSlots.map(slot => slot.item.id),
+  });
+  assert.equal(locked.activeGameId, undefined);
+  assert.equal(locked.resolution, undefined);
   assert.ok(challengeMatchesDraft(locked, swapped, data));
   assert.ok(!challengeMatchesDraft(locked, draft, data));
   assert.throws(() => createChallenge(generateBuild(createDraft(lucian, context), context), data, 1), /finalized/);
 });
 
-test('stored challenges round-trip and invalid ones are discarded', () => {
-  assert.deepEqual(parseChallenge(JSON.stringify(challenge)), challenge);
-  const unverifiable = applyOutcome(challenge, [], verify(ok(mayhem(5, LOCKED_AT + 1, { spell2Id: 4 })))).challenge;
-  assert.deepEqual(parseChallenge(JSON.stringify(unverifiable)), unverifiable);
-  for (const bad of [null, '', '{', '[]', JSON.stringify({ ...challenge, schema: 2 }), JSON.stringify({ ...challenge, itemIds: ['1'] }),
-    JSON.stringify({ ...challenge, status: 'won' }), JSON.stringify({ ...challenge, status: 'unverifiable' }),
-    JSON.stringify({ ...challenge, spellF: 32 }), JSON.stringify({ ...challenge, lockedAt: 'yesterday' })]) {
-    assert.equal(parseChallenge(bad), null, String(bad));
+test('active-game replies are validated strictly', () => {
+  assert.deepEqual(parseActiveRead({ status: 'ok', active: { gameId: 77, queueId: 2400, phase: 'InProgress', players: ['x'] } }), { status: 'ok', active: { gameId: 77, queueId: 2400 } });
+  assert.deepEqual(parseActiveRead({ status: 'ok', active: null }), { status: 'ok', active: null });
+  assert.deepEqual(parseActiveRead({ status: 'clientNotRunning' }), { status: 'clientNotRunning' });
+  for (const reply of [null, 'ok', {}, { status: 'ok' }, { status: 'ok', active: { gameId: 0, queueId: 2400 } }, { status: 'ok', active: { gameId: '7', queueId: 2400 } }]) {
+    assert.deepEqual(parseActiveRead(reply), { status: 'unavailable' }, JSON.stringify(reply));
   }
-});
-
-test('verifying records the run; totals are only runs, wins and losses', () => {
-  const won = applyOutcome(challenge, [], verify(ok(mayhem(1, LOCKED_AT + 1))));
-  assert.equal(won.challenge.status, 'verified');
-  const lost = applyOutcome({ ...challenge, id: 'challenge-2' }, won.runs, verify(ok(mayhem(2, LOCKED_AT + 1, { win: false })), [1]));
-  assert.deepEqual(runStats(lost.runs), { runs: 2, wins: 1, losses: 1, winRate: 0.5, currentStreak: 0, bestStreak: 1 });
-  assert.deepEqual(parseHistory(serializeHistory(lost.runs)), lost.runs);
-  // A verified challenge is final.
-  assert.equal(applyOutcome(won.challenge, won.runs, verify(ok(mayhem(3, LOCKED_AT + 1)))).runs.length, 1);
 });

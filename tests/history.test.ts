@@ -1,8 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { applyOutcome, parseHistory, serializeHistory } from '../src/verify/challenge.ts';
+import { parseHistory, serializeHistory } from '../src/verify/challenge.ts';
 import { chronological, runStats } from '../src/verify/stats.ts';
-import type { LockedChallenge, VerifiedRun } from '../src/verify/types.ts';
+import type { VerifiedRun } from '../src/verify/types.ts';
 
 const ITEMS = ['6696', '3158', '3146', '3091', '6655', '126697'];
 function run(gameId: number, gameCreation: number, win: boolean, overrides: Partial<VerifiedRun> = {}): VerifiedRun {
@@ -38,16 +38,6 @@ test('history: malformed storage fails safely and only invalid records are dropp
   const bad = [null, 'x', noLockedSpells, { ...run(5, 500, true), finalItemIds: [1] }, { ...run(6, 600, true), completedItemIds: ['9999'] },
     { ...run(7, 700, true), win: 'yes' }, { ...run(8, 800, true), championId: '' }, { ...run(9, 900, true), completedItemIds: ['6696', '6696'] }];
   assert.deepEqual(parseHistory(JSON.stringify({ schema: 1, runs: [...bad, good] })), [good]);
-});
-
-test('history: a new verification never duplicates a game already stored', () => {
-  const challenge: LockedChallenge = {
-    schema: 1, id: 'c9', lockedAt: 1, championId: 'Lucian', championKey: 236, spellD: 32, spellF: 1, itemIds: ITEMS, status: 'pending',
-  };
-  const existing = [run(9, 100, true)];
-  const next = applyOutcome(challenge, existing, { kind: 'verified', run: run(9, 100, false) });
-  assert.equal(next.challenge.status, 'verified');
-  assert.equal(next.runs, existing);
 });
 
 test('stats: zero runs', () => {
@@ -99,18 +89,4 @@ test('stats: identical creation times are ordered by game ID', () => {
   assert.deepEqual(chronological(runs).map(entry => entry.gameId), [10, 20]);
   assert.equal(runStats(runs).currentStreak, 0);
   assert.deepEqual(chronological([...runs].reverse()).map(entry => entry.gameId), [10, 20]);
-});
-
-test('stats: unverifiable attempts never change stats', () => {
-  const challenge: LockedChallenge = {
-    schema: 1, id: 'cX', lockedAt: 1, championId: 'Lucian', championKey: 236, spellD: 32, spellF: 1, itemIds: ITEMS, status: 'pending',
-  };
-  const runs = sequence('WW');
-  const before = runStats(runs);
-  const after = applyOutcome(challenge, runs, {
-    kind: 'unverifiable', result: { gameId: 77, reason: 'UNSUPPORTED_ITEM', spellsMatch: true, build: 'unsupported', completed: 0 },
-  });
-  assert.equal(after.runs, runs);
-  assert.deepEqual(runStats(after.runs), before);
-  assert.equal(after.challenge.status, 'unverifiable');
 });

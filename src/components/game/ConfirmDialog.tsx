@@ -3,8 +3,10 @@ import type { ReactNode } from 'react';
 import { GameButton } from './GameUI.tsx';
 
 /** Modal confirmation in the app's paper style. Escape counts as cancel. */
-export function ConfirmDialog({ id, title, message, cancelLabel, confirmLabel, onCancel, onConfirm }: {
+export function ConfirmDialog({ id, title, message, cancelLabel, confirmLabel, onCancel, onConfirm, extra }: {
   id: string; title: string; message: string; cancelLabel: ReactNode; confirmLabel: ReactNode; onCancel: () => void; onConfirm: () => void;
+  /** An optional third, non-destructive choice. */
+  extra?: { label: ReactNode; onClick: () => void };
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
 
@@ -20,6 +22,7 @@ export function ConfirmDialog({ id, title, message, cancelLabel, confirmLabel, o
     <p id={`${id}-message`}>{message}</p>
     <div className="return-home-dialog-actions">
       <GameButton variant="secondary" onClick={onCancel}>{cancelLabel}</GameButton>
+      {extra && <GameButton onClick={extra.onClick}>{extra.label}</GameButton>}
       <GameButton variant="danger" onClick={onConfirm}>{confirmLabel}</GameButton>
     </div>
   </dialog>;

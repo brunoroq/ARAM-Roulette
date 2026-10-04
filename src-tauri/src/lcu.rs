@@ -19,6 +19,10 @@ use std::time::Duration;
 const MAYHEM_QUEUE_ID: i64 = 2400;
 const RECENT_GAMES: usize = 20;
 const MAX_GAME_DETAILS: usize = 10;
+/// Games a pending run is bound to, fetched by ID whatever their age.
+pub const MAX_BOUND_GAMES: usize = 5;
+/// Gameflow phases in which a match exists and has not ended (loading, playing, rejoining).
+const IN_GAME_PHASES: [&str; 3] = ["GameStart", "InProgress", "Reconnect"];
 const TIMEOUT: Duration = Duration::from_secs(5);
 const MAX_RESPONSE_BYTES: u64 = 16 * 1024 * 1024;
 // https://static.developer.riotgames.com/docs/lol/riotgames.pem
@@ -62,6 +66,22 @@ pub struct GameRecord {
     pub map_id: Option<i64>,
     pub game_mode: Option<String>,
     pub player: Option<OwnPlayer>,
+}
+
+/// The match the client reports as in progress right now: its ID and queue, nothing else.
+#[derive(Debug, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ActiveGame {
+    pub game_id: i64,
+    pub queue_id: i64,
+}
+
+#[derive(Debug, PartialEq, Serialize)]
+#[serde(tag = "status", rename_all = "camelCase")]
+pub enum ActiveRead {
+    Ok { active: Option<ActiveGame> },
+    ClientNotRunning,
+    Unavailable,
 }
 
 #[derive(Debug, PartialEq, Serialize)]
@@ -132,6 +152,18 @@ pub fn own_player(game: &Value, puuid: &str) -> Option<OwnPlayer> {
     })
 }
 
+/// From /lol-gameflow/v1/session: only an in-game phase with a real game ID counts.
+/// The session also lists every player; none of that is read.
+pub fn active_game(session: &Value) -> Option<ActiveGame> {
+    let phase = session.get("phase").and_then(Value::as_str)?;
+    if !IN_GAME_PHASES.contains(&phase) {
+        return None;
+    }
+    let game_id = session.pointer("/gameData/gameId").and_then(Value::as_i64).filter(|id| *id > 0)?;
+    let queue_id = session.pointer("/gameData/queue/id").and_then(Value::as_i64)?;
+    Some(ActiveGame { game_id, queue_id })
+}
+
 /// The match-history list has been seen as { games: { games: [...] } } and { games: [...] }.
 fn list_entries(body: &Value) -> &[Value] {
     body.pointer("/games/games").or_else(|| body.get("games")).and_then(Value::as_array).map(Vec::as_slice).unwrap_or(&[])
@@ -148,11 +180,14 @@ fn record(game_id: i64, creation: i64, queue: i64, source: &Value, player: Optio
     }
 }
 
-/// Games created after `since`. Details (and the player's own record) are fetched only for
-/// Mayhem games, or games the list doesn't describe well enough to skip.
+/// Games created after `since`, plus the games pending runs are bound to (by ID, whatever
+/// their creation time; a bound game started before its run was locked). Details (and the
+/// player's own record) are fetched only for Mayhem games, or games the list doesn't
+/// describe well enough to skip. A bound game not published yet is simply absent.
 pub fn collect_games(
     list: &Value,
     since: i64,
+    bound: &[i64],
     puuid: &str,
     mut fetch_game: impl FnMut(i64) -> Result<Option<Value>, LcuError>,
 ) -> Result<Vec<GameRecord>, LcuError> {
@@ -182,6 +217,19 @@ pub fn collect_games(
         if created <= since {
             continue;
         }
+        let player = if queue == MAYHEM_QUEUE_ID { own_player(&game, puuid) } else { None };
+        games.push(record(game_id, created, queue, &game, player));
+    }
+    let mut fetched = 0;
+    for &game_id in bound {
+        if game_id <= 0 || fetched == MAX_BOUND_GAMES || games.iter().any(|game| game.game_id == game_id) {
+            continue;
+        }
+        fetched += 1;
+        let Some(game) = fetch_game(game_id)? else { continue };
+        let created = game.get("gameCreation").and_then(Value::as_i64);
+        let queue = game.get("queueId").and_then(Value::as_i64);
+        let (Some(created), Some(queue)) = (created, queue) else { continue };
         let player = if queue == MAYHEM_QUEUE_ID { own_player(&game, puuid) } else { None };
         games.push(record(game_id, created, queue, &game, player));
     }
@@ -288,19 +336,23 @@ impl Client {
     }
 }
 
-fn read(since: i64) -> Result<Vec<GameRecord>, LcuError> {
+fn open_client() -> Result<Client, LcuError> {
     let text = lockfile_candidates().iter().find_map(|path| std::fs::read_to_string(path).ok()).ok_or(LcuError::NotRunning)?;
-    let client = Client::new(parse_lockfile(&text).ok_or(LcuError::Unavailable)?)?;
+    Client::new(parse_lockfile(&text).ok_or(LcuError::Unavailable)?)
+}
+
+fn read(since: i64, bound: &[i64]) -> Result<Vec<GameRecord>, LcuError> {
+    let client = open_client()?;
     let summoner = client.get_json("/lol-summoner/v1/current-summoner")?.ok_or(LcuError::NotSignedIn)?;
     let puuid = summoner.get("puuid").and_then(Value::as_str).filter(|puuid| !puuid.is_empty()).ok_or(LcuError::NotSignedIn)?.to_owned();
     let list = client
         .get_json(&format!("/lol-match-history/v1/products/lol/current-summoner/matches?begIndex=0&endIndex={RECENT_GAMES}"))?
         .ok_or(LcuError::Unavailable)?;
-    collect_games(&list, since, &puuid, |game_id| client.get_json(&format!("/lol-match-history/v1/games/{game_id}")))
+    collect_games(&list, since, bound, &puuid, |game_id| client.get_json(&format!("/lol-match-history/v1/games/{game_id}")))
 }
 
-pub fn read_recent_games(since: i64) -> RecentGames {
-    match read(since) {
+pub fn read_recent_games(since: i64, bound: &[i64]) -> RecentGames {
+    match read(since, bound) {
         Ok(games) => RecentGames::Ok { games },
         Err(error) => {
             // Developer builds only; the error kind carries no credentials or paths.
@@ -310,6 +362,22 @@ pub fn read_recent_games(since: i64) -> RecentGames {
                 LcuError::NotRunning => RecentGames::ClientNotRunning,
                 LcuError::NotSignedIn => RecentGames::NotSignedIn,
                 LcuError::Unavailable => RecentGames::Unavailable,
+            }
+        }
+    }
+}
+
+/// One GET of the gameflow session: is a match in progress, and which one.
+pub fn read_active_game() -> ActiveRead {
+    let result = open_client().and_then(|client| client.get_json("/lol-gameflow/v1/session"));
+    match result {
+        Ok(session) => ActiveRead::Ok { active: session.as_ref().and_then(active_game) },
+        Err(error) => {
+            #[cfg(debug_assertions)]
+            eprintln!("[lcu] active game unavailable: {error:?}");
+            match error {
+                LcuError::NotRunning => ActiveRead::ClientNotRunning,
+                LcuError::NotSignedIn | LcuError::Unavailable => ActiveRead::Unavailable,
             }
         }
     }
@@ -387,7 +455,7 @@ mod tests {
             { "gameId": 1, "gameCreation": 50, "queueId": 2400 }
         ] } });
         let mut fetched = Vec::new();
-        let games = collect_games(&list, 100, PUUID, |id| {
+        let games = collect_games(&list, 100, &[], PUUID, |id| {
             fetched.push(id);
             Ok(if id == 2 { None } else { Some(game(id, id * 100, 2400)) })
         })
@@ -407,10 +475,49 @@ mod tests {
         let entries: Vec<Value> = (1..=15).map(|id| json!({ "gameId": id, "gameCreation": 1000 + id, "queueId": 2400 })).collect();
         let list = json!({ "games": entries });
         let mut count = 0;
-        collect_games(&list, 0, PUUID, |id| { count += 1; Ok(Some(game(id, 1000 + id, 2400))) }).unwrap();
+        collect_games(&list, 0, &[], PUUID, |id| { count += 1; Ok(Some(game(id, 1000 + id, 2400))) }).unwrap();
         assert_eq!(count, MAX_GAME_DETAILS);
-        assert_eq!(collect_games(&list, 0, PUUID, |_| Err(LcuError::Unavailable)), Err(LcuError::Unavailable));
-        assert_eq!(collect_games(&json!({}), 0, PUUID, |_| unreachable!()), Ok(vec![]));
+        assert_eq!(collect_games(&list, 0, &[], PUUID, |_| Err(LcuError::Unavailable)), Err(LcuError::Unavailable));
+        assert_eq!(collect_games(&json!({}), 0, &[], PUUID, |_| unreachable!()), Ok(vec![]));
+    }
+
+    #[test]
+    fn fetches_bound_games_by_id_whatever_their_age() {
+        let list = json!({ "games": { "games": [{ "gameId": 9, "gameCreation": 900, "queueId": 1750 }] } });
+        let mut fetched = Vec::new();
+        let games = collect_games(&list, 500, &[3, 4, 9, -1], PUUID, |id| {
+            fetched.push(id);
+            Ok(if id == 4 { None } else { Some(game(id, 100, 2400)) })
+        })
+        .unwrap();
+        // 9 is already listed, 4 isn't published yet, -1 is ignored.
+        assert_eq!(fetched, vec![3, 4]);
+        assert_eq!(games.iter().map(|g| g.game_id).collect::<Vec<_>>(), vec![9, 3]);
+        assert_eq!(games[1].game_creation, 100);
+        assert_eq!(games[1].player.as_ref().unwrap().champion_id, 236);
+        let many: Vec<i64> = (1..=20).collect();
+        let mut count = 0;
+        collect_games(&json!({}), 0, &many, PUUID, |id| { count += 1; Ok(Some(game(id, 1, 2400))) }).unwrap();
+        assert_eq!(count, MAX_BOUND_GAMES);
+    }
+
+    #[test]
+    fn active_game_needs_an_in_game_phase_and_a_real_id() {
+        let session = |phase: &str, id: i64| json!({
+            "phase": phase,
+            "gameData": { "gameId": id, "queue": { "id": 2400 }, "teamOne": [{ "puuid": "other", "summonerName": "Other" }] }
+        });
+        for phase in ["GameStart", "InProgress", "Reconnect"] {
+            assert_eq!(active_game(&session(phase, 77)), Some(ActiveGame { game_id: 77, queue_id: 2400 }), "{phase}");
+        }
+        for phase in ["None", "Lobby", "Matchmaking", "ReadyCheck", "ChampSelect", "PreEndOfGame", "WaitingForStats", "EndOfGame"] {
+            assert_eq!(active_game(&session(phase, 77)), None, "{phase}");
+        }
+        assert_eq!(active_game(&session("InProgress", 0)), None);
+        assert_eq!(active_game(&json!({ "phase": "InProgress" })), None);
+        let serialized = serde_json::to_string(&ActiveRead::Ok { active: active_game(&session("InProgress", 77)) }).unwrap();
+        assert_eq!(serialized, "{\"status\":\"ok\",\"active\":{\"gameId\":77,\"queueId\":2400}}");
+        assert_eq!(serde_json::to_string(&ActiveRead::Ok { active: None }).unwrap(), "{\"status\":\"ok\",\"active\":null}");
     }
 
     #[test]

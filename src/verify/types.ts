@@ -39,10 +39,31 @@ export type LcuRead =
   | { readonly status: 'ok'; readonly games: readonly LcuGame[] }
   | { readonly status: 'clientNotRunning' | 'notSignedIn' | 'unavailable' | 'desktopOnly' };
 
-export type ChallengeStatus = 'pending' | 'verified' | 'unverifiable';
+/** What the client reports as in progress right now (gameflow session): ID and queue only. */
+export type ActiveRead =
+  | { readonly status: 'ok'; readonly active: { readonly gameId: number; readonly queueId: number } | null }
+  | { readonly status: 'clientNotRunning' | 'unavailable' | 'desktopOnly' };
 
+/** The next eligible Mayhem game didn't match the locked champion or spell pair. Not a loss. */
+export type CancelReason = 'CHAMPION_MISMATCH' | 'SPELL_MISMATCH' | 'GAME_ALREADY_COUNTED';
+/** The matching game's final inventory can't confirm the build. */
+export type UnverifiableReason = 'BUILD_MISMATCH' | 'UNSUPPORTED_ITEM';
+export type BuildStatus = 'compatible' | 'mismatch' | 'unsupported';
+
+/** How a run ended. Every resolution names the one game that resolved it. */
+export type Resolution =
+  | { readonly kind: 'verified'; readonly gameId: number; readonly gameCreation: number; readonly resolvedAt: number }
+  | { readonly kind: 'unverifiable'; readonly gameId: number; readonly gameCreation: number; readonly resolvedAt: number; readonly reason: UnverifiableReason }
+  | {
+    readonly kind: 'cancelled'; readonly gameId: number; readonly gameCreation: number; readonly resolvedAt: number;
+    readonly reason: CancelReason; readonly championMatch: boolean; readonly spellsMatch: boolean;
+  };
+
+export type RunStatus = 'pending' | Resolution['kind'];
+
+/** One locked challenge in the run queue. Immutable except for its one-time binding and resolution. */
 export interface LockedChallenge {
-  readonly schema: 1;
+  readonly schema: 2;
   readonly id: string;
   readonly lockedAt: number;
   /** Data Dragon champion ID, for presentation. */
@@ -53,28 +74,25 @@ export interface LockedChallenge {
   readonly spellF: number;
   /** Six item IDs in challenge slot order; slot 2 is boots. */
   readonly itemIds: readonly string[];
-  readonly status: ChallengeStatus;
-  /** Last unverifiable result, kept so it survives a restart. */
-  readonly unverifiable?: UnverifiableResult;
+  /**
+   * The exact game this run belongs to: the client reported it in progress right after LOCK IT IN.
+   * Absent: the run belongs to the next eligible Mayhem game created after `lockedAt`.
+   */
+  readonly activeGameId?: number;
+  /** Absent while pending. */
+  readonly resolution?: Resolution;
 }
 
-/** The challenge stays pending: nothing conclusive was found yet. */
+export interface RunQueue {
+  readonly runs: readonly LockedChallenge[];
+  /** Games ever bound at LOCK IT IN, kept even if their run is replaced: never bindable again. */
+  readonly claimedGameIds: readonly number[];
+}
+
+/** Why a pending run is still pending. */
 export type PendingReason =
   | 'CLIENT_NOT_RUNNING' | 'NOT_SIGNED_IN' | 'LCU_UNAVAILABLE' | 'DESKTOP_ONLY'
-  | 'NO_MAYHEM_GAME' | 'CHAMPION_DIFFERS' | 'ALREADY_COUNTED' | 'INCOMPLETE_DATA';
-
-/** A matching game was found but the challenge can't be confirmed from it. */
-export type UnverifiableReason = 'SPELL_MISMATCH' | 'BUILD_MISMATCH' | 'UNSUPPORTED_ITEM';
-
-export type BuildStatus = 'compatible' | 'mismatch' | 'unsupported';
-
-export interface UnverifiableResult {
-  readonly gameId: number;
-  readonly reason: UnverifiableReason;
-  readonly spellsMatch: boolean;
-  readonly build: BuildStatus;
-  readonly completed: number;
-}
+  | 'WAITING_FOR_HISTORY' | 'INCOMPLETE_DATA';
 
 /** One immutable verified challenge run. History cards and stats are built from these alone. */
 export interface VerifiedRun {
@@ -99,8 +117,3 @@ export interface VerifiedRun {
   readonly completedItemIds: readonly string[];
   readonly win: boolean;
 }
-
-export type Outcome =
-  | { readonly kind: 'verified'; readonly run: VerifiedRun }
-  | { readonly kind: 'pending'; readonly reason: PendingReason }
-  | { readonly kind: 'unverifiable'; readonly result: UnverifiableResult };

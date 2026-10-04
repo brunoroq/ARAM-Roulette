@@ -1,6 +1,6 @@
 [package]
 name = "aram-roulette"
-version = "0.1.4"
+version = "0.1.5"
 description = "A deliberately stupid ARAM: Mayhem build randomizer."
 license-file = "../LICENSE"
 repository = "https://github.com/brunoroq/ARAM-Roulette"

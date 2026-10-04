@@ -7,60 +7,111 @@ Roulette servers, no accounts, and no data about other players.
 
 ## Flow
 
-1. **LOCK IT IN** stores one pending challenge in `localStorage`. Locking writes only
-   the challenge, never the history. If a challenge is still pending, the app asks
-   first: **KEEP PENDING RUN** changes nothing (the build stays on screen, and the
-   automatic lock-in after the third reroll pauses). **REPLACE & LOCK IN** replaces
-   only the pending challenge, with a new ID and lock time. If the pending run gets
-   verified while the prompt is open, the prompt closes, since there's nothing left
-   to replace. A check still running for a replaced challenge is discarded and can't
-   overwrite the new one.
-2. The player plays ARAM: Mayhem.
-3. When the player comes back to ARAM Roulette, the app checks once automatically
-   (see below). **VERIFY RUN** / **CHECK AGAIN** stays available as a manual
-   fallback. It's on the result screen, or the Home card after a restart.
-4. The verifier picks the matching game and checks the champion, the summoner spells
-   and the final inventory. It records win or loss.
-5. A verified game is written once to the local run history. The same game ID is
-   never counted twice.
+1. **LOCK IT IN** adds a *run* to a persistent local queue (`localStorage`), before
+   or during the Mayhem match. Right after locking, the app asks the client once
+   whether a match is in progress, and may bind the run to that exact game (see
+   [Matching runs to games](#matching-runs-to-games)). Locking never writes the
+   history.
+2. The player plays ARAM: Mayhem, and can keep using the app or close it.
+3. League publishes the finished match to the client's match history. This can take
+   several minutes. A run stays pending for as long as that takes; there's no
+   timeout.
+4. On startup, on return to the app, or on **VERIFY RUN** / **CHECK AGAIN**, pending
+   runs are matched to published games and resolved.
+5. A verified game is written once to the local run history. The same game ID can
+   never resolve two runs.
 
-Results:
+Run states:
 
-- **Verified:** champion, spells and build match. Final.
-- **Unverifiable:** a game with the locked champion was found, but the spells
-  differ, the build has an unrelated item, or the inventory has an item the data
-  can't explain. Kept so the reason survives a restart; not counted in history or
-  stats. CHECK AGAIN can still find a later game.
-- **Pending:** nothing conclusive yet. The client is closed, the player isn't signed
-  in, there's no Mayhem game yet, or it was played on another champion.
+- **Pending:** waiting for League to publish the run's match, or for the client.
+- **Verified:** champion, spell pair and build match. Counts in the stats.
+- **Unverifiable:** champion and spells match, but the final inventory has an
+  unrelated shop item or an item the data can't explain. Final, not counted.
+- **Cancelled:** the run's match was played with another champion or spell pair. It
+  isn't a loss, isn't counted, and doesn't touch streaks. Final.
+
+## Matching runs to games
+
+Each run belongs to exactly one game: the next Mayhem opportunity at the time it was
+locked. The player never gets to pick a later match.
+
+**Binding (lock during a match).** Right after LOCK IT IN, one `GET
+/lol-gameflow/v1/session` reports the phase and `gameData.gameId` / `queue.id`.
+The game is treated as in progress only in the phases `GameStart`, `InProgress` or
+`Reconnect`; champion select and post-game phases don't count. `lockedAt` is taken
+*before* that request, so a game the client still reports in progress had not ended
+when the run was locked. The run is bound (`activeGameId`) only if all of these hold:
+
+- the game is Mayhem (queue 2400)
+- no other run was waiting for the next game at LOCK IT IN, and none older is
+  pending; that match might be the waiting run's game
+- the game was never claimed, used or counted before
+
+Every observed active Mayhem game is recorded in `claimedGameIds`, even when no run
+binds to it. So re-locking or replacing during the same match can never bind it
+again. If the client isn't reachable, the run simply stays unbound.
+
+**Resolution (`resolveQueue`, oldest lock first).**
+
+- A **bound** run is resolved only by its own game, once published. That game may
+  have been created before the lock; the binding is the proof it was still running.
+- An **unbound** run is resolved by the first Mayhem game created strictly *after*
+  its `lockedAt` that no earlier run took and no pending run is bound to.
+- Other modes are ignored and never cancel anything.
+- If that game's champion or spell pair differs, the run is **cancelled**. Later
+  games are never scanned for a better fit. Otherwise the unchanged build rules
+  decide verified or unverifiable.
+- Each game is used at most once, ever: verified history, earlier resolutions and
+  bindings are all excluded. A published game without the player's own record
+  keeps the run pending, and later runs can't skip onto it.
+
+**A finished match can't be claimed.** An unbound run needs a game created after
+the lock. A bound run needs the client to have reported the game in progress after
+the lock. A game that ended before LOCK IT IN meets neither condition.
+
+**Locking while a run is waiting.** If a pending unbound run exists, LOCK IT IN asks
+first ("A RUN IS ALREADY WAITING"):
+
+- **ADD FOR NEXT MATCH** keeps it and queues the new run behind it. This is for when
+  the earlier match was already played but isn't published yet.
+- **REPLACE & LOCK IN** removes only that waiting run. Bound and resolved runs are
+  never removed.
+- **CANCEL** changes nothing.
+
+Neither ADD nor REPLACE can bind: a match in progress may be the waiting run's game.
+A run that's already bound isn't "waiting", so locking again simply adds a run for
+the next match. If the waiting run resolves while the prompt is open, the prompt
+closes.
 
 ## Automatic verification
 
 `src/verify/useRunVerification.ts` holds the **one** verification pipeline. The
 manual button and the automatic checks both call the same `verify()`.
 
-- **Triggers:** app startup or restore with a pending challenge, and the player
+- **Triggers:** app startup or restore with pending runs, and the player
   returning to the app. "Returning" means Tauri's window focus event, or the page
   regaining focus or visibility. There's no timer, no polling, and no check right
   after locking (no game can exist yet).
-- **Pending only:** automatic checks run only while the challenge is pending. They
-  never retry an unverifiable result; that's left to CHECK AGAIN.
+- **Pending only:** automatic checks run only while some run is pending. One check
+  reads the list once (games after the oldest unbound lock) and fetches bound games
+  by ID, then resolves the whole queue.
 - **Rate limits:**
   - at most one check at a time, shared by manual and automatic checks
   - at least `AUTO_CHECK_COOLDOWN_MS` (15 s) between automatic checks, because focus
     events arrive in bursts
   - each check is a single League Client read, as before
 - **Guards:**
-  - an outcome is applied only if the same challenge is still locked
-  - it's applied to the latest stored state, which is updated synchronously before
-    React re-renders
+  - every change (resolution, new run, binding) is applied to the latest stored
+    state, which is updated synchronously before React re-renders. A check
+    finishing while a run is locked or replaced loses neither change, and can't
+    resurrect a removed run
   - together with deduplication by game ID, this keeps a racing manual check,
     repeated focus events or a restart from counting a game twice
 - **Feedback:** automatic checks stay quiet when nothing is found, so a closed
   League client causes no error messages. A result reached automatically is
-  highlighted ("JUST VERIFIED!"). If the player is on another screen, a small
+  highlighted ("JUST RESOLVED!"). If the player is on another screen, a small
   in-app banner links to the history. There are no OS or browser notifications.
-- **Listeners:** the focus listener is attached once while a challenge is pending,
+- **Listeners:** the focus listener is attached once while a run is pending,
   and removed when it resolves or the app unmounts. Tauri's focus event needs the
   `verify-run` capability (`core:event:allow-listen` / `allow-unlisten` only).
 
@@ -69,7 +120,8 @@ manual button and the automatic checks both call the same `verify()`.
 | Checked | How |
 | --- | --- |
 | Mode | `queueId == 2400` (authoritative; `mapId` / `gameMode` aren't required) |
-| Time | `gameCreation` (client clock) after `lockedAt` (local clock) |
+| Time | Unbound: `gameCreation` (game clock) after `lockedAt` (local clock). Bound: the client reported the game in progress after `lockedAt` |
+| Which game | The run's one assigned game (see above); never a later pick |
 | Champion | Riot numeric champion key |
 | Summoner spells | Unordered pair (see below) |
 | Final inventory | Compatible with the six challenge items (see below) |
@@ -135,30 +187,41 @@ Regenerate it with the catalog when the patch changes.
 
 ## Architecture
 
-- **Rust** (`src-tauri/src/lcu.rs`, command `read_recent_mayhem_games(since)`):
-  - Finds the lockfile through the Riot Client's product settings
-    (`%ProgramData%\Riot Games\Metadata\league_of_legends.live\…product_settings.yaml`).
-    Falls back to `C:\Riot Games\League of Legends\lockfile`.
-  - Connects to `127.0.0.1` on the lockfile port. TLS uses only Riot's root
+- **Rust** (`src-tauri/src/lcu.rs`), two commands:
+  - `read_recent_mayhem_games(since, gameIds)`: own recent games, plus bound games
+    by ID
+  - `read_active_game()`: the match in progress, if any
+
+  Both work the same way:
+  - Find the lockfile through the Riot Client's product settings
+    (`%ProgramData%\Riot Games\Metadata\league_of_legends.live\…product_settings.yaml`),
+    falling back to `C:\Riot Games\League of Legends\lockfile`.
+  - Connect to `127.0.0.1` on the lockfile port. TLS uses only Riot's root
     certificate (`src-tauri/certs/riotgames.pem`); built-in roots are disabled.
-  - Sends only fixed `GET` requests, with a 5-second timeout and nothing else:
+  - Send only fixed `GET` requests, with a 5-second timeout and nothing else:
     - `/lol-summoner/v1/current-summoner`
     - `/lol-match-history/v1/products/lol/current-summoner/matches?begIndex=0&endIndex=20`
     - `/lol-match-history/v1/games/{gameId}`, for at most 10 Mayhem games created
-      after the lock
-  - Returns `{ status, games }`. Each game has `gameId`, `gameCreation`, `queueId`,
-    `mapId` and `gameMode`. Mayhem games also have the player's own champion,
-    spells, `win`, `item0`–`item6` and augment IDs.
-  - The PUUID, password and other participants never leave Rust. Errors are reduced
-    to `clientNotRunning`, `notSignedIn` or `unavailable`. Release builds log
-    nothing; debug builds log only that error kind.
+      after `since`, plus at most 5 bound game IDs
+    - `/lol-gameflow/v1/session`, once per LOCK IT IN (`read_active_game`)
+  - Return only sanitized data:
+    - each game: `gameId`, `gameCreation`, `queueId`, `mapId`, `gameMode`
+    - Mayhem games also: the player's own champion, spells, `win`,
+      `item0`–`item6` and augment IDs
+    - the active game: `gameId` and `queueId` only
+  - The PUUID, password and other participants never leave Rust; the session's
+    player lists aren't read at all. Errors are reduced to `clientNotRunning`,
+    `notSignedIn` or `unavailable`. Release builds log nothing; debug builds log only
+    that error kind.
 - **TypeScript:**
-  - `src/verify/lcu.ts` invokes the command. In the browser build it returns
+  - `src/verify/lcu.ts` invokes the commands. In the browser build they return
     `desktopOnly`.
-  - `verifier.ts` validates the reply strictly and runs the pure checks.
-  - `challenge.ts` creates, parses and updates stored data.
+  - `verifier.ts` validates replies strictly and judges one run against one game
+    (build rules unchanged).
+  - `queue.ts` holds the matching, cancellation and binding rules.
+  - `challenge.ts` creates, parses and migrates stored data.
   - `stats.ts` derives the statistics.
-  - `useRunVerification.ts` is the shared pipeline and its triggers; `focus.ts`
+  - `useRunVerification.ts` is the shared pipeline, triggers and locking; `focus.ts`
     subscribes to the focus events.
   - The UI is `components/RunCheck.tsx`, `pages/RunHistory.tsx` and the banner in
     `App.tsx`.
@@ -167,8 +230,27 @@ Regenerate it with the catalog when the patch changes.
 
 | Key | Contents |
 | --- | --- |
-| `aram-roulette.challenge.v1` | `schema: 1`, `id`, `lockedAt`, champion ID and key, D/F spell keys, six item IDs, status, last unverifiable result |
-| `aram-roulette.history.v1` | `{ schema: 1, runs: VerifiedRun[] }` (below) |
+| `aram-roulette.queue.v1` | `{ schema: 1, runs: LockedChallenge[], claimedGameIds: number[] }` |
+| `aram-roulette.history.v1` | `{ schema: 1, runs: VerifiedRun[] }` (unchanged since v0.1.4) |
+
+Each queued run (`LockedChallenge`, `schema: 2`) holds:
+
+- `id`, `lockedAt`
+- champion ID and key, D/F spell keys, six item IDs
+- optional `activeGameId` (bound game)
+- an optional `resolution`: `kind` (`verified`, `unverifiable` or `cancelled`),
+  `gameId`, `gameCreation`, `resolvedAt`, a reason, and for cancelled runs which of
+  champion / spells matched
+
+Pending runs are never pruned; the newest 100 resolved runs are kept for the
+history page, since verified runs also live in the history. At most 200 claimed game
+IDs are kept. Nothing else from League is stored: no credentials, PUUID or other
+players.
+
+On first start after v0.1.4, a *pending* `aram-roulette.challenge.v1` challenge is
+moved into the queue as an unbound run (v0.1.4 only allowed locking before the
+match). The key is then removed. A verified one is already in the history; an
+unverifiable one counted for nothing and isn't carried over.
 
 Each `VerifiedRun` is immutable once written:
 
@@ -188,21 +270,24 @@ Each `VerifiedRun` is immutable once written:
 
 Both keys are validated on load. Every field is required; a record that's missing
 data or is malformed is dropped on its own, never filled in. A duplicate game ID
-keeps the first record. At most 500 runs are kept. The unreleased bare-array
+(or run ID, or binding) keeps the first record. At most 500 runs are kept. The unreleased bare-array
 `aram-roulette.runs.v1` format from earlier development builds isn't read. Its
 records lacked the locked spells, which can't be reconstructed. Return Home clears
 only the roulette session (`aram-roulette.session.v3`); nothing in the app clears
-the challenge or the history. Augments aren't stored.
+the queue or the history. Augments aren't stored.
 
 ## Run history and statistics
 
-The **RUN HISTORY** page (button on Home) is rendered from stored runs alone and
-never contacts the League Client. Each card shows:
+The **RUN HISTORY** page (button on Home) is rendered from stored data alone and
+never contacts the League Client. Pending runs come first (newest lock first),
+labelled PENDING, with a note that League may take a few minutes to publish the
+match. Then resolved runs by game time, newest first:
 
-- the champion, and the game's date and time
-- VICTORY or DEFEAT, and VERIFIED
-- COMPLETED ITEMS n/6
-- the six challenge item icons, with completed ones marked
+- **VERIFIED:** VICTORY or DEFEAT, COMPLETED ITEMS n/6, and the six challenge item
+  icons with completed ones marked
+- **CANCELLED:** "The next ARAM: Mayhem match did not match this challenge.", plus
+  which check failed
+- **UNVERIFIABLE:** the build reason
 
 Statistics are derived on demand from verified runs (`src/verify/stats.ts`). They
 aren't stored as counters:
@@ -216,9 +301,9 @@ aren't stored as counters:
   - **Best:** the longest such run.
   - A verified defeat ends the current streak.
 
-Only verified ARAM Roulette runs count. Mayhem games played without a locked
-challenge, and unverifiable attempts, are never stored. They don't count as wins or
-losses and don't break or extend a streak. There are no champion, item or augment
+Only verified ARAM Roulette runs count. Pending, cancelled and unverifiable runs, and
+Mayhem games played without a locked challenge, don't count as wins or losses and
+don't break or extend a streak. There are no champion, item or augment
 statistics.
 
 ## Boundaries: do not "improve" past these
@@ -250,29 +335,36 @@ distributing a release with this feature (see the experiment document).
 
 ## Limitations
 
-- Only tested with mocked client replies and one real game's values. The real
-  Windows connection (TLS through Windows' built-in TLS, lockfile discovery,
-  response shapes) still needs manual confirmation.
-- `lockedAt` comes from the local clock and `gameCreation` from the game, so clock
-  differences matter. Locking in after the game has loaded means it won't count.
-  Lock in during champion select.
-- Only the newest 20 games are listed; at most 10 Mayhem games are read in detail.
-- One pending challenge at a time; replacing it needs confirmation.
+- Only tested with mocked client replies and one real game's values. The Windows
+  connection (TLS, lockfile discovery, response shapes) is confirmed by v0.1.4 for
+  match history. The gameflow session is new and unconfirmed: is
+  `gameData.gameId` the match-history game ID, and are the phase names as expected?
+- Binding needs the client to answer right after LOCK IT IN. If it doesn't, a run
+  locked during a match is unbound and counts for the *next* Mayhem match. The run
+  card says which ("Linked to…" or "Counts for your next…").
+- `lockedAt` (local clock) is compared with `gameCreation` (game clock) for unbound
+  runs, so clock differences matter there.
+- Only the newest 20 games are listed; a bound game is fetched by ID regardless.
+  An unbound run whose match drops out of the newest 20 before the app checks can't
+  be resolved; it stays pending until replaced. There is no automatic expiry.
 - Automatic checks depend on the window focus event reaching the app on Windows;
-  the manual button covers any gap. If the game result isn't in the client's history
-  yet when you return, the challenge stays pending until the next return (after the
-  15 s cooldown) or CHECK AGAIN.
+  the manual button covers any gap.
 - An augment that grants a normal shop item will read as a mismatch until it's added
   as a confirmed exception.
 
 ## Manual check on Windows
 
 1. Build or run the desktop app (`npm run tauri dev`, or a release build).
-2. In champion select, pick your champion in ARAM Roulette, roll the build and
-   **LOCK IT IN**.
-3. Play the game. Return to ARAM Roulette with the League Client still open and
-   signed in. It should check on its own and show the result. If it still says
-   "Waiting for your Mayhem match…", press **CHECK AGAIN**.
-4. Open **RUN HISTORY** from Home to see the run and the stats.
-5. To see the raw shape of what the app reads, `npm run lcu:inspect -- --latest`
-   shows the same endpoints, without credentials or other players.
+2. **Before the match:** lock in during champion select. The card should say
+   "Counts for your next ARAM: Mayhem match."
+3. **During the match:** start a game first, then lock in. The card should say
+   "Linked to the Mayhem match you were playing…". To confirm the game ID, run
+   `npm run lcu:inspect` while in the match. It prints the gameflow `phase`,
+   `gameId` and `queueId`, which should equal the game ID later shown in match
+   history (`npm run lcu:inspect -- --latest`).
+4. After the game, stay in or come back to ARAM Roulette. If League hasn't published
+   the match yet, the run stays PENDING; it resolves on a later return or **CHECK
+   AGAIN**.
+5. Try a mismatch: lock a challenge, then play the next Mayhem on a different
+   champion. The run should become CANCELLED, without changing the stats.
+6. Open **RUN HISTORY** to see pending and resolved runs and the stats.
