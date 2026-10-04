@@ -69,12 +69,36 @@ card. When **COPIED!** appears, paste it into Discord with **Ctrl+V**.
 You can also choose **SAVE PNG** to save the image and attach it yourself. If
 copying is unavailable, the app offers this save option.
 
+## Verify your run
+
+After **LOCK IT IN**, play the build in ARAM: Mayhem, then return to ARAM Roulette
+with the League client still open. It checks once on its own when you come back.
+**VERIFY RUN** (**VERIFICAR PARTIDA**) is there if you want to check again. ARAM
+Roulette reads your own recent games from the League client on your computer. It
+looks for an ARAM: Mayhem game that started after you locked in, then checks your
+champion, your summoner spells and your final items.
+
+- Your final items only need to fit the challenge. Unfinished items are fine, and
+  so are their components. Potions and Poro-Snax are ignored.
+- Mayhem doesn't record purchase order, so the order isn't checked.
+- If an item can't be checked (for example, one from a Mayhem augment), the run
+  shows as **UNVERIFIABLE** rather than failed.
+- **RUN HISTORY** on the home screen lists your verified runs. It shows your
+  runs, wins, losses, win rate and **Random Win Streak** (verified challenge wins in
+  a row). Only verified ARAM Roulette runs count. Other Mayhem games and
+  unverifiable runs don't affect your stats or streak.
+- Nothing is uploaded, no Riot API key is needed, and other players' data isn't
+  read. Lock in during champion select: games that started before you locked in
+  don't count.
+
 ## Good to know
 
 - The interface is available in **English and Spanish**. Game names and
   descriptions are currently in English.
 - ARAM Roulette is a standalone companion. You select your champion and follow
-  the build yourself; it does not connect to or control the League client.
+  the build yourself. It never controls the League client or the game. **VERIFY
+  RUN** only reads your own finished games from the client, and only when you
+  press it.
 - Builds are randomized, not optimized. AP Garen is very much a possibility.
 - Game data is bundled with the app and may differ from the latest patch.
 - To update a portable copy, close the app and extract the newer ZIP over its

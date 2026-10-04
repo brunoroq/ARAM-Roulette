@@ -73,5 +73,31 @@ if (!localOnly) {
     }
   }));
 }
+// Facts for checking a finished game: numeric Riot keys, recipe trees below pool items,
+// automatic transformations of pool items, and a coarse class for anything on map 12.
+const poolIds = new Set(rules.itemIds);
+const recipeIds = new Set();
+const visit = id => {
+  if (recipeIds.has(id)) return;
+  recipeIds.add(id);
+  for (const child of raw.item.data[id]?.from ?? []) visit(child);
+};
+rules.itemIds.forEach(visit);
+const itemFacts = {};
+for (const [id, item] of Object.entries(raw.item.data)) {
+  const transformsFrom = poolIds.has(String(item.specialRecipe)) ? String(item.specialRecipe) : undefined;
+  if (!item.maps['12'] && !recipeIds.has(id) && !transformsFrom) continue;
+  const kind = item.consumed || item.tags.includes('Consumable') || item.tags.includes('Trinket') ? 'auxiliary'
+    : item.gold.purchasable && item.inStore !== false && item.maps['12'] && !item.requiredAlly && !item.requiredChampion ? 'shop' : 'special';
+  itemFacts[id] = { kind, ...(recipeIds.has(id) && item.from ? { from: item.from } : {}), ...(transformsFrom ? { transformsFrom } : {}) };
+}
+const verification = {
+  version,
+  champions: Object.fromEntries(champions.map(c => [c.id, Number(raw.champion.data[c.id].key)])),
+  spells: Object.fromEntries(spells.map(s => [s.id, Number(raw.summoner.data[s.id].key)])),
+  items: itemFacts,
+};
+
 await writeFile(path.join(root, 'src/data/catalog.json'), JSON.stringify({ version, champions, items, spells }, null, 2) + '\n');
-console.log(`Data Dragon ${version}: ${champions.length} champions, ${items.length} items, ${spells.length} spells. ${localOnly ? 'Artwork download skipped.' : 'Artwork bundled.'}`);
+await writeFile(path.join(root, 'src/data/verification.json'), JSON.stringify(verification) + '\n');
+console.log(`Data Dragon ${version}: ${champions.length} champions, ${items.length} items, ${spells.length} spells, ${Object.keys(itemFacts).length} verifier item facts. ${localOnly ? 'Artwork download skipped.' : 'Artwork bundled.'}`);

@@ -16,7 +16,7 @@ const REQUEST_TIMEOUT_MS = 5000;
 
 // Riot's published root for the certificates the League clients serve on localhost:
 // https://static.developer.riotgames.com/docs/lol/riotgames.pem
-const RIOT_ROOT_CA = fileURLToPath(new URL('./riotgames.pem', import.meta.url));
+const RIOT_ROOT_CA = fileURLToPath(new URL('../src-tauri/certs/riotgames.pem', import.meta.url));
 
 export const ENDPOINTS = {
   currentSummoner: () => '/lol-summoner/v1/current-summoner',

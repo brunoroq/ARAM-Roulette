@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { ShareBuild } from '../components/ShareBuild.tsx';
 import { useI18n } from '../i18n/I18n.tsx';
 import type { Draft } from '../types/game.ts';
@@ -7,7 +8,7 @@ import { SpellPair } from '../components/SpellPair.tsx';
 import { ComicHeading, GameButton, GamePanel, StickerLabel } from '../components/game/GameUI.tsx';
 import { DiceMascot } from '../components/game/DiceMascot.tsx';
 
-export function FinalBuild({ draft, onNewBuild, onChangeChampion, onReturnHome }: { draft: Draft; onNewBuild: () => void; onChangeChampion: () => void; onReturnHome: () => void }) {
+export function FinalBuild({ draft, runCheck, onNewBuild, onChangeChampion, onReturnHome }: { draft: Draft; runCheck?: ReactNode; onNewBuild: () => void; onChangeChampion: () => void; onReturnHome: () => void }) {
   const { t, formatNumber } = useI18n();
   const items = draft.buildSlots.map(slot => slot.item);
   return <section className="final-page">
@@ -17,6 +18,7 @@ export function FinalBuild({ draft, onNewBuild, onChangeChampion, onReturnHome }
       <BuildTray items={items} />
       <p className="result-cost">{t.final.cost(formatNumber(items.reduce((total, item) => total + item.cost, 0)))}</p>
     </GamePanel>
+    {runCheck}
     <div className="actions"><GameButton onClick={onNewBuild}>↻ {t.final.newBuild}</GameButton><GameButton variant="secondary" onClick={onChangeChampion}>← {t.final.change}</GameButton><GameButton variant="danger" onClick={onReturnHome}><span aria-hidden="true">←</span> {t.app.returnHome}</GameButton><ShareBuild draft={draft} /></div>
     <p className="menu-note">{t.final.note}</p>
   </section>;

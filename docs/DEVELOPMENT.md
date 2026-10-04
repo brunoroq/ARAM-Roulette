@@ -86,7 +86,8 @@ application does not.
 - `src/i18n/`: typed English/Spanish UI dictionaries and a small React context. The header selector persists to localStorage; unavailable storage falls back to a session-only preference. Language changes preserve the active build. Official Riot names/descriptions remain in English.
 - `src/session.ts`: stores the current spell/build screen by catalog IDs, separate reroll counters, and the full-build commitment in localStorage. Invalid or obsolete sessions safely reset; the language setting is independent.
 - `src/pages/`, `src/components/`: screens and shared presentation.
-- `src-tauri/`: window and packaging configuration only. No commands, plugins, or game integration.
+- `src/verify/`, `src/components/RunCheck.tsx`: local post-game challenge verification. Pure checks, stored challenge and run history, and the UI. See [Challenge verification](CHALLENGE_VERIFICATION.md).
+- `src-tauri/`: window and packaging configuration, plus one read-only command (`src/lcu.rs`). It reads the signed-in player's own recent games from the local League Client for **VERIFY RUN**. No game integration beyond that.
 
 ## Game data and scope
 
@@ -107,7 +108,7 @@ To update:
 
 ## Deliberate limits
 
-No accounts, backend, database, runes, augments, optimization, client detection, gameplay automation, memory access, or communication with a running match. No weighting or reroll penalties yet. Only the requested stack and its build/type tooling are installed; engine tests use Node's built-in test runner.
+No accounts, backend, database, runes, augments, optimization, gameplay automation, memory access, or communication with a running match. The League Client is only read when the player presses **VERIFY RUN**, after a game ([Challenge verification](CHALLENGE_VERIFICATION.md)). No weighting or reroll penalties yet. Only the requested stack and its build/type tooling are installed; engine tests use Node's built-in test runner.
 
 ARAM Roulette is not endorsed by Riot Games. League of Legends and associated artwork are owned by Riot Games.
 
@@ -118,6 +119,6 @@ ARAM Roulette is not endorsed by Riot Games. League of Legends and associated ar
 All application-owned UI text, including accessible labels, errors, dynamic counts, and document metadata, lives in `src/i18n/en.ts` and `es.ts`. Spanish is type-checked against the English dictionary. The language preference key is `aram-roulette.language`; missing or unsupported values default to English. No i18n dependencies are added.
 
 
-The development-only Riot API and League Client inspectors (`npm run riot:inspect`, `npm run lcu:inspect`) are described in [Riot API experiment](RIOT_API_EXPERIMENT.md). The app doesn't use either.
+The development-only Riot API and League Client inspectors (`npm run riot:inspect`, `npm run lcu:inspect`) are described in [Riot API experiment](RIOT_API_EXPERIMENT.md). The app doesn't use them; its own read-only client access is in `src-tauri/src/lcu.rs`. Run `cargo test --manifest-path src-tauri/Cargo.toml` for its tests.
 
 See [Releasing](RELEASING.md) for the Windows publication workflow.

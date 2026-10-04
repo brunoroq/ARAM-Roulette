@@ -1,8 +1,14 @@
 # Riot API experiment
 
 Development-only tooling. **ARAM Roulette itself does not use the Riot API.** The
-desktop app, the browser build and the Windows packages work offline with bundled
-Data Dragon data and need no API key, Riot account, or running League client.
+app's local **VERIFY RUN** feature, built on these findings, is described in
+[Challenge verification](CHALLENGE_VERIFICATION.md). The Mayhem timeline from the
+client turned out to have no `ITEM_*` events for the player, so purchase order is
+never verified.
+
+The desktop app, the browser build and the Windows packages work offline with
+bundled Data Dragon data and need no API key or Riot account. A running League
+client is needed only for **VERIFY RUN**.
 
 ## Why this exists
 
@@ -319,7 +325,7 @@ embedded by Tauri, or started by the app, and it has no dependencies beyond Node
   process command lines.
 - TLS is verified against Riot's published root certificate,
   [`riotgames.pem`](https://static.developer.riotgames.com/docs/lol/riotgames.pem),
-  committed as `scripts/riotgames.pem`. Verification is never switched off. If it
+  committed as `src-tauri/certs/riotgames.pem` (shared with the app). Verification is never switched off. If it
   fails, the inspector stops.
 
 ### Endpoints
